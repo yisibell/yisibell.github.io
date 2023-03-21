@@ -258,197 +258,6 @@
       </tags>
   </entry>
   <entry>
-    <title>git常用命令</title>
-    <url>/2018/04/14/git/git/</url>
-    <content><![CDATA[<p>记录 <strong>Git</strong> 的常用操作命令，方便日后查看。</p>
-<span id="more"></span>
-
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p><strong>git</strong> 的配置文件位于 <code>~/.gitconifg</code>（当前系统用户下）。修改配置的方式有如下 3 种。</p>
-<h2 id="命令配置"><a href="#命令配置" class="headerlink" title="命令配置"></a>命令配置</h2><p><strong>1.配置用户名</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name [yourname]</span><br></pre></td></tr></table></figure>
-
-<p><strong>2.配置邮箱</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.email [youremail]</span><br></pre></td></tr></table></figure>
-
-<p><strong>3.查看配置信息</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --list</span><br></pre></td></tr></table></figure>
-
-<h2 id="vim-编辑器"><a href="#vim-编辑器" class="headerlink" title="vim 编辑器"></a>vim 编辑器</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用此命令，会进入 vim 编辑器</span></span><br><span class="line">git config -e --global</span><br></pre></td></tr></table></figure>
-
-<h2 id="gitconfig"><a href="#gitconfig" class="headerlink" title=".gitconfig"></a>.gitconfig</h2><p>直接进入到当前系统用户根目录下的 <code>.gitconfig</code> 配置文件中进行修改。</p>
-<div class="note success"><p>更多的可配置信息可以参考：<a href="https://git-scm.com/docs/git-config" class="fc-danger"> git config docs </a>。</p>
-</div>
-
-
-<h1 id="配置忽略文件"><a href="#配置忽略文件" class="headerlink" title="配置忽略文件"></a>配置忽略文件</h1><p>通过在项目根目录下创建 <code>.gitignore</code> 文件来配置定义 一些文件(夹) 不被提交到 远程仓库。比如，当前项目的一些测试代码文件、编辑器配置文件、<code>npm</code> 管理包 <code>node_modules</code> 等。</p>
-<p>可以使用 <code>touch .gitignore</code> 命令来生成该文件。（<strong>windows</strong> 下，无法创建没有名字的文件，其会把 <code>.</code> 后的认作后缀名）。</p>
-<p><strong><code>.gitignore</code>文件示例</strong></p>
-<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">test/</span><br><span class="line">node_modules/</span><br><span class="line">.git</span><br><span class="line">.idea/</span><br><span class="line">.vscode</span><br><span class="line">.gitignore</span><br></pre></td></tr></table></figure>
-
-<h1 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h1><h2 id="git-init"><a href="#git-init" class="headerlink" title="git init"></a>git init</h2><p>初始化 <strong>git</strong> 仓库，在项目文件夹中打开 <strong>git bash</strong>，输入 <code>git init</code> 即可创建 <strong>git</strong> 仓库。</p>
-<p>项目文件夹中会生成一个 <strong>.git</strong> 文件夹。里面创建有暂存区和本地仓库区。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
-
-<h2 id="git-status"><a href="#git-status" class="headerlink" title="git status"></a>git status</h2><p>查看当前项目中的文件状态，即做出了何种类型的修改（增、删、改），文件是否被追踪。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
-
-<h2 id="git-add"><a href="#git-add" class="headerlink" title="git add"></a>git add</h2><p>将文件添加至暂存区。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 将指定文件添加至暂存区</span></span><br><span class="line">git add [文件名]  </span><br><span class="line"><span class="comment"># 将所有文件添加至暂存区</span></span><br><span class="line">git add .</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line">git add -A</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line">git add --all</span><br></pre></td></tr></table></figure>
-
-<h2 id="git-commit"><a href="#git-commit" class="headerlink" title="git commit"></a>git commit</h2><p>将 <strong>暂存区</strong> 中的文件提交至 <strong>本地仓库</strong> 区。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 以行内提交信息的方式提交</span></span><br><span class="line">git commit -m <span class="string">&#x27;提交时的辅助说明信息&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以不带 -m 参数，直接回车，此时会进入 vim 编辑器 ，在这里书写你此次提交的信息</span></span><br><span class="line">git commit</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用一次新的commit , 替代上一次的提交，如果代码没有改变，则更新上一次的提交信息。</span></span><br><span class="line">git commit --amend -m [message]</span><br></pre></td></tr></table></figure>
-
-<h2 id="git-log"><a href="#git-log" class="headerlink" title="git log"></a>git log</h2><p>查看提交日志。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看当前head 及 以前的 日志</span></span><br><span class="line">git <span class="built_in">log</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看简洁的日志，每条提交日志以一条的形式展示</span></span><br><span class="line">git <span class="built_in">log</span> --oneline</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有的提交日志</span></span><br><span class="line">git reflog</span><br></pre></td></tr></table></figure>
-
-<h2 id="git-checkout"><a href="#git-checkout" class="headerlink" title="git checkout"></a>git checkout</h2><p>将文件从暂存区还原到工作区。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout [文件名.xxx]</span><br></pre></td></tr></table></figure>
-
-<h2 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a>git reset</h2><p>将指定版本项目从本地仓库区还原到工作区。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git reset --hard [版本号]</span><br></pre></td></tr></table></figure>
-
-<h1 id="打标签"><a href="#打标签" class="headerlink" title="打标签"></a>打标签</h1><p>像其他版本控制系统（VCS）一样，<strong>Git</strong> 可以给历史中的某一个提交打上标签，以示重要。 比较有代表性的是人们会使用这个功能来标记发布结点（v1.0 等等）。</p>
-<h2 id="列出标签"><a href="#列出标签" class="headerlink" title="列出标签"></a>列出标签</h2><p>在 <code>Git</code> 中列出已有的标签是非常简单直观的。 只需要输入 <code>git tag</code>：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 列出所有标签</span></span><br><span class="line">$ git tag</span><br><span class="line"></span><br><span class="line">v1.0</span><br><span class="line">v2.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按照指定模式列出标签</span></span><br><span class="line">$ git tag -l <span class="string">&#x27;v1.8.*&#x27;</span></span><br><span class="line"></span><br><span class="line">v1.8.2</span><br><span class="line">v1.8.4</span><br></pre></td></tr></table></figure>
-
-<h2 id="新建标签"><a href="#新建标签" class="headerlink" title="新建标签"></a>新建标签</h2><p><code>Git</code> 使用两种主要类型的标签：轻量标签（lightweight）与附注标签（annotated）。<br/></p>
-<p>一个轻量标签很像一个不会改变的分支 - 它只是一个特定提交的引用。</br></p>
-<p>然而，附注标签是存储在 <code>Git</code> 数据库中的一个完整对象。 它们是可以被校验的；其中包含打标签者的名字、电子邮件地址、日期时间；还有一个标签信息；并且可以使用 <code>GNU Privacy Guard （GPG）</code>签名与验证。 通常建议创建附注标签，这样你可以拥有以上所有信息；但是如果你只是想用一个临时的标签，或者因为某些原因不想要保存那些信息，轻量标签也是可用的。</p>
-<h3 id="附注标签"><a href="#附注标签" class="headerlink" title="附注标签"></a>附注标签</h3><p>在 <code>Git</code> 中创建一个附注标签是很简单的。 最简单的方式是当你在运行 <code>tag</code> 命令时指定 <code>-a</code> 选项：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git tag -a v1.4 -m <span class="string">&#x27;my version 1.4&#x27;</span></span><br><span class="line">$ git tag</span><br><span class="line">v0.1</span><br><span class="line">v1.3</span><br><span class="line">v1.4</span><br></pre></td></tr></table></figure>
-
-<p><code>-m</code> 选项指定了一条将会存储在标签中的信息。 如果没有为附注标签指定一条信息，<code>Git</code> 会运行 <code>vim</code> 编辑器要求你输入信息。</p>
-<p>通过使用 <code>git show</code> 命令可以看到标签信息与对应的提交信息：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git show v1.4</span><br><span class="line">tag v1.4</span><br><span class="line">Tagger: Ben Straub &lt;ben@straub.cc&gt;</span><br><span class="line">Date:   Sat May 3 20:19:12 2014 -0700</span><br><span class="line"></span><br><span class="line">my version 1.4</span><br><span class="line"></span><br><span class="line">commit ca82a6dff817ec66f44342007202690a93763949</span><br><span class="line">Author: Scott Chacon &lt;schacon@gee-mail.com&gt;</span><br><span class="line">Date:   Mon Mar 17 21:52:11 2008 -0700</span><br><span class="line"></span><br><span class="line">    changed the version number</span><br></pre></td></tr></table></figure>
-<p>输出显示了打标签者的信息、打标签的日期时间、附注信息，然后显示具体的提交信息。</p>
-<h3 id="轻量标签"><a href="#轻量标签" class="headerlink" title="轻量标签"></a>轻量标签</h3><p>另一种给提交打标签的方式是使用轻量标签。 轻量标签本质上是将提交校验和存储到一个文件中 - 没有保存任何其他信息。 创建轻量标签，不需要使用 <code>-a</code>、<code>-s</code> 或 <code>-m</code> 选项，只需要提供标签名字：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git tag v1.4-lw</span><br><span class="line">$ git tag</span><br><span class="line">v0.1</span><br><span class="line">v1.3</span><br><span class="line">v1.4</span><br><span class="line">v1.4-lw</span><br><span class="line">v1.5</span><br></pre></td></tr></table></figure>
-<p>这时，如果在标签上运行 <code>git show</code>，你不会看到额外的标签信息。 命令只会显示出提交信息:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git show v1.4-lw</span><br><span class="line">commit ca82a6dff817ec66f44342007202690a93763949</span><br><span class="line">Author: Scott Chacon &lt;schacon@gee-mail.com&gt;</span><br><span class="line">Date:   Mon Mar 17 21:52:11 2008 -0700</span><br><span class="line"></span><br><span class="line">    changed the version number</span><br></pre></td></tr></table></figure>
-
-<h3 id="后期打标签"><a href="#后期打标签" class="headerlink" title="后期打标签"></a>后期打标签</h3><p>你也可以对过去的提交打标签。 假设提交历史是这样的：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --pretty=oneline</span><br><span class="line">15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch <span class="string">&#x27;experiment&#x27;</span></span><br><span class="line">a6b4c97498bd301d84096da251c98a07c7723e65 beginning write support</span><br><span class="line">0d52aaab4479697da7686c15f77a3d64d9165190 one more thing</span><br><span class="line">6d52a271eda8725415634dd79daabbc4d9b6008e Merge branch <span class="string">&#x27;experiment&#x27;</span></span><br><span class="line">0b7434d86859cc7b8c3d5e1dddfed66ff742fcbc added a commit <span class="keyword">function</span></span><br><span class="line">4682c3261057305bdd616e23b64b0857d832627b added a todo file</span><br><span class="line">166ae0c4d3f420721acbb115cc33848dfcc2121a started write support</span><br><span class="line">9fceb02d0ae598e95dc970b74767f19372d61af8 updated rakefile</span><br><span class="line">964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo</span><br><span class="line">8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme</span><br></pre></td></tr></table></figure>
-
-<p>现在，假设在 v1.2 时你忘记给项目打标签，也就是在 <strong>updated rakefile</strong> 提交。 你可以在之后补上标签。 要在那个提交上打标签，你需要在命令的末尾指定提交的校验和（或部分校验和）。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git tag -a v1.2 9fceb02</span><br></pre></td></tr></table></figure>
-
-<p>可以看到你已经在那次提交上打上标签了：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git tag</span><br><span class="line">v0.1</span><br><span class="line">v1.2</span><br><span class="line">v1.3</span><br><span class="line">v1.4</span><br><span class="line">v1.4-lw</span><br><span class="line">v1.5</span><br><span class="line"></span><br><span class="line">$ git show v1.2</span><br><span class="line">tag v1.2</span><br><span class="line">Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;</span><br><span class="line">Date:   Mon Feb 9 15:32:16 2009 -0800</span><br><span class="line"></span><br><span class="line">version 1.2</span><br><span class="line">commit 9fceb02d0ae598e95dc970b74767f19372d61af8</span><br><span class="line">Author: Magnus Chacon &lt;mchacon@gee-mail.com&gt;</span><br><span class="line">Date:   Sun Apr 27 20:43:35 2008 -0700</span><br><span class="line"></span><br><span class="line">    updated rakefile</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
-<h3 id="共享标签"><a href="#共享标签" class="headerlink" title="共享标签"></a>共享标签</h3><p>默认情况下，<code>git push</code> 命令并不会传送标签到远程仓库服务器上。 在创建完标签后你必须显式地推送标签到共享服务器上。 这个过程就像共享远程分支一样 - 你可以运行 <code>git push origin [tagname]</code>。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin v1.5</span><br><span class="line"></span><br><span class="line">Counting objects: 14, <span class="keyword">done</span>.</span><br><span class="line">Delta compression using up to 8 threads.</span><br><span class="line">Compressing objects: 100% (12/12), <span class="keyword">done</span>.</span><br><span class="line">Writing objects: 100% (14/14), 2.05 KiB | 0 bytes/s, <span class="keyword">done</span>.</span><br><span class="line">Total 14 (delta 3), reused 0 (delta 0)</span><br><span class="line">To git@github.com:schacon/simplegit.git</span><br><span class="line"> * [new tag]         v1.5 -&gt; v1.5</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如果想要一次性推送很多标签，也可以使用带有 <code>--tags</code> 选项的 <code>git push</code> 命令。 这将会把所有不在远程仓库服务器上的标签全部传送到那里。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin --tags</span><br></pre></td></tr></table></figure>
-
-<p>现在，当其他人从仓库中克隆或拉取，他们也能得到你的那些标签。</p>
-<h1 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h1><h2 id="git-branch"><a href="#git-branch" class="headerlink" title="git branch"></a>git branch</h2><p>查看当前项目中的所有分支，在当前分支的前面会有一个 <code>*</code> 。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看本地分支列表，不包含远程分支</span></span><br><span class="line">git branch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看远程分支列表</span></span><br><span class="line">git branch -r</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有分支列表，包含本地和远程分支</span></span><br><span class="line">git branch --all </span><br><span class="line"></span><br><span class="line"><span class="comment"># or </span></span><br><span class="line">git branch -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除分支，对于已经合并过的分支可以进行删除，删除的是本地分支</span></span><br><span class="line">git branch -d [分支名]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="批量删除分支"><a href="#批量删除分支" class="headerlink" title="批量删除分支"></a>批量删除分支</h3><p>实际开发中，我们会根据需求号 <code>feature/.*</code> 或 问题号 <code>iss/.*</code> 进行分支的切换。一段时间后，你会发现本地的分支非常多，并且大多数都是经过迭代的老分支。是可以删除的。</p>
-<p>那么，我们可以利用 <code>git bash</code> 配合 <code>linux</code> 命令做批量删除分支。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch | egrep <span class="string">&#x27;iss/.*&#x27;</span> | xargs git branch -D</span><br></pre></td></tr></table></figure>
-
-<p>以上命令表示：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">1. git branch 列出本地所有分支</span><br><span class="line">2. egrep &#x27;iss/.*&#x27; 表示匹配这些分支字符传中以 `iss/` 开头的字符串（分支名）。</span><br><span class="line">3. xargs git branch -D 将第二步生成的字符串当做参数传递给 git branch -D</span><br><span class="line">4. 删除成功。</span><br></pre></td></tr></table></figure>
-
-<p>再教你一个反向匹配的例子：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch | egrep -v <span class="string">&#x27;master|base/func|release/20200313&#x27;</span> | xargs git branch -D</span><br></pre></td></tr></table></figure>
-
-<p>以上命令表示：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">1. git branch 列出本地所有分支。</span><br><span class="line">2. egrep -v &#x27;master|base/func|release/20200313&#x27; 表示匹配非 master, base/func, release/20200313 的其他分支。</span><br><span class="line">3. xargs git branch -D 将第二步生成的字符串当做参数传递给 git branch -D</span><br><span class="line">4. 删除成功。</span><br></pre></td></tr></table></figure>
-
-<p>鼓掌!</p>
-<h3 id="git-branch-vv"><a href="#git-branch-vv" class="headerlink" title="git branch -vv"></a>git branch -vv</h3><p>如果想要查看设置的所有跟踪分支，可以使用 <code>git branch</code> 的 <code>-vv</code> 选项。 这会将所有的本地分支列出来并且包含更多的信息，如每一个分支正在跟踪哪个远程分支与本地分支是否是领先、落后或是都有。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch -vv</span><br><span class="line">  iss53     7e424c3 [origin/iss53: ahead 2] forgot the brackets</span><br><span class="line">  master    1ae2a45 [origin/master] deploying index fix</span><br><span class="line">* serverfix f8674d9 [teamone/server-fix-good: ahead 3, behind 1] this should <span class="keyword">do</span> it</span><br><span class="line">  testing   5ea463a trying something new</span><br></pre></td></tr></table></figure>
-
-<p>这里可以看到 <code>iss53</code> 分支正在跟踪 <code>origin/iss53</code> 并且 “ahead” 是 2，意味着本地有两个提交还没有推送到服务器上。 也能看到 <code>master</code> 分支正在跟踪 <code>origin/master</code> 分支并且是最新的。 接下来可以看到 <code>serverfix</code> 分支正在跟踪 <code>teamone</code> 服务器上的 <code>server-fix-good</code> 分支并且领先 3 落后 1，意味着服务器上有一次提交还没有合并入同时本地有三次提交还没有推送。 最后看到 <code>testing</code> 分支并没有跟踪任何远程分支。</p>
-<p>需要重点注意的一点是这些数字的值来自于你从每个服务器上最后一次抓取的数据。 这个命令并没有连接服务器，它只会告诉你关于本地缓存的服务器数据。 如果想要统计最新的领先与落后数字，需要在运行此命令前抓取所有的远程仓库。 可以像这样做：<code>git fetch --all</code>; <code>git branch -vv</code>。</p>
-<h2 id="git-checkout-1"><a href="#git-checkout-1" class="headerlink" title="git checkout"></a>git checkout</h2><p>切换分支，可以从当前分支切换到指定分支上。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 切换分支</span></span><br><span class="line">git checkout [分支名]</span><br><span class="line"><span class="comment"># 创建新的分支，并切换到这个分支</span></span><br><span class="line">git checkout -b [分支名]</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注：当需要同步远程分支到本地仓库时，可以执行 <code>git checkout -b [branch] [remotename]/[branch]</code> 命令。将指定远程分支 <code>[remotename]/[branch]</code> 同步到本地仓库。</p>
-</blockquote>
-<p><strong>例：</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 需要同步远程分支 develop 到本地仓库</span></span><br><span class="line"></span><br><span class="line">git checkout -b develop origin/develop</span><br></pre></td></tr></table></figure>
-
-<p>运行 <code>git checkout -b [branch] [remotename]/[branch]</code>。 这是一个十分常用的操作所以 <code>Git</code> 提供了 <code>--track</code> 快捷方式：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout --track origin/serverfix</span><br></pre></td></tr></table></figure>
-
-<p>该操作表示，在本地创建 <code>serverfix</code> 分支，并跟踪远程分支 <code>origin/serverfix</code>。当执行 <code>git pull</code> 命令时，会自动更新 <code>origin/serverfix</code> 远程分支的代码到 <code>serverfix</code> 分支上。</p>
-<h2 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge"></a>git merge</h2><p>将指定分支合并到当前分支。git内部使用的是指针操作原理。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge [分支名]</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注：在执行合并操作前，你首先需要切换到 <strong>要合入</strong> 的分支上，然后再执行合并操作。</p>
-</blockquote>
-<p><strong>例：</strong></p>
-<p>你需要将 <code>trunk</code> 分支的代码合并到 <code>develop</code> 分支上，首先你需要切换到 <code>develop</code> 分支上。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout develop</span><br></pre></td></tr></table></figure>
-
-<p>然后执行合并操作。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge trunk</span><br></pre></td></tr></table></figure>
-
-<p>此时，<code>trunk</code> 分支上的新代码就被合并到了 <code>develop</code> 分支上。</p>
-<h1 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h1><h2 id="git-clone"><a href="#git-clone" class="headerlink" title="git clone"></a>git clone</h2><p>从远程仓库拷贝项目至本地。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> [远程仓库地址] [重命名项目名]</span><br></pre></td></tr></table></figure>
-
-<div class="note warning"><p>注意：<br>项目名称参数不提供时，会默认使用原项目名称。</p>
-</div>
-
-<h2 id="git-fetch"><a href="#git-fetch" class="headerlink" title="git fetch"></a>git fetch</h2><p>当 <code>git fetch</code> 命令从服务器上抓取本地没有的数据时，它并不会修改工作目录中的内容。 它只会获取数据然后让你自己合并。<br>然而，有一个命令叫作 <code>git pull</code> 在大多数情况下它的含义是一个 <code>git fetch</code> 紧接着一个 <code>git merge</code> 命令。<br>如果有一个像之前章节中演示的设置好的跟踪分支，不管它是显式地设置还是通过 <code>clone</code> 或 <code>checkout</code> 命令为你创建的。<br><code>git pull</code> 都会查找当前分支所跟踪的服务器与分支，从服务器上抓取数据然后尝试合并入那个远程分支。</p>
-<p>由于 <code>git pull</code> 的魔法经常令人困惑所以通常单独显式地使用 <code>fetch</code> 与 <code>merge</code> 命令会更好一些。</p>
-<h2 id="git-pull"><a href="#git-pull" class="headerlink" title="git pull"></a>git pull</h2><p>更新远程仓库代码至本地。用于更新项目其他成员提交的代码。一般在 <code>push</code> 前，一定要先 <code>pull</code>。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git pull [远程仓库地址/仓库别名] [分支名]</span><br></pre></td></tr></table></figure>
-
-<h2 id="git-push"><a href="#git-push" class="headerlink" title="git push"></a>git push</h2><p>将本地仓库中的代码提交至远程仓库。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push [远程仓库地址/仓库别名] [分支名]</span><br></pre></td></tr></table></figure>
-
-<p><strong>推送本地分支至远程仓库</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push --set-upstream &lt;远程仓库地址/仓库别名&gt; &lt;分支名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以使用简写形式</span></span><br><span class="line">git push -u &lt;远程仓库地址/仓库别名&gt; &lt;分支名&gt;</span><br></pre></td></tr></table></figure>
-
-<p><strong>删除远程分支</strong></p>
-<p>假设你已经通过远程分支做完所有的工作了 - 也就是说你和你的协作者已经完成了一个特性并且将其合并到了远程仓库的 <code>master</code> 分支（或任何其他稳定代码分支）。 可以运行带有 <code>--delete</code> 选项的 <code>git push</code> 命令来删除一个远程分支。 如果想要从服务器上删除 <code>serverfix</code> 分支，运行下面的命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git push origin --delete serverfix</span><br><span class="line">To https://github.com/schacon/simplegit</span><br><span class="line"> - [deleted]         serverfix</span><br></pre></td></tr></table></figure>
-
-<p>基本上这个命令做的只是从服务器上移除这个指针。 <code>Git</code> 服务器通常会保留数据一段时间直到垃圾回收运行，所以如果不小心删除掉了，通常是很容易恢复的。</p>
-<h2 id="git-remote"><a href="#git-remote" class="headerlink" title="git remote"></a>git remote</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看所有的仓库别名</span></span><br><span class="line">git remote</span><br><span class="line"><span class="comment"># 新增仓库别名</span></span><br><span class="line">git remote add [别名] [远程仓库地址]</span><br><span class="line"><span class="comment"># 删除仓库别名</span></span><br><span class="line">git remote remove [别名]</span><br></pre></td></tr></table></figure>
-
-<h1 id="SSH免密码登陆github配置"><a href="#SSH免密码登陆github配置" class="headerlink" title="SSH免密码登陆github配置"></a>SSH免密码登陆github配置</h1><h2 id="git-支持多种数据传输协议"><a href="#git-支持多种数据传输协议" class="headerlink" title="git 支持多种数据传输协议"></a>git 支持多种数据传输协议</h2><p><strong>例：</strong></p>
-<p>https协议：<a href="https://github.com/jquery/jquery.git">https://github.com/jquery/jquery.git</a></p>
-<p>ssh协议：<a href="git@github.com:jquery/jquery.git">git@github.com:jquery/jquery.git</a></p>
-<p>每次 <code>push</code> 或者 <code>pull</code> 代码，如果使用 <code>https</code> 协议，那么都需要输入用户名和密码进行身份的确认，非常麻烦。</p>
-<p><code>github</code> 为了账户的安全，需要对每一次 <code>push</code> 请求都要验证用户的身份，只有合法的用户才可以 <code>push</code>，使用 <code>ssh</code>协议，配置 <code>ssh</code> 免密码，可以做到免密码往 <code>github</code> 推送代码。</p>
-<h2 id="SSH-免密码登录配置命令"><a href="#SSH-免密码登录配置命令" class="headerlink" title="SSH 免密码登录配置命令"></a>SSH 免密码登录配置命令</h2><ul>
-<li><p>创建 SSH Key：<code>ssh-keygen -t rsa</code>。</p>
-</li>
-<li><p>在文件路径 <code>C:\用户\当前用户名\</code> 找到 <code>.ssh</code> 文件夹。</p>
-</li>
-<li><p>文件夹中有两个文件：</p>
-</li>
-</ul>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">私钥：id_rsa</span><br><span class="line">公钥：id_rsa.pub</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>在 <code>github -&gt; settings -&gt; SSH and GPG keys</code> 页面中，新创建 <code>SSH key</code>。</p>
-</li>
-<li><p>粘贴公钥 <code>id_rsa.pub</code> 内容到对应文本框中。</p>
-</li>
-<li><p>在 <code>github</code> 中新建仓库或者使用现在仓库，拿到 <a href="mailto:&#x67;&#105;&#116;&#64;&#x67;&#105;&#x74;&#104;&#x75;&#x62;&#x2e;&#99;&#x6f;&#109;">&#x67;&#105;&#116;&#64;&#x67;&#105;&#x74;&#104;&#x75;&#x62;&#x2e;&#99;&#x6f;&#109;</a>:用户名&#x2F;仓库名.git。</p>
-</li>
-<li><p>此后，再次 <code>SSH</code> 方式与 <code>github</code> “通信”，不用输入密码确认身份了。</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CSS Flex弹性布局</title>
     <url>/2018/10/01/css/css3-flex/</url>
     <content><![CDATA[<p>flex弹性布局简介(flexible box)。</p>
@@ -1325,6 +1134,197 @@
       </tags>
   </entry>
   <entry>
+    <title>git常用命令</title>
+    <url>/2018/04/14/git/git/</url>
+    <content><![CDATA[<p>记录 <strong>Git</strong> 的常用操作命令，方便日后查看。</p>
+<span id="more"></span>
+
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p><strong>git</strong> 的配置文件位于 <code>~/.gitconifg</code>（当前系统用户下）。修改配置的方式有如下 3 种。</p>
+<h2 id="命令配置"><a href="#命令配置" class="headerlink" title="命令配置"></a>命令配置</h2><p><strong>1.配置用户名</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.name [yourname]</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.配置邮箱</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --global user.email [youremail]</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.查看配置信息</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config --list</span><br></pre></td></tr></table></figure>
+
+<h2 id="vim-编辑器"><a href="#vim-编辑器" class="headerlink" title="vim 编辑器"></a>vim 编辑器</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用此命令，会进入 vim 编辑器</span></span><br><span class="line">git config -e --global</span><br></pre></td></tr></table></figure>
+
+<h2 id="gitconfig"><a href="#gitconfig" class="headerlink" title=".gitconfig"></a>.gitconfig</h2><p>直接进入到当前系统用户根目录下的 <code>.gitconfig</code> 配置文件中进行修改。</p>
+<div class="note success"><p>更多的可配置信息可以参考：<a href="https://git-scm.com/docs/git-config" class="fc-danger"> git config docs </a>。</p>
+</div>
+
+
+<h1 id="配置忽略文件"><a href="#配置忽略文件" class="headerlink" title="配置忽略文件"></a>配置忽略文件</h1><p>通过在项目根目录下创建 <code>.gitignore</code> 文件来配置定义 一些文件(夹) 不被提交到 远程仓库。比如，当前项目的一些测试代码文件、编辑器配置文件、<code>npm</code> 管理包 <code>node_modules</code> 等。</p>
+<p>可以使用 <code>touch .gitignore</code> 命令来生成该文件。（<strong>windows</strong> 下，无法创建没有名字的文件，其会把 <code>.</code> 后的认作后缀名）。</p>
+<p><strong><code>.gitignore</code>文件示例</strong></p>
+<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">test/</span><br><span class="line">node_modules/</span><br><span class="line">.git</span><br><span class="line">.idea/</span><br><span class="line">.vscode</span><br><span class="line">.gitignore</span><br></pre></td></tr></table></figure>
+
+<h1 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h1><h2 id="git-init"><a href="#git-init" class="headerlink" title="git init"></a>git init</h2><p>初始化 <strong>git</strong> 仓库，在项目文件夹中打开 <strong>git bash</strong>，输入 <code>git init</code> 即可创建 <strong>git</strong> 仓库。</p>
+<p>项目文件夹中会生成一个 <strong>.git</strong> 文件夹。里面创建有暂存区和本地仓库区。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
+
+<h2 id="git-status"><a href="#git-status" class="headerlink" title="git status"></a>git status</h2><p>查看当前项目中的文件状态，即做出了何种类型的修改（增、删、改），文件是否被追踪。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<h2 id="git-add"><a href="#git-add" class="headerlink" title="git add"></a>git add</h2><p>将文件添加至暂存区。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 将指定文件添加至暂存区</span></span><br><span class="line">git add [文件名]  </span><br><span class="line"><span class="comment"># 将所有文件添加至暂存区</span></span><br><span class="line">git add .</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line">git add -A</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line">git add --all</span><br></pre></td></tr></table></figure>
+
+<h2 id="git-commit"><a href="#git-commit" class="headerlink" title="git commit"></a>git commit</h2><p>将 <strong>暂存区</strong> 中的文件提交至 <strong>本地仓库</strong> 区。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 以行内提交信息的方式提交</span></span><br><span class="line">git commit -m <span class="string">&#x27;提交时的辅助说明信息&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以不带 -m 参数，直接回车，此时会进入 vim 编辑器 ，在这里书写你此次提交的信息</span></span><br><span class="line">git commit</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用一次新的commit , 替代上一次的提交，如果代码没有改变，则更新上一次的提交信息。</span></span><br><span class="line">git commit --amend -m [message]</span><br></pre></td></tr></table></figure>
+
+<h2 id="git-log"><a href="#git-log" class="headerlink" title="git log"></a>git log</h2><p>查看提交日志。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看当前head 及 以前的 日志</span></span><br><span class="line">git <span class="built_in">log</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看简洁的日志，每条提交日志以一条的形式展示</span></span><br><span class="line">git <span class="built_in">log</span> --oneline</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有的提交日志</span></span><br><span class="line">git reflog</span><br></pre></td></tr></table></figure>
+
+<h2 id="git-checkout"><a href="#git-checkout" class="headerlink" title="git checkout"></a>git checkout</h2><p>将文件从暂存区还原到工作区。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout [文件名.xxx]</span><br></pre></td></tr></table></figure>
+
+<h2 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a>git reset</h2><p>将指定版本项目从本地仓库区还原到工作区。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git reset --hard [版本号]</span><br></pre></td></tr></table></figure>
+
+<h1 id="打标签"><a href="#打标签" class="headerlink" title="打标签"></a>打标签</h1><p>像其他版本控制系统（VCS）一样，<strong>Git</strong> 可以给历史中的某一个提交打上标签，以示重要。 比较有代表性的是人们会使用这个功能来标记发布结点（v1.0 等等）。</p>
+<h2 id="列出标签"><a href="#列出标签" class="headerlink" title="列出标签"></a>列出标签</h2><p>在 <code>Git</code> 中列出已有的标签是非常简单直观的。 只需要输入 <code>git tag</code>：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 列出所有标签</span></span><br><span class="line">$ git tag</span><br><span class="line"></span><br><span class="line">v1.0</span><br><span class="line">v2.0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 按照指定模式列出标签</span></span><br><span class="line">$ git tag -l <span class="string">&#x27;v1.8.*&#x27;</span></span><br><span class="line"></span><br><span class="line">v1.8.2</span><br><span class="line">v1.8.4</span><br></pre></td></tr></table></figure>
+
+<h2 id="新建标签"><a href="#新建标签" class="headerlink" title="新建标签"></a>新建标签</h2><p><code>Git</code> 使用两种主要类型的标签：轻量标签（lightweight）与附注标签（annotated）。<br/></p>
+<p>一个轻量标签很像一个不会改变的分支 - 它只是一个特定提交的引用。</br></p>
+<p>然而，附注标签是存储在 <code>Git</code> 数据库中的一个完整对象。 它们是可以被校验的；其中包含打标签者的名字、电子邮件地址、日期时间；还有一个标签信息；并且可以使用 <code>GNU Privacy Guard （GPG）</code>签名与验证。 通常建议创建附注标签，这样你可以拥有以上所有信息；但是如果你只是想用一个临时的标签，或者因为某些原因不想要保存那些信息，轻量标签也是可用的。</p>
+<h3 id="附注标签"><a href="#附注标签" class="headerlink" title="附注标签"></a>附注标签</h3><p>在 <code>Git</code> 中创建一个附注标签是很简单的。 最简单的方式是当你在运行 <code>tag</code> 命令时指定 <code>-a</code> 选项：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git tag -a v1.4 -m <span class="string">&#x27;my version 1.4&#x27;</span></span><br><span class="line">$ git tag</span><br><span class="line">v0.1</span><br><span class="line">v1.3</span><br><span class="line">v1.4</span><br></pre></td></tr></table></figure>
+
+<p><code>-m</code> 选项指定了一条将会存储在标签中的信息。 如果没有为附注标签指定一条信息，<code>Git</code> 会运行 <code>vim</code> 编辑器要求你输入信息。</p>
+<p>通过使用 <code>git show</code> 命令可以看到标签信息与对应的提交信息：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git show v1.4</span><br><span class="line">tag v1.4</span><br><span class="line">Tagger: Ben Straub &lt;ben@straub.cc&gt;</span><br><span class="line">Date:   Sat May 3 20:19:12 2014 -0700</span><br><span class="line"></span><br><span class="line">my version 1.4</span><br><span class="line"></span><br><span class="line">commit ca82a6dff817ec66f44342007202690a93763949</span><br><span class="line">Author: Scott Chacon &lt;schacon@gee-mail.com&gt;</span><br><span class="line">Date:   Mon Mar 17 21:52:11 2008 -0700</span><br><span class="line"></span><br><span class="line">    changed the version number</span><br></pre></td></tr></table></figure>
+<p>输出显示了打标签者的信息、打标签的日期时间、附注信息，然后显示具体的提交信息。</p>
+<h3 id="轻量标签"><a href="#轻量标签" class="headerlink" title="轻量标签"></a>轻量标签</h3><p>另一种给提交打标签的方式是使用轻量标签。 轻量标签本质上是将提交校验和存储到一个文件中 - 没有保存任何其他信息。 创建轻量标签，不需要使用 <code>-a</code>、<code>-s</code> 或 <code>-m</code> 选项，只需要提供标签名字：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git tag v1.4-lw</span><br><span class="line">$ git tag</span><br><span class="line">v0.1</span><br><span class="line">v1.3</span><br><span class="line">v1.4</span><br><span class="line">v1.4-lw</span><br><span class="line">v1.5</span><br></pre></td></tr></table></figure>
+<p>这时，如果在标签上运行 <code>git show</code>，你不会看到额外的标签信息。 命令只会显示出提交信息:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git show v1.4-lw</span><br><span class="line">commit ca82a6dff817ec66f44342007202690a93763949</span><br><span class="line">Author: Scott Chacon &lt;schacon@gee-mail.com&gt;</span><br><span class="line">Date:   Mon Mar 17 21:52:11 2008 -0700</span><br><span class="line"></span><br><span class="line">    changed the version number</span><br></pre></td></tr></table></figure>
+
+<h3 id="后期打标签"><a href="#后期打标签" class="headerlink" title="后期打标签"></a>后期打标签</h3><p>你也可以对过去的提交打标签。 假设提交历史是这样的：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git <span class="built_in">log</span> --pretty=oneline</span><br><span class="line">15027957951b64cf874c3557a0f3547bd83b3ff6 Merge branch <span class="string">&#x27;experiment&#x27;</span></span><br><span class="line">a6b4c97498bd301d84096da251c98a07c7723e65 beginning write support</span><br><span class="line">0d52aaab4479697da7686c15f77a3d64d9165190 one more thing</span><br><span class="line">6d52a271eda8725415634dd79daabbc4d9b6008e Merge branch <span class="string">&#x27;experiment&#x27;</span></span><br><span class="line">0b7434d86859cc7b8c3d5e1dddfed66ff742fcbc added a commit <span class="keyword">function</span></span><br><span class="line">4682c3261057305bdd616e23b64b0857d832627b added a todo file</span><br><span class="line">166ae0c4d3f420721acbb115cc33848dfcc2121a started write support</span><br><span class="line">9fceb02d0ae598e95dc970b74767f19372d61af8 updated rakefile</span><br><span class="line">964f16d36dfccde844893cac5b347e7b3d44abbc commit the todo</span><br><span class="line">8a5cbc430f1a9c3d00faaeffd07798508422908a updated readme</span><br></pre></td></tr></table></figure>
+
+<p>现在，假设在 v1.2 时你忘记给项目打标签，也就是在 <strong>updated rakefile</strong> 提交。 你可以在之后补上标签。 要在那个提交上打标签，你需要在命令的末尾指定提交的校验和（或部分校验和）。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git tag -a v1.2 9fceb02</span><br></pre></td></tr></table></figure>
+
+<p>可以看到你已经在那次提交上打上标签了：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git tag</span><br><span class="line">v0.1</span><br><span class="line">v1.2</span><br><span class="line">v1.3</span><br><span class="line">v1.4</span><br><span class="line">v1.4-lw</span><br><span class="line">v1.5</span><br><span class="line"></span><br><span class="line">$ git show v1.2</span><br><span class="line">tag v1.2</span><br><span class="line">Tagger: Scott Chacon &lt;schacon@gee-mail.com&gt;</span><br><span class="line">Date:   Mon Feb 9 15:32:16 2009 -0800</span><br><span class="line"></span><br><span class="line">version 1.2</span><br><span class="line">commit 9fceb02d0ae598e95dc970b74767f19372d61af8</span><br><span class="line">Author: Magnus Chacon &lt;mchacon@gee-mail.com&gt;</span><br><span class="line">Date:   Sun Apr 27 20:43:35 2008 -0700</span><br><span class="line"></span><br><span class="line">    updated rakefile</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h3 id="共享标签"><a href="#共享标签" class="headerlink" title="共享标签"></a>共享标签</h3><p>默认情况下，<code>git push</code> 命令并不会传送标签到远程仓库服务器上。 在创建完标签后你必须显式地推送标签到共享服务器上。 这个过程就像共享远程分支一样 - 你可以运行 <code>git push origin [tagname]</code>。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin v1.5</span><br><span class="line"></span><br><span class="line">Counting objects: 14, <span class="keyword">done</span>.</span><br><span class="line">Delta compression using up to 8 threads.</span><br><span class="line">Compressing objects: 100% (12/12), <span class="keyword">done</span>.</span><br><span class="line">Writing objects: 100% (14/14), 2.05 KiB | 0 bytes/s, <span class="keyword">done</span>.</span><br><span class="line">Total 14 (delta 3), reused 0 (delta 0)</span><br><span class="line">To git@github.com:schacon/simplegit.git</span><br><span class="line"> * [new tag]         v1.5 -&gt; v1.5</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果想要一次性推送很多标签，也可以使用带有 <code>--tags</code> 选项的 <code>git push</code> 命令。 这将会把所有不在远程仓库服务器上的标签全部传送到那里。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push origin --tags</span><br></pre></td></tr></table></figure>
+
+<p>现在，当其他人从仓库中克隆或拉取，他们也能得到你的那些标签。</p>
+<h1 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h1><h2 id="git-branch"><a href="#git-branch" class="headerlink" title="git branch"></a>git branch</h2><p>查看当前项目中的所有分支，在当前分支的前面会有一个 <code>*</code> 。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看本地分支列表，不包含远程分支</span></span><br><span class="line">git branch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看远程分支列表</span></span><br><span class="line">git branch -r</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看所有分支列表，包含本地和远程分支</span></span><br><span class="line">git branch --all </span><br><span class="line"></span><br><span class="line"><span class="comment"># or </span></span><br><span class="line">git branch -a</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除分支，对于已经合并过的分支可以进行删除，删除的是本地分支</span></span><br><span class="line">git branch -d [分支名]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="批量删除分支"><a href="#批量删除分支" class="headerlink" title="批量删除分支"></a>批量删除分支</h3><p>实际开发中，我们会根据需求号 <code>feature/.*</code> 或 问题号 <code>iss/.*</code> 进行分支的切换。一段时间后，你会发现本地的分支非常多，并且大多数都是经过迭代的老分支。是可以删除的。</p>
+<p>那么，我们可以利用 <code>git bash</code> 配合 <code>linux</code> 命令做批量删除分支。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch | egrep <span class="string">&#x27;iss/.*&#x27;</span> | xargs git branch -D</span><br></pre></td></tr></table></figure>
+
+<p>以上命令表示：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">1. git branch 列出本地所有分支</span><br><span class="line">2. egrep &#x27;iss/.*&#x27; 表示匹配这些分支字符传中以 `iss/` 开头的字符串（分支名）。</span><br><span class="line">3. xargs git branch -D 将第二步生成的字符串当做参数传递给 git branch -D</span><br><span class="line">4. 删除成功。</span><br></pre></td></tr></table></figure>
+
+<p>再教你一个反向匹配的例子：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git branch | egrep -v <span class="string">&#x27;master|base/func|release/20200313&#x27;</span> | xargs git branch -D</span><br></pre></td></tr></table></figure>
+
+<p>以上命令表示：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">1. git branch 列出本地所有分支。</span><br><span class="line">2. egrep -v &#x27;master|base/func|release/20200313&#x27; 表示匹配非 master, base/func, release/20200313 的其他分支。</span><br><span class="line">3. xargs git branch -D 将第二步生成的字符串当做参数传递给 git branch -D</span><br><span class="line">4. 删除成功。</span><br></pre></td></tr></table></figure>
+
+<p>鼓掌!</p>
+<h3 id="git-branch-vv"><a href="#git-branch-vv" class="headerlink" title="git branch -vv"></a>git branch -vv</h3><p>如果想要查看设置的所有跟踪分支，可以使用 <code>git branch</code> 的 <code>-vv</code> 选项。 这会将所有的本地分支列出来并且包含更多的信息，如每一个分支正在跟踪哪个远程分支与本地分支是否是领先、落后或是都有。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git branch -vv</span><br><span class="line">  iss53     7e424c3 [origin/iss53: ahead 2] forgot the brackets</span><br><span class="line">  master    1ae2a45 [origin/master] deploying index fix</span><br><span class="line">* serverfix f8674d9 [teamone/server-fix-good: ahead 3, behind 1] this should <span class="keyword">do</span> it</span><br><span class="line">  testing   5ea463a trying something new</span><br></pre></td></tr></table></figure>
+
+<p>这里可以看到 <code>iss53</code> 分支正在跟踪 <code>origin/iss53</code> 并且 “ahead” 是 2，意味着本地有两个提交还没有推送到服务器上。 也能看到 <code>master</code> 分支正在跟踪 <code>origin/master</code> 分支并且是最新的。 接下来可以看到 <code>serverfix</code> 分支正在跟踪 <code>teamone</code> 服务器上的 <code>server-fix-good</code> 分支并且领先 3 落后 1，意味着服务器上有一次提交还没有合并入同时本地有三次提交还没有推送。 最后看到 <code>testing</code> 分支并没有跟踪任何远程分支。</p>
+<p>需要重点注意的一点是这些数字的值来自于你从每个服务器上最后一次抓取的数据。 这个命令并没有连接服务器，它只会告诉你关于本地缓存的服务器数据。 如果想要统计最新的领先与落后数字，需要在运行此命令前抓取所有的远程仓库。 可以像这样做：<code>git fetch --all</code>; <code>git branch -vv</code>。</p>
+<h2 id="git-checkout-1"><a href="#git-checkout-1" class="headerlink" title="git checkout"></a>git checkout</h2><p>切换分支，可以从当前分支切换到指定分支上。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 切换分支</span></span><br><span class="line">git checkout [分支名]</span><br><span class="line"><span class="comment"># 创建新的分支，并切换到这个分支</span></span><br><span class="line">git checkout -b [分支名]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：当需要同步远程分支到本地仓库时，可以执行 <code>git checkout -b [branch] [remotename]/[branch]</code> 命令。将指定远程分支 <code>[remotename]/[branch]</code> 同步到本地仓库。</p>
+</blockquote>
+<p><strong>例：</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 需要同步远程分支 develop 到本地仓库</span></span><br><span class="line"></span><br><span class="line">git checkout -b develop origin/develop</span><br></pre></td></tr></table></figure>
+
+<p>运行 <code>git checkout -b [branch] [remotename]/[branch]</code>。 这是一个十分常用的操作所以 <code>Git</code> 提供了 <code>--track</code> 快捷方式：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout --track origin/serverfix</span><br></pre></td></tr></table></figure>
+
+<p>该操作表示，在本地创建 <code>serverfix</code> 分支，并跟踪远程分支 <code>origin/serverfix</code>。当执行 <code>git pull</code> 命令时，会自动更新 <code>origin/serverfix</code> 远程分支的代码到 <code>serverfix</code> 分支上。</p>
+<h2 id="git-merge"><a href="#git-merge" class="headerlink" title="git merge"></a>git merge</h2><p>将指定分支合并到当前分支。git内部使用的是指针操作原理。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge [分支名]</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：在执行合并操作前，你首先需要切换到 <strong>要合入</strong> 的分支上，然后再执行合并操作。</p>
+</blockquote>
+<p><strong>例：</strong></p>
+<p>你需要将 <code>trunk</code> 分支的代码合并到 <code>develop</code> 分支上，首先你需要切换到 <code>develop</code> 分支上。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git checkout develop</span><br></pre></td></tr></table></figure>
+
+<p>然后执行合并操作。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git merge trunk</span><br></pre></td></tr></table></figure>
+
+<p>此时，<code>trunk</code> 分支上的新代码就被合并到了 <code>develop</code> 分支上。</p>
+<h1 id="远程仓库"><a href="#远程仓库" class="headerlink" title="远程仓库"></a>远程仓库</h1><h2 id="git-clone"><a href="#git-clone" class="headerlink" title="git clone"></a>git clone</h2><p>从远程仓库拷贝项目至本地。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git <span class="built_in">clone</span> [远程仓库地址] [重命名项目名]</span><br></pre></td></tr></table></figure>
+
+<div class="note warning"><p>注意：<br>项目名称参数不提供时，会默认使用原项目名称。</p>
+</div>
+
+<h2 id="git-fetch"><a href="#git-fetch" class="headerlink" title="git fetch"></a>git fetch</h2><p>当 <code>git fetch</code> 命令从服务器上抓取本地没有的数据时，它并不会修改工作目录中的内容。 它只会获取数据然后让你自己合并。<br>然而，有一个命令叫作 <code>git pull</code> 在大多数情况下它的含义是一个 <code>git fetch</code> 紧接着一个 <code>git merge</code> 命令。<br>如果有一个像之前章节中演示的设置好的跟踪分支，不管它是显式地设置还是通过 <code>clone</code> 或 <code>checkout</code> 命令为你创建的。<br><code>git pull</code> 都会查找当前分支所跟踪的服务器与分支，从服务器上抓取数据然后尝试合并入那个远程分支。</p>
+<p>由于 <code>git pull</code> 的魔法经常令人困惑所以通常单独显式地使用 <code>fetch</code> 与 <code>merge</code> 命令会更好一些。</p>
+<h2 id="git-pull"><a href="#git-pull" class="headerlink" title="git pull"></a>git pull</h2><p>更新远程仓库代码至本地。用于更新项目其他成员提交的代码。一般在 <code>push</code> 前，一定要先 <code>pull</code>。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git pull [远程仓库地址/仓库别名] [分支名]</span><br></pre></td></tr></table></figure>
+
+<h2 id="git-push"><a href="#git-push" class="headerlink" title="git push"></a>git push</h2><p>将本地仓库中的代码提交至远程仓库。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push [远程仓库地址/仓库别名] [分支名]</span><br></pre></td></tr></table></figure>
+
+<p><strong>推送本地分支至远程仓库</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git push --set-upstream &lt;远程仓库地址/仓库别名&gt; &lt;分支名&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 也可以使用简写形式</span></span><br><span class="line">git push -u &lt;远程仓库地址/仓库别名&gt; &lt;分支名&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>删除远程分支</strong></p>
+<p>假设你已经通过远程分支做完所有的工作了 - 也就是说你和你的协作者已经完成了一个特性并且将其合并到了远程仓库的 <code>master</code> 分支（或任何其他稳定代码分支）。 可以运行带有 <code>--delete</code> 选项的 <code>git push</code> 命令来删除一个远程分支。 如果想要从服务器上删除 <code>serverfix</code> 分支，运行下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ git push origin --delete serverfix</span><br><span class="line">To https://github.com/schacon/simplegit</span><br><span class="line"> - [deleted]         serverfix</span><br></pre></td></tr></table></figure>
+
+<p>基本上这个命令做的只是从服务器上移除这个指针。 <code>Git</code> 服务器通常会保留数据一段时间直到垃圾回收运行，所以如果不小心删除掉了，通常是很容易恢复的。</p>
+<h2 id="git-remote"><a href="#git-remote" class="headerlink" title="git remote"></a>git remote</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看所有的仓库别名</span></span><br><span class="line">git remote</span><br><span class="line"><span class="comment"># 新增仓库别名</span></span><br><span class="line">git remote add [别名] [远程仓库地址]</span><br><span class="line"><span class="comment"># 删除仓库别名</span></span><br><span class="line">git remote remove [别名]</span><br></pre></td></tr></table></figure>
+
+<h1 id="SSH免密码登陆github配置"><a href="#SSH免密码登陆github配置" class="headerlink" title="SSH免密码登陆github配置"></a>SSH免密码登陆github配置</h1><h2 id="git-支持多种数据传输协议"><a href="#git-支持多种数据传输协议" class="headerlink" title="git 支持多种数据传输协议"></a>git 支持多种数据传输协议</h2><p><strong>例：</strong></p>
+<p>https协议：<a href="https://github.com/jquery/jquery.git">https://github.com/jquery/jquery.git</a></p>
+<p>ssh协议：<a href="git@github.com:jquery/jquery.git">git@github.com:jquery/jquery.git</a></p>
+<p>每次 <code>push</code> 或者 <code>pull</code> 代码，如果使用 <code>https</code> 协议，那么都需要输入用户名和密码进行身份的确认，非常麻烦。</p>
+<p><code>github</code> 为了账户的安全，需要对每一次 <code>push</code> 请求都要验证用户的身份，只有合法的用户才可以 <code>push</code>，使用 <code>ssh</code>协议，配置 <code>ssh</code> 免密码，可以做到免密码往 <code>github</code> 推送代码。</p>
+<h2 id="SSH-免密码登录配置命令"><a href="#SSH-免密码登录配置命令" class="headerlink" title="SSH 免密码登录配置命令"></a>SSH 免密码登录配置命令</h2><ul>
+<li><p>创建 SSH Key：<code>ssh-keygen -t rsa</code>。</p>
+</li>
+<li><p>在文件路径 <code>C:\用户\当前用户名\</code> 找到 <code>.ssh</code> 文件夹。</p>
+</li>
+<li><p>文件夹中有两个文件：</p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">私钥：id_rsa</span><br><span class="line">公钥：id_rsa.pub</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>在 <code>github -&gt; settings -&gt; SSH and GPG keys</code> 页面中，新创建 <code>SSH key</code>。</p>
+</li>
+<li><p>粘贴公钥 <code>id_rsa.pub</code> 内容到对应文本框中。</p>
+</li>
+<li><p>在 <code>github</code> 中新建仓库或者使用现在仓库，拿到 <a href="mailto:&#x67;&#105;&#x74;&#x40;&#103;&#105;&#116;&#x68;&#117;&#98;&#x2e;&#99;&#111;&#x6d;">&#x67;&#105;&#x74;&#x40;&#103;&#105;&#116;&#x68;&#117;&#98;&#x2e;&#99;&#111;&#x6d;</a>:用户名&#x2F;仓库名.git。</p>
+</li>
+<li><p>此后，再次 <code>SSH</code> 方式与 <code>github</code> “通信”，不用输入密码确认身份了。</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何在 hexo 中使用图片资源</title>
     <url>/2023/03/21/hexo/how-to-use-img-in-hexo/</url>
     <content><![CDATA[<h1 id="使用-Markdown-嵌入图片"><a href="#使用-Markdown-嵌入图片" class="headerlink" title="使用 Markdown 嵌入图片"></a>使用 Markdown 嵌入图片</h1><p><code>hexo-renderer-marked 3.1.0</code> 引入了一个新的选项，其允许你无需使用 <code>asset_img</code> 标签插件就可以在 <strong>markdown</strong> 中嵌入图片</p>
@@ -1470,6 +1470,7 @@
     <url>/2020/03/12/manual/glob-syntax-rules/</url>
     <content><![CDATA[<p><strong>glob</strong> 是由普通字符和 <code>/</code> 或 <code>通配符</code> 组成的字符串，用于 <strong>匹配文件路径</strong>。可以利用一个或多个 <strong>glob</strong> 在文件系统中定位文件。</p>
 <p>它本身属于一种标准，并且各类语言都有其完整实现。本文将基于 <a class="fc-danger" href="https://github.com/isaacs/node-glob"> node-glob </a> 进行语法讲解。</p>
+<p><img src="/2020/03/12/manual/glob-syntax-rules/glob.png" alt="glob"></p>
 <span id="more"></span>
 
 <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>文件匹配对于操作文件系统是很有必要的，他能帮助你方便，快捷的匹配到要找的目标文件，这对构建工具尤其有用，比如 <code>gulp</code> 、<code>webpack</code> 等，它可以根据你书写的规则高效匹配文件资源，提升构建速度。</p>
@@ -3090,6 +3091,90 @@
       </tags>
   </entry>
   <entry>
+    <title>javascript中的EventLoop</title>
+    <url>/2019/09/04/javascript/EventLoop/EventLoop/</url>
+    <content><![CDATA[<p>本文介绍 javascript 引擎中的事件循环（EventLoop）是如何工作的。</p>
+<span id="more"></span>
+
+<h1 id="数据在内存中的存储方式"><a href="#数据在内存中的存储方式" class="headerlink" title="数据在内存中的存储方式"></a>数据在内存中的存储方式</h1><p>在 javascript 中，数据类型分为 <code>基本类型</code> 和 <code>引用类型</code>。那么 <code>基础类型</code> 是存储在 <code>栈内存(stack)</code> 中的简单数据，按值存取，例如：Boolean，String，Number，undefined，null，Symbol，BigInt。</p>
+<p>而 <code>引用类型</code>（Object，Function）则是存储在 <code>堆内存(heap)</code> 中，并在 <code>栈内存</code> 中存储着该 <code>引用类型</code> 数据的一个引用，指向该数据在 <code>堆内存</code> 的存储地址。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="number">14</span></span><br><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">foo</span>: <span class="string">&#x27;&#x27;</span> &#125;</span><br><span class="line"><span class="keyword">var</span> fn = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>( <span class="string">&#x27;hello&#x27;</span> )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中各变量在内存中的存储形式如下：</p>
+<img src="http://wx3.sinaimg.cn/mw690/005KBvkkgy1g6nk13b1jmj30jq0gndg8.jpg" />
+
+
+<h1 id="执行栈（call-stack）"><a href="#执行栈（call-stack）" class="headerlink" title="执行栈（call stack）"></a>执行栈（call stack）</h1><p>javascript 中，变量声明，函数调用都会按照程序的逻辑依次被压入栈内执行。</p>
+<p>观察下面的代码：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">multiply</span>(<span class="params">a, b</span>)&#123;</span><br><span class="line">	<span class="keyword">return</span> a * b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">calcSquare</span>(<span class="params">n</span>)&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="title function_">multiply</span>(n, n);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">printSquare</span>(<span class="params">n</span>)&#123;</span><br><span class="line">	<span class="keyword">var</span> result = <span class="title function_">calcSquare</span>(n);</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(result);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">printSquare</span>(<span class="number">4</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们在主程序 <code>main.js</code> 中依次定义了 <code>multiply</code> , <code>calcSquare</code> 和 <code>printSquare</code> 这3个函数。在 <code>printSquare</code> 中调用了 <code>calcSquare</code>，而 <code>calcSquare</code> 中又调用了 <code>multiply</code>。</p>
+<p>主程序开始后，<code>printSquare()</code> 首先被压入执行栈，随后 <code>calcSquare()</code> 压入执行栈，最后是 <code>multiply()</code>。</p>
+<p>栈具有 <code>先进后出，后进先出</code> 的特点，所以位于栈顶的函数先执行，依次类推。</p>
+<p>以下是进栈后的情况：</p>
+<img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6nk15w7mmj30xt0iowg5.jpg" />
+
+<p>现在，让我们看看上面代码在执行栈内执行的动态示意图：</p>
+<img src="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6nl7gf50vg30go099q7o.gif" />
+
+
+<h1 id="栈内异常"><a href="#栈内异常" class="headerlink" title="栈内异常"></a>栈内异常</h1><p>如果代码在栈内执行遇到错误，javascript 引擎会抛出如下错误，并终止主程序的继续执行。</p>
+<img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6nk15gdm1j30xy0h8aci.jpg" />
+
+
+<h1 id="栈满错误"><a href="#栈满错误" class="headerlink" title="栈满错误"></a>栈满错误</h1><p>有时，由于程序过于庞大或代码编写失误，导致栈内任务剧增，使得执行栈满，javascript 引擎会抛出如下错误。</p>
+<img src="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6nk14uqewj30vw0ij0vo.jpg" />
+
+
+<h1 id="同步阻塞"><a href="#同步阻塞" class="headerlink" title="同步阻塞"></a>同步阻塞</h1><p>在主线程执行栈中，只能存在同步代码。也就是说，在执行栈中的任务都是同步任务。如果存在耗时较长的同步任务，那么我们的程序就会阻塞，直到上一个任务完成才会继续向下执行。</p>
+<p>例如下面这样的代码：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a = $.<span class="title function_">getSynchronous</span>(<span class="string">&quot;/a&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> b = $.<span class="title function_">getSynchronous</span>(<span class="string">&quot;/b&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> c = $.<span class="title function_">getSynchronous</span>(<span class="string">&quot;/c&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// get data done, now log them out</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(c);</span><br></pre></td></tr></table></figure>
+
+<p>在上方代码中，有3行耗时较长的同步代码，在这 3 行代码执行完之前，后面的打印操作便会一直处在等待状态（阻塞），那么在这个阻塞的事件段内，用户界面一直会处于白屏或 loading 态，这对于用户体验是很糟糕的。</p>
+<img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6nk13yql6j30xh0i5who.jpg" />
+
+
+<h1 id="异步回调"><a href="#异步回调" class="headerlink" title="异步回调"></a>异步回调</h1><p>观察下面的代码，思考其打印结果是什么？</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;World&quot;</span>);</span><br><span class="line">&#125;, <span class="number">5000</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hi&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>打印结果：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">Hello</span><br><span class="line">Hi</span><br><span class="line">World</span><br></pre></td></tr></table></figure>
+
+<p>那么，为什么会是这样的结果呢？它的执行过程是怎么样的？</p>
+<p>让我们再看一下上面代码的执行过程：</p>
+<img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6nl7fw00hg30go097dim.gif" />
+
+<p>由于执行栈中只能存在同步代码，从执行栈内的动态示意图来看，同步的 <code>console.log(&#39;Hello&#39;)</code> , <code>setTimeout(callback)</code> （callback并没有被立即执行）, <code>console.log(&#39;Hi&#39;)</code> 被一次压入了执行栈内，而 <code>setTimeout</code> 中的回调函数最后被压入执行栈中。</p>
+<h1 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h1><p>到这里，终于可以谈一谈 <code>事件循环</code> 了，当我们的代码中出现了异步任务时，javascript 引擎是如何工作的呢？</p>
+<p>首先，javascript 引擎在完成代码解析后，将同步代码依次压入执行栈中，在遇到异步代码，例如：DOM 事件，AJAX请求，setTimeout&#x2F;setInterval 这样的异步任务时，会在异步任务完成后，将其回调函数推进一个叫做 <code>回调队列(Callback Queue)</code> 的队列中，等待执行栈内的任务结束后，再依次从 <code>回调队列</code> 的队头取出回调函数压入执行栈中继续执行。</p>
+<img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6nk12gbo8j30xh0iqgq6.jpg" />
+
+
+<p>再让我们站在 <code>事件循环</code> 的角度看一次上面代码的执行过程：</p>
+<img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6nl7flieeg30go09eq82.gif" />
+
+
+<h1 id="如果-setTimeout-callback-0-会是怎样？"><a href="#如果-setTimeout-callback-0-会是怎样？" class="headerlink" title="如果 setTimeout(callback, 0) 会是怎样？"></a>如果 setTimeout(callback, 0) 会是怎样？</h1><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hi&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;there&quot;</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Welcome&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>我们直接看上面代码的执行效果：</p>
+<img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6nl7f8kkwg30go09a0x1.gif" />
+
+
+<p>没错！依然是同步的任务先执行，异步任务的回调函数依然会在异步时间到的时候被推进 <code>回调队列</code> 中，在同步任务结束后执行栈空时，<code>回调队列</code> 中的任务才会被压进 <code>执行栈</code>。</p>
+<p>在这里的延时时间 <code>0</code>，并不能阻碍 <code>setTimeout()</code> 是一个异步代码，其回调函数依然会被推进 <code>回调队列</code> 中。</p>
+]]></content>
+      <categories>
+        <category>javascript</category>
+      </categories>
+      <tags>
+        <tag>EventLoop</tag>
+        <tag>heap</tag>
+        <tag>stack</tag>
+        <tag>call stack</tag>
+        <tag>callback queue</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>XMLHttpRequest2新技巧</title>
     <url>/2019/05/03/javascript/ajax/XMLHttpRequestLevel2/</url>
     <content><![CDATA[<p><code>HTML5</code> 世界中有这样一位无名英雄：<code>XMLHttpRequest</code>。严格地说，<code>XHR2</code> 并不属于 <code>HTML5</code>。不过，它是浏览器供应商对于核心平台不断做出的改进中的一部分。我之所以将 <code>XHR2</code> 加入我们新的百宝囊中，就是因为它在如今复杂的网络应用中扮演了不可或缺的角色。</p>
@@ -3205,90 +3290,6 @@
       <tags>
         <tag>AJAX</tag>
         <tag>XMLHttpRequest2</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>javascript中的EventLoop</title>
-    <url>/2019/09/04/javascript/EventLoop/EventLoop/</url>
-    <content><![CDATA[<p>本文介绍 javascript 引擎中的事件循环（EventLoop）是如何工作的。</p>
-<span id="more"></span>
-
-<h1 id="数据在内存中的存储方式"><a href="#数据在内存中的存储方式" class="headerlink" title="数据在内存中的存储方式"></a>数据在内存中的存储方式</h1><p>在 javascript 中，数据类型分为 <code>基本类型</code> 和 <code>引用类型</code>。那么 <code>基础类型</code> 是存储在 <code>栈内存(stack)</code> 中的简单数据，按值存取，例如：Boolean，String，Number，undefined，null，Symbol，BigInt。</p>
-<p>而 <code>引用类型</code>（Object，Function）则是存储在 <code>堆内存(heap)</code> 中，并在 <code>栈内存</code> 中存储着该 <code>引用类型</code> 数据的一个引用，指向该数据在 <code>堆内存</code> 的存储地址。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">&#x27;&#x27;</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="number">14</span></span><br><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">foo</span>: <span class="string">&#x27;&#x27;</span> &#125;</span><br><span class="line"><span class="keyword">var</span> fn = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>( <span class="string">&#x27;hello&#x27;</span> )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面代码中各变量在内存中的存储形式如下：</p>
-<img src="http://wx3.sinaimg.cn/mw690/005KBvkkgy1g6nk13b1jmj30jq0gndg8.jpg" />
-
-
-<h1 id="执行栈（call-stack）"><a href="#执行栈（call-stack）" class="headerlink" title="执行栈（call stack）"></a>执行栈（call stack）</h1><p>javascript 中，变量声明，函数调用都会按照程序的逻辑依次被压入栈内执行。</p>
-<p>观察下面的代码：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">multiply</span>(<span class="params">a, b</span>)&#123;</span><br><span class="line">	<span class="keyword">return</span> a * b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">calcSquare</span>(<span class="params">n</span>)&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="title function_">multiply</span>(n, n);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">printSquare</span>(<span class="params">n</span>)&#123;</span><br><span class="line">	<span class="keyword">var</span> result = <span class="title function_">calcSquare</span>(n);</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(result);</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">printSquare</span>(<span class="number">4</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>我们在主程序 <code>main.js</code> 中依次定义了 <code>multiply</code> , <code>calcSquare</code> 和 <code>printSquare</code> 这3个函数。在 <code>printSquare</code> 中调用了 <code>calcSquare</code>，而 <code>calcSquare</code> 中又调用了 <code>multiply</code>。</p>
-<p>主程序开始后，<code>printSquare()</code> 首先被压入执行栈，随后 <code>calcSquare()</code> 压入执行栈，最后是 <code>multiply()</code>。</p>
-<p>栈具有 <code>先进后出，后进先出</code> 的特点，所以位于栈顶的函数先执行，依次类推。</p>
-<p>以下是进栈后的情况：</p>
-<img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6nk15w7mmj30xt0iowg5.jpg" />
-
-<p>现在，让我们看看上面代码在执行栈内执行的动态示意图：</p>
-<img src="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6nl7gf50vg30go099q7o.gif" />
-
-
-<h1 id="栈内异常"><a href="#栈内异常" class="headerlink" title="栈内异常"></a>栈内异常</h1><p>如果代码在栈内执行遇到错误，javascript 引擎会抛出如下错误，并终止主程序的继续执行。</p>
-<img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6nk15gdm1j30xy0h8aci.jpg" />
-
-
-<h1 id="栈满错误"><a href="#栈满错误" class="headerlink" title="栈满错误"></a>栈满错误</h1><p>有时，由于程序过于庞大或代码编写失误，导致栈内任务剧增，使得执行栈满，javascript 引擎会抛出如下错误。</p>
-<img src="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6nk14uqewj30vw0ij0vo.jpg" />
-
-
-<h1 id="同步阻塞"><a href="#同步阻塞" class="headerlink" title="同步阻塞"></a>同步阻塞</h1><p>在主线程执行栈中，只能存在同步代码。也就是说，在执行栈中的任务都是同步任务。如果存在耗时较长的同步任务，那么我们的程序就会阻塞，直到上一个任务完成才会继续向下执行。</p>
-<p>例如下面这样的代码：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a = $.<span class="title function_">getSynchronous</span>(<span class="string">&quot;/a&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> b = $.<span class="title function_">getSynchronous</span>(<span class="string">&quot;/b&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> c = $.<span class="title function_">getSynchronous</span>(<span class="string">&quot;/c&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// get data done, now log them out</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(c);</span><br></pre></td></tr></table></figure>
-
-<p>在上方代码中，有3行耗时较长的同步代码，在这 3 行代码执行完之前，后面的打印操作便会一直处在等待状态（阻塞），那么在这个阻塞的事件段内，用户界面一直会处于白屏或 loading 态，这对于用户体验是很糟糕的。</p>
-<img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6nk13yql6j30xh0i5who.jpg" />
-
-
-<h1 id="异步回调"><a href="#异步回调" class="headerlink" title="异步回调"></a>异步回调</h1><p>观察下面的代码，思考其打印结果是什么？</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hello&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;World&quot;</span>);</span><br><span class="line">&#125;, <span class="number">5000</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hi&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p>打印结果：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">Hello</span><br><span class="line">Hi</span><br><span class="line">World</span><br></pre></td></tr></table></figure>
-
-<p>那么，为什么会是这样的结果呢？它的执行过程是怎么样的？</p>
-<p>让我们再看一下上面代码的执行过程：</p>
-<img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6nl7fw00hg30go097dim.gif" />
-
-<p>由于执行栈中只能存在同步代码，从执行栈内的动态示意图来看，同步的 <code>console.log(&#39;Hello&#39;)</code> , <code>setTimeout(callback)</code> （callback并没有被立即执行）, <code>console.log(&#39;Hi&#39;)</code> 被一次压入了执行栈内，而 <code>setTimeout</code> 中的回调函数最后被压入执行栈中。</p>
-<h1 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h1><p>到这里，终于可以谈一谈 <code>事件循环</code> 了，当我们的代码中出现了异步任务时，javascript 引擎是如何工作的呢？</p>
-<p>首先，javascript 引擎在完成代码解析后，将同步代码依次压入执行栈中，在遇到异步代码，例如：DOM 事件，AJAX请求，setTimeout&#x2F;setInterval 这样的异步任务时，会在异步任务完成后，将其回调函数推进一个叫做 <code>回调队列(Callback Queue)</code> 的队列中，等待执行栈内的任务结束后，再依次从 <code>回调队列</code> 的队头取出回调函数压入执行栈中继续执行。</p>
-<img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6nk12gbo8j30xh0iqgq6.jpg" />
-
-
-<p>再让我们站在 <code>事件循环</code> 的角度看一次上面代码的执行过程：</p>
-<img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6nl7flieeg30go09eq82.gif" />
-
-
-<h1 id="如果-setTimeout-callback-0-会是怎样？"><a href="#如果-setTimeout-callback-0-会是怎样？" class="headerlink" title="如果 setTimeout(callback, 0) 会是怎样？"></a>如果 setTimeout(callback, 0) 会是怎样？</h1><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Hi&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="keyword">function</span> (<span class="params"></span>)&#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;there&quot;</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Welcome&quot;</span>);</span><br></pre></td></tr></table></figure>
-
-<p>我们直接看上面代码的执行效果：</p>
-<img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6nl7f8kkwg30go09a0x1.gif" />
-
-
-<p>没错！依然是同步的任务先执行，异步任务的回调函数依然会在异步时间到的时候被推进 <code>回调队列</code> 中，在同步任务结束后执行栈空时，<code>回调队列</code> 中的任务才会被压进 <code>执行栈</code>。</p>
-<p>在这里的延时时间 <code>0</code>，并不能阻碍 <code>setTimeout()</code> 是一个异步代码，其回调函数依然会被推进 <code>回调队列</code> 中。</p>
-]]></content>
-      <categories>
-        <category>javascript</category>
-      </categories>
-      <tags>
-        <tag>EventLoop</tag>
-        <tag>heap</tag>
-        <tag>stack</tag>
-        <tag>call stack</tag>
-        <tag>callback queue</tag>
       </tags>
   </entry>
   <entry>
@@ -4325,6 +4326,25 @@
       </tags>
   </entry>
   <entry>
+    <title>jquery队列操作案例</title>
+    <url>/2016/07/06/jquery/docs/jquery-queue/</url>
+    <content><![CDATA[<p>由于页面中动态数据较多，比如动态ajax获取下拉框option数据，当页面中需要对select元素进行操<br>作时，其DOM操作必须后与select框数据渲染完成后，此时队列操作至关重要。使得异步操作同步化。</p>
+<span id="more"></span>
+
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 初始化队列函数</span></span><br><span class="line"><span class="comment">* @fnarr   函数数组，异步执行的代码块集合</span></span><br><span class="line"><span class="comment">* @name    队列名</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">initQueue</span>(<span class="params">name , fnarr</span>)&#123;</span><br><span class="line">  $(<span class="variable language_">document</span>).<span class="title function_">queue</span>( name , fnarr);</span><br><span class="line">  <span class="title function_">dequeue</span>( name );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 出队函数</span></span><br><span class="line"><span class="comment">* @name  队列名</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">dequeue</span>(<span class="params">name</span>)&#123;</span><br><span class="line">  $(<span class="variable language_">document</span>).<span class="title function_">dequeue</span>( name );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//定义函数数组</span></span><br><span class="line"><span class="keyword">var</span> fnarr = [</span><br><span class="line">  <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;action one&quot;</span>);</span><br><span class="line">    <span class="title function_">dequeue</span>(<span class="string">&quot;myqueue&quot;</span>); <span class="comment">//出队操作，保证下一排队函数可继续执行</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;action two&quot;</span>);</span><br><span class="line">    <span class="title function_">dequeue</span>(<span class="string">&quot;myqueue&quot;</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// more action ...</span></span><br><span class="line">  <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;action three&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//所有异步操作结束后,执行页面主函数</span></span><br><span class="line">    <span class="title function_">main</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">//激活队列</span></span><br><span class="line"><span class="title function_">initQueue</span>(<span class="string">&quot;myqueue&quot;</span> , fnarr);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">main</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="comment">//这是页面主函数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+]]></content>
+      <categories>
+        <category>jquery相关</category>
+      </categories>
+      <tags>
+        <tag>queue</tag>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>jquery语法标准</title>
     <url>/2016/05/22/jquery/docs/jquery-standard/</url>
     <content><![CDATA[<p>jQuery基本语法记录。</p>
@@ -4857,25 +4877,6 @@
       </categories>
       <tags>
         <tag>jquery</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>jquery队列操作案例</title>
-    <url>/2016/07/06/jquery/docs/jquery-queue/</url>
-    <content><![CDATA[<p>由于页面中动态数据较多，比如动态ajax获取下拉框option数据，当页面中需要对select元素进行操<br>作时，其DOM操作必须后与select框数据渲染完成后，此时队列操作至关重要。使得异步操作同步化。</p>
-<span id="more"></span>
-
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 初始化队列函数</span></span><br><span class="line"><span class="comment">* @fnarr   函数数组，异步执行的代码块集合</span></span><br><span class="line"><span class="comment">* @name    队列名</span></span><br><span class="line"><span class="comment">**/</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">initQueue</span>(<span class="params">name , fnarr</span>)&#123;</span><br><span class="line">  $(<span class="variable language_">document</span>).<span class="title function_">queue</span>( name , fnarr);</span><br><span class="line">  <span class="title function_">dequeue</span>( name );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 出队函数</span></span><br><span class="line"><span class="comment">* @name  队列名</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">dequeue</span>(<span class="params">name</span>)&#123;</span><br><span class="line">  $(<span class="variable language_">document</span>).<span class="title function_">dequeue</span>( name );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">//定义函数数组</span></span><br><span class="line"><span class="keyword">var</span> fnarr = [</span><br><span class="line">  <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;action one&quot;</span>);</span><br><span class="line">    <span class="title function_">dequeue</span>(<span class="string">&quot;myqueue&quot;</span>); <span class="comment">//出队操作，保证下一排队函数可继续执行</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;action two&quot;</span>);</span><br><span class="line">    <span class="title function_">dequeue</span>(<span class="string">&quot;myqueue&quot;</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// more action ...</span></span><br><span class="line">  <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;action three&quot;</span>);</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//所有异步操作结束后,执行页面主函数</span></span><br><span class="line">    <span class="title function_">main</span>();</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">//激活队列</span></span><br><span class="line"><span class="title function_">initQueue</span>(<span class="string">&quot;myqueue&quot;</span> , fnarr);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">main</span>(<span class="params"></span>)&#123;</span><br><span class="line">  <span class="comment">//这是页面主函数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-]]></content>
-      <categories>
-        <category>jquery相关</category>
-      </categories>
-      <tags>
-        <tag>queue</tag>
-        <tag>js</tag>
       </tags>
   </entry>
   <entry>
@@ -5680,45 +5681,6 @@
       </tags>
   </entry>
   <entry>
-    <title>一个元素吸顶效果指令实现</title>
-    <url>/2019/08/27/vue/directives/v-affix/</url>
-    <content><![CDATA[<p>本文介绍基于 <code>vue</code> 的自定义吸顶指令 <code>v-affix</code> 的实现。</p>
-<span id="more"></span>
-
-<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// @/directives/affix.js</span></span><br><span class="line"></span><br><span class="line"> <span class="comment">// 导入 dom 处理工具</span></span><br><span class="line"> <span class="keyword">import</span> dom <span class="keyword">from</span> <span class="string">&#x27;@/utils/dom&#x27;</span></span><br><span class="line"></span><br><span class="line"> <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title function_">bind</span>(<span class="params">el</span>)&#123;</span><br><span class="line">    dom.<span class="title function_">css</span>(el , &#123; </span><br><span class="line">      <span class="attr">width</span>: <span class="string">&#x27;100%&#x27;</span>,</span><br><span class="line">      <span class="attr">zIndex</span>: <span class="string">&#x27;1994214&#x27;</span> </span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">inserted</span>(<span class="params"> el , &#123;value&#125; </span>)&#123;</span><br><span class="line">    <span class="keyword">if</span> ( !value ) <span class="keyword">return</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> nextEl = el.<span class="property">nextElementSibling</span>,                                                      <span class="comment">// 后一兄弟节点元素</span></span><br><span class="line">          nextElPaddingTop = <span class="title class_">Number</span>.<span class="built_in">parseFloat</span>( dom.<span class="title function_">getStyleValue</span>( nextEl , <span class="string">&#x27;paddingTop&#x27;</span>) ),   <span class="comment">// 后一兄弟节点元素 padding-top 值</span></span><br><span class="line">          elOffsetTop = <span class="title class_">Number</span>.<span class="built_in">parseFloat</span>( dom.<span class="title function_">offset</span>( el ).<span class="property">top</span> ) ,                            <span class="comment">// 当前元素距离屏幕顶部的距离值</span></span><br><span class="line">          elHeight = <span class="title class_">Number</span>.<span class="built_in">parseFloat</span>(dom.<span class="title function_">getStyleValue</span>( el , <span class="string">&#x27;height&#x27;</span> ));                    <span class="comment">// 当前元素的高度值</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 滚动处理</span></span><br><span class="line">    el.<span class="property">_affix_scroll_handle</span> = <span class="keyword">function</span>(<span class="params">e</span>)&#123;</span><br><span class="line">      <span class="keyword">let</span> scroll_instance = <span class="variable language_">window</span>.<span class="property">pageYOffset</span> || <span class="variable language_">window</span>.<span class="property">scrollY</span>,</span><br><span class="line">          position = <span class="string">&#x27;static&#x27;</span>,</span><br><span class="line">          paddingTop = nextElPaddingTop;</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">if</span> ( scroll_instance &gt;= elOffsetTop )&#123;</span><br><span class="line">        position = <span class="string">&#x27;fixed&#x27;</span></span><br><span class="line">        paddingTop = elHeight + nextElPaddingTop + <span class="string">&#x27;px&#x27;</span></span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        position = <span class="string">&#x27;static&#x27;</span></span><br><span class="line">        paddingTop = nextElPaddingTop + <span class="string">&#x27;px&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      dom.<span class="title function_">css</span>( el , &#123;</span><br><span class="line">        position,</span><br><span class="line">        <span class="attr">left</span>: <span class="string">&#x27;0px&#x27;</span>,</span><br><span class="line">        <span class="attr">top</span>: <span class="string">&#x27;0px&#x27;</span></span><br><span class="line">      &#125;)</span><br><span class="line"></span><br><span class="line">      dom.<span class="title function_">css</span>(nextEl , &#123;paddingTop&#125;)</span><br><span class="line">      </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 点击处理（点击被绑指令元素时，自动滚动到顶部）</span></span><br><span class="line">    el.<span class="property">_affix_click_handle</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">      <span class="variable language_">window</span>.<span class="title function_">scrollTo</span>(<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>( <span class="string">&#x27;scroll&#x27;</span> , el.<span class="property">_affix_scroll_handle</span> )</span><br><span class="line">    el.<span class="title function_">addEventListener</span>( <span class="string">&#x27;click&#x27;</span>, el.<span class="property">_affix_click_handle</span> )</span><br><span class="line">    </span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">unbind</span>(<span class="params">el</span>)&#123;</span><br><span class="line">    el.<span class="property">_affix_scroll_handle</span> &amp;&amp; <span class="variable language_">window</span>.<span class="title function_">removeEventListener</span>( <span class="string">&#x27;scroll&#x27;</span> , el.<span class="property">_affix_scroll_handle</span> )</span><br><span class="line">    el.<span class="property">_affix_click_handle</span> &amp;&amp; el.<span class="title function_">removeEventListener</span>( <span class="string">&#x27;click&#x27;</span> , el.<span class="property">_affix_click_handle</span> )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>dom.js工具函数</strong></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// /utils/dom.js</span></span><br><span class="line"> <span class="keyword">const</span> dom = &#123;</span><br><span class="line">  <span class="comment">// 设置样式</span></span><br><span class="line">  <span class="title function_">css</span>(<span class="params"> el , styles </span>)&#123;</span><br><span class="line">    <span class="keyword">for</span> ( <span class="keyword">let</span> k <span class="keyword">in</span> styles )&#123;</span><br><span class="line">      <span class="keyword">if</span> ( styles.<span class="title function_">hasOwnProperty</span>(k) )</span><br><span class="line">      el.<span class="property">style</span>[k] = styles[k]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">//获取指定样式</span></span><br><span class="line">  <span class="title function_">getStyleValue</span>(<span class="params">elObj,attr</span>)&#123;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">var</span> view = elObj.<span class="property">ownerDocument</span>.<span class="property">defaultView</span>;</span><br><span class="line">    <span class="keyword">if</span> (!view || !view.<span class="property">opener</span>) &#123;</span><br><span class="line">        view = <span class="variable language_">window</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(elObj.<span class="property">currentStyle</span>)&#123;      <span class="comment">//IE</span></span><br><span class="line">        <span class="keyword">return</span> elObj.<span class="property">currentStyle</span>[attr];</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> view.<span class="title function_">getComputedStyle</span>(elObj)[attr];     <span class="comment">//Firefox</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">//获取元素偏移量( top , left )</span></span><br><span class="line">  <span class="title function_">offset</span>(<span class="params">curEle</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> totalLeft = <span class="literal">null</span>,totalTop = <span class="literal">null</span>,par = curEle.<span class="property">offsetParent</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//首先把自己本身的进行累加</span></span><br><span class="line">    totalLeft += curEle.<span class="property">offsetLeft</span>;</span><br><span class="line">    totalTop += curEle.<span class="property">offsetTop</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//只要没有找到body，我们就把父级参照物的边框和偏移量累加</span></span><br><span class="line">    <span class="keyword">while</span>(par)&#123;</span><br><span class="line">      <span class="keyword">if</span>(navigator.<span class="property">userAgent</span>.<span class="title function_">indexOf</span>(<span class="string">&quot;MSIE 8.0&quot;</span>) === -<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="comment">//不是标准的ie8浏览器，才进行边框累加</span></span><br><span class="line">        <span class="comment">//累加父级参照物边框</span></span><br><span class="line">        totalLeft += par.<span class="property">clientLeft</span>;</span><br><span class="line">        totalTop += par.<span class="property">clientTop</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//累加父级参照物本身的偏移</span></span><br><span class="line">      totalLeft += par.<span class="property">offsetLeft</span>;</span><br><span class="line">      totalTop += par.<span class="property">offsetTop</span>;</span><br><span class="line">      par = par.<span class="property">offsetParent</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="attr">left</span>:totalLeft,<span class="attr">top</span>:totalTop&#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> dom;</span><br></pre></td></tr></table></figure>
-
-<h1 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h1><ol>
-<li>注册 <code>v-affix</code> 指令。</li>
-</ol>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> affix <span class="keyword">from</span> <span class="string">&#x27;@/directives/affix&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">directive</span>( <span class="string">&#x27;affix&#x27;</span> , affix )</span><br><span class="line"></span><br><span class="line"><span class="comment">// 忽略其他代码 ...</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>对需要吸顶的元素或组件添加 <code>v-affix</code> 指令即可。</li>
-</ol>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp2</span> <span class="attr">v-affix</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp2</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp3</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-<p>然后，在窗体滚动到一定距离后，吸顶效果就会出现。</p>
-<blockquote>
-<p>如果需要控制吸顶效果的开启状态，可向 <code>v-affix</code> 指令传入一个 <code>Boolean</code> 类型值。</p>
-</blockquote>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp2</span> <span class="attr">v-affix</span>=<span class="string">&quot;false&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp2</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp3</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>这样，就可以控制 <code>v-affix</code> 的开启状态。</p>
-]]></content>
-      <categories>
-        <category>vue相关</category>
-      </categories>
-      <tags>
-        <tag>vue自定义指令</tag>
-        <tag>吸顶效果</tag>
-        <tag>v-affix</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>递归组件实现树结构</title>
     <url>/2018/11/10/vue/components/recursionTreeWithVuejs/</url>
     <content><![CDATA[<p>本文介绍如何实现一个基于 <code>vue</code> 的递归组件的树结构!</p>
@@ -5860,6 +5822,45 @@
       <tags>
         <tag>vue</tag>
         <tag>auth</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一个元素吸顶效果指令实现</title>
+    <url>/2019/08/27/vue/directives/v-affix/</url>
+    <content><![CDATA[<p>本文介绍基于 <code>vue</code> 的自定义吸顶指令 <code>v-affix</code> 的实现。</p>
+<span id="more"></span>
+
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// @/directives/affix.js</span></span><br><span class="line"></span><br><span class="line"> <span class="comment">// 导入 dom 处理工具</span></span><br><span class="line"> <span class="keyword">import</span> dom <span class="keyword">from</span> <span class="string">&#x27;@/utils/dom&#x27;</span></span><br><span class="line"></span><br><span class="line"> <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title function_">bind</span>(<span class="params">el</span>)&#123;</span><br><span class="line">    dom.<span class="title function_">css</span>(el , &#123; </span><br><span class="line">      <span class="attr">width</span>: <span class="string">&#x27;100%&#x27;</span>,</span><br><span class="line">      <span class="attr">zIndex</span>: <span class="string">&#x27;1994214&#x27;</span> </span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">inserted</span>(<span class="params"> el , &#123;value&#125; </span>)&#123;</span><br><span class="line">    <span class="keyword">if</span> ( !value ) <span class="keyword">return</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> nextEl = el.<span class="property">nextElementSibling</span>,                                                      <span class="comment">// 后一兄弟节点元素</span></span><br><span class="line">          nextElPaddingTop = <span class="title class_">Number</span>.<span class="built_in">parseFloat</span>( dom.<span class="title function_">getStyleValue</span>( nextEl , <span class="string">&#x27;paddingTop&#x27;</span>) ),   <span class="comment">// 后一兄弟节点元素 padding-top 值</span></span><br><span class="line">          elOffsetTop = <span class="title class_">Number</span>.<span class="built_in">parseFloat</span>( dom.<span class="title function_">offset</span>( el ).<span class="property">top</span> ) ,                            <span class="comment">// 当前元素距离屏幕顶部的距离值</span></span><br><span class="line">          elHeight = <span class="title class_">Number</span>.<span class="built_in">parseFloat</span>(dom.<span class="title function_">getStyleValue</span>( el , <span class="string">&#x27;height&#x27;</span> ));                    <span class="comment">// 当前元素的高度值</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 滚动处理</span></span><br><span class="line">    el.<span class="property">_affix_scroll_handle</span> = <span class="keyword">function</span>(<span class="params">e</span>)&#123;</span><br><span class="line">      <span class="keyword">let</span> scroll_instance = <span class="variable language_">window</span>.<span class="property">pageYOffset</span> || <span class="variable language_">window</span>.<span class="property">scrollY</span>,</span><br><span class="line">          position = <span class="string">&#x27;static&#x27;</span>,</span><br><span class="line">          paddingTop = nextElPaddingTop;</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">if</span> ( scroll_instance &gt;= elOffsetTop )&#123;</span><br><span class="line">        position = <span class="string">&#x27;fixed&#x27;</span></span><br><span class="line">        paddingTop = elHeight + nextElPaddingTop + <span class="string">&#x27;px&#x27;</span></span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        position = <span class="string">&#x27;static&#x27;</span></span><br><span class="line">        paddingTop = nextElPaddingTop + <span class="string">&#x27;px&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      dom.<span class="title function_">css</span>( el , &#123;</span><br><span class="line">        position,</span><br><span class="line">        <span class="attr">left</span>: <span class="string">&#x27;0px&#x27;</span>,</span><br><span class="line">        <span class="attr">top</span>: <span class="string">&#x27;0px&#x27;</span></span><br><span class="line">      &#125;)</span><br><span class="line"></span><br><span class="line">      dom.<span class="title function_">css</span>(nextEl , &#123;paddingTop&#125;)</span><br><span class="line">      </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 点击处理（点击被绑指令元素时，自动滚动到顶部）</span></span><br><span class="line">    el.<span class="property">_affix_click_handle</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">      <span class="variable language_">window</span>.<span class="title function_">scrollTo</span>(<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>( <span class="string">&#x27;scroll&#x27;</span> , el.<span class="property">_affix_scroll_handle</span> )</span><br><span class="line">    el.<span class="title function_">addEventListener</span>( <span class="string">&#x27;click&#x27;</span>, el.<span class="property">_affix_click_handle</span> )</span><br><span class="line">    </span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">unbind</span>(<span class="params">el</span>)&#123;</span><br><span class="line">    el.<span class="property">_affix_scroll_handle</span> &amp;&amp; <span class="variable language_">window</span>.<span class="title function_">removeEventListener</span>( <span class="string">&#x27;scroll&#x27;</span> , el.<span class="property">_affix_scroll_handle</span> )</span><br><span class="line">    el.<span class="property">_affix_click_handle</span> &amp;&amp; el.<span class="title function_">removeEventListener</span>( <span class="string">&#x27;click&#x27;</span> , el.<span class="property">_affix_click_handle</span> )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>dom.js工具函数</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// /utils/dom.js</span></span><br><span class="line"> <span class="keyword">const</span> dom = &#123;</span><br><span class="line">  <span class="comment">// 设置样式</span></span><br><span class="line">  <span class="title function_">css</span>(<span class="params"> el , styles </span>)&#123;</span><br><span class="line">    <span class="keyword">for</span> ( <span class="keyword">let</span> k <span class="keyword">in</span> styles )&#123;</span><br><span class="line">      <span class="keyword">if</span> ( styles.<span class="title function_">hasOwnProperty</span>(k) )</span><br><span class="line">      el.<span class="property">style</span>[k] = styles[k]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">//获取指定样式</span></span><br><span class="line">  <span class="title function_">getStyleValue</span>(<span class="params">elObj,attr</span>)&#123;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">var</span> view = elObj.<span class="property">ownerDocument</span>.<span class="property">defaultView</span>;</span><br><span class="line">    <span class="keyword">if</span> (!view || !view.<span class="property">opener</span>) &#123;</span><br><span class="line">        view = <span class="variable language_">window</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(elObj.<span class="property">currentStyle</span>)&#123;      <span class="comment">//IE</span></span><br><span class="line">        <span class="keyword">return</span> elObj.<span class="property">currentStyle</span>[attr];</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> view.<span class="title function_">getComputedStyle</span>(elObj)[attr];     <span class="comment">//Firefox</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">//获取元素偏移量( top , left )</span></span><br><span class="line">  <span class="title function_">offset</span>(<span class="params">curEle</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> totalLeft = <span class="literal">null</span>,totalTop = <span class="literal">null</span>,par = curEle.<span class="property">offsetParent</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//首先把自己本身的进行累加</span></span><br><span class="line">    totalLeft += curEle.<span class="property">offsetLeft</span>;</span><br><span class="line">    totalTop += curEle.<span class="property">offsetTop</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//只要没有找到body，我们就把父级参照物的边框和偏移量累加</span></span><br><span class="line">    <span class="keyword">while</span>(par)&#123;</span><br><span class="line">      <span class="keyword">if</span>(navigator.<span class="property">userAgent</span>.<span class="title function_">indexOf</span>(<span class="string">&quot;MSIE 8.0&quot;</span>) === -<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="comment">//不是标准的ie8浏览器，才进行边框累加</span></span><br><span class="line">        <span class="comment">//累加父级参照物边框</span></span><br><span class="line">        totalLeft += par.<span class="property">clientLeft</span>;</span><br><span class="line">        totalTop += par.<span class="property">clientTop</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//累加父级参照物本身的偏移</span></span><br><span class="line">      totalLeft += par.<span class="property">offsetLeft</span>;</span><br><span class="line">      totalTop += par.<span class="property">offsetTop</span>;</span><br><span class="line">      par = par.<span class="property">offsetParent</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="attr">left</span>:totalLeft,<span class="attr">top</span>:totalTop&#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> dom;</span><br></pre></td></tr></table></figure>
+
+<h1 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h1><ol>
+<li>注册 <code>v-affix</code> 指令。</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> affix <span class="keyword">from</span> <span class="string">&#x27;@/directives/affix&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">directive</span>( <span class="string">&#x27;affix&#x27;</span> , affix )</span><br><span class="line"></span><br><span class="line"><span class="comment">// 忽略其他代码 ...</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>对需要吸顶的元素或组件添加 <code>v-affix</code> 指令即可。</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp2</span> <span class="attr">v-affix</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp2</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp3</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<p>然后，在窗体滚动到一定距离后，吸顶效果就会出现。</p>
+<blockquote>
+<p>如果需要控制吸顶效果的开启状态，可向 <code>v-affix</code> 指令传入一个 <code>Boolean</code> 类型值。</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp2</span> <span class="attr">v-affix</span>=<span class="string">&quot;false&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp2</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp3</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这样，就可以控制 <code>v-affix</code> 的开启状态。</p>
+]]></content>
+      <categories>
+        <category>vue相关</category>
+      </categories>
+      <tags>
+        <tag>vue自定义指令</tag>
+        <tag>吸顶效果</tag>
+        <tag>v-affix</tag>
       </tags>
   </entry>
   <entry>
