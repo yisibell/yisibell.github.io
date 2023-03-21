@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hongwenqing.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.15.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="vue-magnifying-glass 放大镜组件使用文档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue-magnifying-glass放大镜组件说明">
+<meta property="og:url" content="http://hongwenqing.com/2018/12/28/vue/h-ui/vue-magnifying-glass/index.html">
+<meta property="og:site_name" content="Hong WenQing&#39;s Blog">
+<meta property="og:description" content="vue-magnifying-glass 放大镜组件使用文档">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-12-28T06:45:00.000Z">
+<meta property="article:modified_time" content="2023-03-20T09:48:37.170Z">
+<meta property="article:author" content="elenh">
+<meta property="article:tag" content="vue">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://hongwenqing.com/2018/12/28/vue/h-ui/vue-magnifying-glass/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://hongwenqing.com/2018/12/28/vue/h-ui/vue-magnifying-glass/","path":"2018/12/28/vue/h-ui/vue-magnifying-glass/","title":"vue-magnifying-glass放大镜组件说明"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>vue-magnifying-glass放大镜组件说明 | Hong WenQing's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hong WenQing's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep fucking the world!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Usage"><span class="nav-number">1.</span> <span class="nav-text">Usage</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Properties"><span class="nav-number">2.</span> <span class="nav-text">Properties</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%93%E5%BA%93%E5%9C%B0%E5%9D%80"><span class="nav-number">3.</span> <span class="nav-text">仓库地址</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">elenh</p>
+  <div class="site-description" itemprop="description">Are you ok , Are you ok！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hongwenqing.com/2018/12/28/vue/h-ui/vue-magnifying-glass/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="elenh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong WenQing's Blog">
+      <meta itemprop="description" content="Are you ok , Are you ok！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="vue-magnifying-glass放大镜组件说明 | Hong WenQing's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vue-magnifying-glass放大镜组件说明
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-12-28 14:45:00" itemprop="dateCreated datePublished" datetime="2018-12-28T14:45:00+08:00">2018-12-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-03-20 17:48:37" itemprop="dateModified" datetime="2023-03-20T17:48:37+08:00">2023-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/vue%E7%9B%B8%E5%85%B3/" itemprop="url" rel="index"><span itemprop="name">vue相关</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>vue-magnifying-glass 放大镜组件使用文档</p>
+<span id="more"></span>
+
+<h1 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h1><p><strong>main.js</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&#x27;Vue&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//自行拷贝核心文件夹到本地，此组件不发 npm 包，任性。</span></span><br><span class="line"><span class="keyword">import</span> hMagnifyingGlass <span class="keyword">from</span> <span class="string">&#x27;@/components/magnifyingGlass&#x27;</span>  </span><br><span class="line"></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">use</span>( hMagnifyingGlass )</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p><strong>demo.vue</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">h-magnifying-glass</span> </span></span><br><span class="line"><span class="tag">  <span class="attr">small-url</span>=<span class="string">&quot;http://localhost:8080/assets/01.jpg&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">big-url</span>=<span class="string">&quot;http://localhost:8080/assets/02.jpg&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">h-magnifying-glass</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="Properties"><a href="#Properties" class="headerlink" title="Properties"></a>Properties</h1><table>
+<thead>
+<tr>
+<th align="center">特性</th>
+<th align="center">类型</th>
+<th align="center">默认值</th>
+<th align="center">可选值</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>small-url</code></td>
+<td align="center"><code>String</code></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">小图片地址</td>
+</tr>
+<tr>
+<td align="center"><code>big-url</code></td>
+<td align="center"><code>String</code></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">大图片地址</td>
+</tr>
+<tr>
+<td align="center"><code>small-size</code></td>
+<td align="center"><code>Number</code></td>
+<td align="center"><code>350</code></td>
+<td align="center"></td>
+<td align="center">小图片大小</td>
+</tr>
+<tr>
+<td align="center"><code>big-size</code></td>
+<td align="center"><code>Number</code></td>
+<td align="center"><code>800</code></td>
+<td align="center"></td>
+<td align="center">大图片大小</td>
+</tr>
+<tr>
+<td align="center"><code>mask-color</code></td>
+<td align="center"><code>String</code></td>
+<td align="center"><code>rgba(255, 255, 0, 0.4)</code></td>
+<td align="center"></td>
+<td align="center">移动遮罩颜色</td>
+</tr>
+<tr>
+<td align="center"><code>gap</code></td>
+<td align="center"><code>Number</code></td>
+<td align="center"><code>10</code></td>
+<td align="center"></td>
+<td align="center">小图于大图之间间隔</td>
+</tr>
+</tbody></table>
+<h1 id="仓库地址"><a href="#仓库地址" class="headerlink" title="仓库地址"></a>仓库地址</h1><p><a class="link" target="_blank" rel="noopener" href="https://github.com/yisibell/vue-magnifying-glass">仓库地址</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vue/" rel="tag"># vue</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/11/10/vue/components/recursionTreeWithVuejs/" rel="prev" title="递归组件实现树结构">
+                  <i class="fa fa-chevron-left"></i> 递归组件实现树结构
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/01/01/vue/h-ui/h-picker/" rel="next" title="h-picker移动端滑动单选组件说明">
+                  h-picker移动端滑动单选组件说明 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">elenh</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

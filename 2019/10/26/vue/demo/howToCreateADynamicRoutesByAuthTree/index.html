@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hongwenqing.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.15.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在使用 vue 做中后台管理系统项目时，我们经常会涉及到权限管理，即对菜单树进行权限控制，由于不同框架本身的一些特性，通常实现权限功能的方式也大不相同。 本文就 vue 项目来介绍一种菜单树的权限管理方式。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在 vue 项目中构建权限菜单">
+<meta property="og:url" content="http://hongwenqing.com/2019/10/26/vue/demo/howToCreateADynamicRoutesByAuthTree/index.html">
+<meta property="og:site_name" content="Hong WenQing&#39;s Blog">
+<meta property="og:description" content="在使用 vue 做中后台管理系统项目时，我们经常会涉及到权限管理，即对菜单树进行权限控制，由于不同框架本身的一些特性，通常实现权限功能的方式也大不相同。 本文就 vue 项目来介绍一种菜单树的权限管理方式。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-10-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-20T09:48:37.169Z">
+<meta property="article:author" content="elenh">
+<meta property="article:tag" content="vue">
+<meta property="article:tag" content="auth">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://hongwenqing.com/2019/10/26/vue/demo/howToCreateADynamicRoutesByAuthTree/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://hongwenqing.com/2019/10/26/vue/demo/howToCreateADynamicRoutesByAuthTree/","path":"2019/10/26/vue/demo/howToCreateADynamicRoutesByAuthTree/","title":"如何在 vue 项目中构建权限菜单"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>如何在 vue 项目中构建权限菜单 | Hong WenQing's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hong WenQing's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep fucking the world!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">资源管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1%E5%AE%9A%E4%B9%89"><span class="nav-number">3.</span> <span class="nav-text">动态路由定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%B9%E6%8D%AE%E6%9D%83%E9%99%90%E6%A0%91%E7%94%9F%E6%88%90%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="nav-number">4.</span> <span class="nav-text">根据权限树生成路由表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E5%88%B0%E8%B7%AF%E7%94%B1%E8%A1%A8%E4%B8%AD"><span class="nav-number">5.</span> <span class="nav-text">插入到路由表中</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E8%A7%92%E8%89%B2%E7%AE%A1%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">用户角色管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1%E4%B8%8E%E5%90%8E%E5%8F%B0%E5%85%B3%E8%81%94%E7%9A%84%E5%8F%A6%E4%B8%80%E7%A7%8D%E6%96%B9%E5%BC%8F"><span class="nav-number">7.</span> <span class="nav-text">动态路由与后台关联的另一种方式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%BF%87%E6%BB%A4%E5%87%BA%E5%BD%93%E5%89%8D%E7%94%A8%E6%88%B7%E6%9C%89%E6%9D%83%E8%AE%BF%E9%97%AE%E7%9A%84%E8%B7%AF%E7%94%B1%E8%A1%A8"><span class="nav-number">7.1.</span> <span class="nav-text">如何过滤出当前用户有权访问的路由表</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">elenh</p>
+  <div class="site-description" itemprop="description">Are you ok , Are you ok！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hongwenqing.com/2019/10/26/vue/demo/howToCreateADynamicRoutesByAuthTree/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="elenh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong WenQing's Blog">
+      <meta itemprop="description" content="Are you ok , Are you ok！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="如何在 vue 项目中构建权限菜单 | Hong WenQing's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何在 vue 项目中构建权限菜单
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-10-26 00:00:00" itemprop="dateCreated datePublished" datetime="2019-10-26T00:00:00+08:00">2019-10-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-03-20 17:48:37" itemprop="dateModified" datetime="2023-03-20T17:48:37+08:00">2023-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/vue%E7%9B%B8%E5%85%B3/" itemprop="url" rel="index"><span itemprop="name">vue相关</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>在使用 <code>vue</code> 做中后台管理系统项目时，我们经常会涉及到权限管理，即对菜单树进行权限控制，由于不同框架本身的一些特性，通常实现权限功能的方式也大不相同。</p>
+<p>本文就 <code>vue</code> 项目来介绍一种菜单树的权限管理方式。</p>
+<span id="more"></span>
+
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>对于 <code>vue</code> 项目来说，我们通常会将 <code>菜单树</code> 和 <code>路由表</code> 进行关联，也就是说，<code>最终的菜单树</code> 会根据 <code>完整的路由表</code> 生成。</p>
+<p>这里 <code>完整的路由表</code> 可以分为：<code>静态路由</code> 和 <code>动态路由</code> 这两部分。</p>
+<ul>
+<li>静态路由</li>
+</ul>
+<p>指的是，用户可正常访问的路由，诸如 <code>/login</code> 、<code>/404</code> 、<code>/about</code> 等。这些路由信息不会与菜单树关联。</p>
+<ul>
+<li>动态路由</li>
+</ul>
+<p>指的是，有对应权限的用户才可以访问，这些路由信息会与菜单树进行关联。</p>
+<p>那么，<code>最终的菜单树</code> 又可以如何确定呢？</p>
+<p>我们可以借鉴像 <a target="_blank" rel="noopener" href="https://panjiachen.github.io/vue-element-admin-site/zh/" class="fc-danger"> vue-element-admin </a> 这样的后台模板框架实现菜单树的思路，对 <code>完整的路由表</code> 中路由对象 <code>hidden</code> 属性为 <code>false</code> 的项作为一个菜单树节点。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;system&#x27;</span>,</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;/system&#x27;</span>,</span><br><span class="line">    <span class="comment">//当设置 true 的时候该路由不会在侧边栏出现 如 401，login等页面，或者如一些编辑页面 /edit/1</span></span><br><span class="line">    <span class="attr">hidden</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&#x27;@/views/system&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="资源管理"><a href="#资源管理" class="headerlink" title="资源管理"></a>资源管理</h1><p>为了做到对页面菜单项的灵活控制，我们的项目中应该有一个叫做 <code>资源管理</code> 的页面。该页面主要的作用是可以很方便的 <code>新增、修改、删除</code> 一个权限菜单项。</p>
+<p>而该资源菜单树的每一个菜单项可以使用一个唯一的 <code>权限编码(code)</code> 与动态路由对象进行关联。</p>
+<p>也就是说，后台存储的是一个有 <code>权限编码(code)</code> 信息的菜单树形数据结构，如下所示：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">const</span> authTree = [</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">code</span>: <span class="string">&quot;system_manage&quot;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;系统管理&quot;</span>,</span><br><span class="line">    <span class="attr">child</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">code</span>: <span class="string">&quot;system_user_menu&quot;</span>,</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;用户管理&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">code</span>: <span class="string">&quot;system_role_menu&quot;</span>,</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;角色管理&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">code</span>: <span class="string">&quot;system_function_menu&quot;</span>,</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;资源管理&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">code</span>: <span class="string">&quot;product_manage&quot;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;商品管理&quot;</span>,</span><br><span class="line">    <span class="attr">child</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">code</span>: <span class="string">&quot;product_add_menu&quot;</span>,</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;添加商品&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">code</span>: <span class="string">&quot;product_all_menu&quot;</span>,</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;所有商品&quot;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">code</span>: <span class="string">&quot;product_attribute_menu&quot;</span>,</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&quot;属性管理&quot;</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p>如上数据结构所示，<code>code</code> 属性表示该菜单节点的权限编码，<code>name</code> 属性表示该菜单节点的名称，当然，你也可以加入一些其他的可控字段。</p>
+<h1 id="动态路由定义"><a href="#动态路由定义" class="headerlink" title="动态路由定义"></a>动态路由定义</h1><p>我们已经维护好了一份资源菜单树，那么，接下来的工作就是对每个 <code>权限编码</code> 去定义对应的路由对象信息，这样，我们就可以在后面通过 <strong>遍历权限菜单树</strong> 去生成一份动态路由表出来。</p>
+<p>前端定义的 <strong>动态路由</strong> 类似于下面这样：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> dynamicRoutes = &#123;</span><br><span class="line">  <span class="attr">system_manage</span>: &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;systemmanage&quot;</span>,</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&quot;/systemmanage&quot;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="string">&quot;this is a component load with import() method&quot;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123; <span class="attr">title</span>: <span class="string">&quot;系统管理&quot;</span>, <span class="attr">icon</span>: <span class="string">&quot;iconfont icon-xitongguanli&quot;</span> &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">system_user_menu</span>: &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;usermanage&quot;</span>,</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&quot;/usermanage&quot;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="string">&quot;this is a component load with import() method&quot;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123; <span class="attr">title</span>: <span class="string">&quot;用户管理&quot;</span>, <span class="attr">icon</span>: <span class="string">&quot;iconfont icon-xitongguanli&quot;</span> &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">system_role_menu</span>: &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;rolemanage&quot;</span>,</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&quot;/rolemanage&quot;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="string">&quot;this is a component load with import() method&quot;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123; <span class="attr">title</span>: <span class="string">&quot;角色管理&quot;</span>, <span class="attr">icon</span>: <span class="string">&quot;iconfont icon-xitongguanli&quot;</span> &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">system_function_menu</span>: &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;sourcemanage&quot;</span>,</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&quot;/sourcemanage&quot;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="string">&quot;this is a component load with import() method&quot;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123; <span class="attr">title</span>: <span class="string">&quot;资源管理&quot;</span>, <span class="attr">icon</span>: <span class="string">&quot;iconfont icon-xitongguanli&quot;</span> &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">product_manage</span>: &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;productmanage&quot;</span>,</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&quot;/productmanage&quot;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="string">&quot;this is a component load with import() method&quot;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123; <span class="attr">title</span>: <span class="string">&quot;商品管理&quot;</span>, <span class="attr">icon</span>: <span class="string">&quot;iconfont icon-xitongguanli&quot;</span> &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">product_add_menu</span>: &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;addproduct&quot;</span>,</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&quot;/addproduct&quot;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="string">&quot;this is a component load with import() method&quot;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123; <span class="attr">title</span>: <span class="string">&quot;添加商品&quot;</span>, <span class="attr">icon</span>: <span class="string">&quot;iconfont icon-xitongguanli&quot;</span> &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">product_all_menu</span>: &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;allproduct&quot;</span>,</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&quot;/allproduct&quot;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="string">&quot;this is a component load with import() method&quot;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123; <span class="attr">title</span>: <span class="string">&quot;所有商品&quot;</span>, <span class="attr">icon</span>: <span class="string">&quot;iconfont icon-xitongguanli&quot;</span> &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">product_attribute_menu</span>: &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;attributemanage&quot;</span>,</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&quot;/attributemanage&quot;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="string">&quot;this is a component load with import() method&quot;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123; <span class="attr">title</span>: <span class="string">&quot;属性管理&quot;</span>, <span class="attr">icon</span>: <span class="string">&quot;iconfont icon-xitongguanli&quot;</span> &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h1 id="根据权限树生成路由表"><a href="#根据权限树生成路由表" class="headerlink" title="根据权限树生成路由表"></a>根据权限树生成路由表</h1><p>权限树数据 和 动态路由定义已经处理好了，现在，我们就要根据这两份数据生成 <code>vue-router</code> 可用的路由表数据了。</p>
+<p>可以使用如下函数进行生成：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据权限树生成可用的路由表</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">filterMenu</span>(<span class="params">res, authTree, routes</span>) &#123;</span><br><span class="line">  authTree.<span class="title function_">forEach</span>(<span class="function"><span class="params">v</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> routeObj = routes[v.<span class="property">code</span>],</span><br><span class="line">      name = v.<span class="property">name</span>,</span><br><span class="line">      child = v.<span class="property">child</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ( name ) routeObj.<span class="property">meta</span>.<span class="property">title</span> = name;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (child &amp;&amp; child.<span class="property">length</span> &gt; <span class="number">0</span>) routeObj.<span class="property">children</span> = <span class="title function_">filterMenu</span>([], child, routes);</span><br><span class="line">    </span><br><span class="line">    res.<span class="title function_">push</span>(routeObj);</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">filterMenu</span>([], authTree, dynamicRoutes));</span><br></pre></td></tr></table></figure>
+
+<h1 id="插入到路由表中"><a href="#插入到路由表中" class="headerlink" title="插入到路由表中"></a>插入到路由表中</h1><p>最后，我们可以使用 <code>addRoutes</code> 方法将生成的路由表数据添加到路由中，这样，<code>路由、权限和菜单</code>就进行了很好的关联，后续对菜单项的控制也会非常方便。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="keyword">import</span> router <span class="keyword">from</span> <span class="string">&#x27;@/router&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">router.<span class="title function_">addRoutes</span>( routes )</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面的 <code>routes</code> 就是通过比对权限后生成的路由表数据了。</p>
+<h1 id="用户角色管理"><a href="#用户角色管理" class="headerlink" title="用户角色管理"></a>用户角色管理</h1><p>通常，我们的权限是绑定到角色的，不同的角色有不同的权限，所以，我们可以在 <code>用户角色管理</code> 模块去绑定对应的菜单权限。</p>
+<p>页面如何设计就看你自己了。</p>
+<h1 id="动态路由与后台关联的另一种方式"><a href="#动态路由与后台关联的另一种方式" class="headerlink" title="动态路由与后台关联的另一种方式"></a>动态路由与后台关联的另一种方式</h1><p>在第一种方式中，当将菜单权限赋予某个角色后，那么，该角色对于的菜单树结构就已经成型了，只不过需要将菜单 权限<code>code</code> 替换为真正的<code>路由对象</code>。再在适合的时机插入到路由表中。</p>
+<p>这里还有另一种实现方式。我们将完整的动态路由同步到后台数据库，除了路由对象中的 <code>component</code> 字段变为 <code>String</code> 类型以外，该动态路由没有任务其他特殊之处。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;system&#x27;</span>,</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;/system&#x27;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="string">&#x27;Layout&#x27;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123;</span><br><span class="line">      <span class="attr">title</span>: <span class="string">&#x27;系统管理&#x27;</span>,</span><br><span class="line">      <span class="attr">icon</span>: <span class="string">&#x27;system-icon&#x27;</span>,</span><br><span class="line">      <span class="attr">roles</span>: [<span class="string">&#x27;admin&#x27;</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">children</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;rolesManagement&#x27;</span>,</span><br><span class="line">        <span class="attr">path</span>: <span class="string">&#x27;roles_management&#x27;</span>,</span><br><span class="line">        <span class="attr">component</span>: <span class="string">&#x27;rolesManagement&#x27;</span>,</span><br><span class="line">        <span class="attr">meta</span>: &#123;</span><br><span class="line">          <span class="attr">title</span>: <span class="string">&#x27;角色管理&#x27;</span>,</span><br><span class="line">          <span class="attr">icon</span>: <span class="string">&#x27;roles-icon&#x27;</span>,</span><br><span class="line">          <span class="attr">roles</span>: [<span class="string">&#x27;admin&#x27;</span>]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// ...</span></span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>如上动态路由所示，我们可以看到两个比较特殊的地方，第一个是 <code>component</code> 字段，第二个是 <code>meta</code> 中的 <code>roles</code> 字段。他们有什么意义呢？</p>
+<p><strong>component字段</strong></p>
+<p>该字段表示路由对象所映射的组件。由于我们需要将整个动态路由表存储到后台数据库，所以，原先的 <code>component</code> 设置方式不再适用，这里我们该用字典关联的方式来解决。我们会有这样一个文件，存储着动态路由中的所有动态组件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// dynamicRoutesMap.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title class_">Layout</span>: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&#x27;@/layout&#x27;</span>),</span><br><span class="line">  <span class="attr">rolesManagement</span>: <span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&#x27;@/views/system/rolesManagement&#x27;</span>),</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>roles字段</strong></p>
+<p>该字段表示路由对象所关联的角色有哪些。也就是说，只要某个路由对象中的 <code>roles</code> 信息中的角色是当前用户所拥有的，那么该路由对象就该被显示出来。当然，<code>roles</code> 字段是后台动态追加进去的，可在 <strong>用户角色管理</strong> 页面进行处理。</p>
+<h2 id="如何过滤出当前用户有权访问的路由表"><a href="#如何过滤出当前用户有权访问的路由表" class="headerlink" title="如何过滤出当前用户有权访问的路由表"></a>如何过滤出当前用户有权访问的路由表</h2><p><strong>获取当前用户信息</strong></p>
+<p>我们首先需要获取当前用户信息，即，当前用户拥有的角色信息。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&#x27;张三&#x27;</span>,</span><br><span class="line">  <span class="attr">id</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">roles</span>: [<span class="string">&#x27;role1&#x27;</span>, <span class="string">&#x27;role2&#x27;</span>, <span class="string">&#x27;role3&#x27;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上所示，<code>张三</code> 同时拥有 <code>role1</code>、<code>role2</code> 和 <code>role3</code> 这三个角色。</p>
+<p><strong>获取动态路由信息</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;system&#x27;</span>,</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;/system&#x27;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="string">&#x27;Layout&#x27;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123;</span><br><span class="line">      <span class="attr">title</span>: <span class="string">&#x27;系统管理&#x27;</span>,</span><br><span class="line">      <span class="attr">icon</span>: <span class="string">&#x27;system-icon&#x27;</span>,</span><br><span class="line">      <span class="attr">roles</span>: [<span class="string">&#x27;role1&#x27;</span>, <span class="string">&#x27;admin&#x27;</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">children</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;rolesManagement&#x27;</span>,</span><br><span class="line">        <span class="attr">path</span>: <span class="string">&#x27;roles_management&#x27;</span>,</span><br><span class="line">        <span class="attr">component</span>: <span class="string">&#x27;rolesManagement&#x27;</span>,</span><br><span class="line">        <span class="attr">meta</span>: &#123;</span><br><span class="line">          <span class="attr">title</span>: <span class="string">&#x27;角色管理&#x27;</span>,</span><br><span class="line">          <span class="attr">icon</span>: <span class="string">&#x27;roles-icon&#x27;</span>,</span><br><span class="line">          <span class="attr">roles</span>: [<span class="string">&#x27;role1&#x27;</span>, <span class="string">&#x27;admin&#x27;</span><span class="string">&#x27;]</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">      &#125;,</span></span><br><span class="line"><span class="string">      &#123;</span></span><br><span class="line"><span class="string">        name: &#x27;</span>usersManagement<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">        path: &#x27;</span>users_management<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">        component: &#x27;</span>usersManagement<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">        meta: &#123;</span></span><br><span class="line"><span class="string">          title: &#x27;</span>用户管理<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">          icon: &#x27;</span>users-icon<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">          roles: [&#x27;</span>role1<span class="string">&#x27;, &#x27;</span>admin<span class="string">&#x27;]</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">      &#125;,</span></span><br><span class="line"><span class="string">      &#123;</span></span><br><span class="line"><span class="string">        name: &#x27;</span>resourceManagement<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">        path: &#x27;</span>resource_management<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">        component: &#x27;</span>resourceManagement<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">        meta: &#123;</span></span><br><span class="line"><span class="string">          title: &#x27;</span>资源管理<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">          icon: &#x27;</span>resource-icon<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">          roles: [&#x27;</span>admin<span class="string">&#x27;]</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">      &#125;,</span></span><br><span class="line"><span class="string">      // ...</span></span><br><span class="line"><span class="string">    ]</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">]</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>如上所示，这一个经过后台处理的含有完整 <code>roles</code> 信息的动态路由表。每个路由对象都有对应的 <code>roles</code> 信息。表示该路由对象对哪些角色可见。</p>
+<p>经过过滤处理后，实际生成的动态路由表示这样的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;system&#x27;</span>,</span><br><span class="line">    <span class="attr">path</span>: <span class="string">&#x27;/system&#x27;</span>,</span><br><span class="line">    <span class="attr">component</span>: <span class="string">&#x27;Layout&#x27;</span>,</span><br><span class="line">    <span class="attr">meta</span>: &#123;</span><br><span class="line">      <span class="attr">title</span>: <span class="string">&#x27;系统管理&#x27;</span>,</span><br><span class="line">      <span class="attr">icon</span>: <span class="string">&#x27;system-icon&#x27;</span>,</span><br><span class="line">      <span class="attr">roles</span>: [<span class="string">&#x27;role1&#x27;</span>, <span class="string">&#x27;admin&#x27;</span>]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">children</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;rolesManagement&#x27;</span>,</span><br><span class="line">        <span class="attr">path</span>: <span class="string">&#x27;roles_management&#x27;</span>,</span><br><span class="line">        <span class="attr">component</span>: <span class="string">&#x27;rolesManagement&#x27;</span>,</span><br><span class="line">        <span class="attr">meta</span>: &#123;</span><br><span class="line">          <span class="attr">title</span>: <span class="string">&#x27;角色管理&#x27;</span>,</span><br><span class="line">          <span class="attr">icon</span>: <span class="string">&#x27;roles-icon&#x27;</span>,</span><br><span class="line">          <span class="attr">roles</span>: [<span class="string">&#x27;role1&#x27;</span>, <span class="string">&#x27;admin&#x27;</span><span class="string">&#x27;]</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">      &#125;,</span></span><br><span class="line"><span class="string">      &#123;</span></span><br><span class="line"><span class="string">        name: &#x27;</span>usersManagement<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">        path: &#x27;</span>users_management<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">        component: &#x27;</span>usersManagement<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">        meta: &#123;</span></span><br><span class="line"><span class="string">          title: &#x27;</span>用户管理<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">          icon: &#x27;</span>users-icon<span class="string">&#x27;,</span></span><br><span class="line"><span class="string">          roles: [&#x27;</span>role1<span class="string">&#x27;, &#x27;</span>admin<span class="string">&#x27;]</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">      &#125;,</span></span><br><span class="line"><span class="string">      // ...</span></span><br><span class="line"><span class="string">    ]</span></span><br><span class="line"><span class="string">  &#125;</span></span><br><span class="line"><span class="string">]</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>因为，当前用户没有 <code>admin</code> 角色权限，所以 <strong>资源管理</strong> 这个路由对象被剔除。</p>
+<p>最后，我们依然会使用 <code>addRoutes</code> 方法将生成的 <strong>动态路由表</strong> 插入到路由表中，菜单树，也会根据动态路由渲染出来。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vue/" rel="tag"># vue</a>
+              <a href="/tags/auth/" rel="tag"># auth</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/10/02/interview/index/" rel="prev" title="前端面试题集">
+                  <i class="fa fa-chevron-left"></i> 前端面试题集
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/02/27/webpack/how-to-share-var-between-javascript-and-sass/" rel="next" title="如何在javascript和sass之间共享变量">
+                  如何在javascript和sass之间共享变量 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">elenh</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

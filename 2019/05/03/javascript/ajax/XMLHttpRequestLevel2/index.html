@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hongwenqing.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.15.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="HTML5 世界中有这样一位无名英雄：XMLHttpRequest。严格地说，XHR2 并不属于 HTML5。不过，它是浏览器供应商对于核心平台不断做出的改进中的一部分。我之所以将 XHR2 加入我们新的百宝囊中，就是因为它在如今复杂的网络应用中扮演了不可或缺的角色。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XMLHttpRequest2新技巧">
+<meta property="og:url" content="http://hongwenqing.com/2019/05/03/javascript/ajax/XMLHttpRequestLevel2/index.html">
+<meta property="og:site_name" content="Hong WenQing&#39;s Blog">
+<meta property="og:description" content="HTML5 世界中有这样一位无名英雄：XMLHttpRequest。严格地说，XHR2 并不属于 HTML5。不过，它是浏览器供应商对于核心平台不断做出的改进中的一部分。我之所以将 XHR2 加入我们新的百宝囊中，就是因为它在如今复杂的网络应用中扮演了不可或缺的角色。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-05-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-20T09:48:37.163Z">
+<meta property="article:author" content="elenh">
+<meta property="article:tag" content="AJAX">
+<meta property="article:tag" content="XMLHttpRequest2">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://hongwenqing.com/2019/05/03/javascript/ajax/XMLHttpRequestLevel2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://hongwenqing.com/2019/05/03/javascript/ajax/XMLHttpRequestLevel2/","path":"2019/05/03/javascript/ajax/XMLHttpRequestLevel2/","title":"XMLHttpRequest2新技巧"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>XMLHttpRequest2新技巧 | Hong WenQing's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hong WenQing's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep fucking the world!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%93%E5%8F%96%E6%95%B0%E6%8D%AE"><span class="nav-number">1.</span> <span class="nav-text">抓取数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E5%93%8D%E5%BA%94%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">指定响应格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayBuffer-%E5%93%8D%E5%BA%94"><span class="nav-number">1.2.</span> <span class="nav-text">ArrayBuffer 响应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Blob-%E5%93%8D%E5%BA%94"><span class="nav-number">1.3.</span> <span class="nav-text">Blob 响应</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E6%95%B0%E6%8D%AE"><span class="nav-number">2.</span> <span class="nav-text">发送数据</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%95%B0%E6%8D%AE%EF%BC%9Axhr-send-DOMString"><span class="nav-number">2.1.</span> <span class="nav-text">发送字符串数据：xhr.send(DOMString)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E4%BA%A4%E8%A1%A8%E5%8D%95%EF%BC%9Axhr-send-FormData"><span class="nav-number">2.2.</span> <span class="nav-text">提交表单：xhr.send(FormData)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E6%88%96-blob%EF%BC%9Axhr-send-Blob"><span class="nav-number">2.3.</span> <span class="nav-text">上传文件或 blob：xhr.send(Blob)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E5%AD%97%E8%8A%82%EF%BC%9Axhr-send-ArrayBuffer"><span class="nav-number">2.4.</span> <span class="nav-text">上传字节：xhr.send(ArrayBuffer)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B7%A8%E6%BA%90%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB-CORS"><span class="nav-number">3.</span> <span class="nav-text">跨源资源共享 (CORS)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E7%94%A8-CORS-%E8%AF%B7%E6%B1%82"><span class="nav-number">3.1.</span> <span class="nav-text">启用 CORS 请求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E4%BA%A4%E8%B7%A8%E5%9F%9F%E8%AF%B7%E6%B1%82"><span class="nav-number">3.2.</span> <span class="nav-text">提交跨域请求</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E7%A4%BA%E4%BE%8B%EF%BC%9A"><span class="nav-number">4.</span> <span class="nav-text">实际示例：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6%E5%B9%B6%E4%BF%9D%E5%AD%98%E5%88%B0-HTML5-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">4.1.</span> <span class="nav-text">下载文件并保存到 HTML5 文件系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%89%B2%E6%96%87%E4%BB%B6%E5%B9%B6%E4%B8%8A%E4%BC%A0%E5%90%84%E4%B8%AA%E9%83%A8%E5%88%86"><span class="nav-number">4.2.</span> <span class="nav-text">分割文件并上传各个部分</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">elenh</p>
+  <div class="site-description" itemprop="description">Are you ok , Are you ok！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hongwenqing.com/2019/05/03/javascript/ajax/XMLHttpRequestLevel2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="elenh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong WenQing's Blog">
+      <meta itemprop="description" content="Are you ok , Are you ok！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="XMLHttpRequest2新技巧 | Hong WenQing's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          XMLHttpRequest2新技巧
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-05-03 00:00:00" itemprop="dateCreated datePublished" datetime="2019-05-03T00:00:00+08:00">2019-05-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-03-20 17:48:37" itemprop="dateModified" datetime="2023-03-20T17:48:37+08:00">2023-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/ajax/" itemprop="url" rel="index"><span itemprop="name">ajax</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><code>HTML5</code> 世界中有这样一位无名英雄：<code>XMLHttpRequest</code>。严格地说，<code>XHR2</code> 并不属于 <code>HTML5</code>。不过，它是浏览器供应商对于核心平台不断做出的改进中的一部分。我之所以将 <code>XHR2</code> 加入我们新的百宝囊中，就是因为它在如今复杂的网络应用中扮演了不可或缺的角色。</p>
+<span id="more"></span>
+
+<p>结果呢，我们这位老朋友来了个大变身，很多人都不知道它的新功能了。<a target="_blank" rel="noopener" href="http://dev.w3.org/2006/webapi/XMLHttpRequest-2/">2 级 XMLHttpRequest</a> 引入了大量的新功能（例如跨源请求、上传进度事件以及对上传&#x2F;下载二进制数据的支持等），一举封杀了我们网络应用中的疯狂黑客。这使得 <code>AJAX</code> 可以与很多尖端的 <code>HTML5 API</code> 结合使用，例如<a target="_blank" rel="noopener" href="https://www.html5rocks.com/tutorials/file/filesystem/">File System API</a>、<a target="_blank" rel="noopener" href="http://chromium.googlecode.com/svn/trunk/samples/audio/specification/specification.html">Web Audio API</a> 和 <code>WebGL</code>。</p>
+<p>此教程重点介绍 <code>XMLHttpRequest</code> 中的新功能，尤其是可用于处理文件的功能。</p>
+<h1 id="抓取数据"><a href="#抓取数据" class="headerlink" title="抓取数据"></a>抓取数据</h1><p>以前通过 <code>XHR</code> 抓取二进制 <code>blob</code> 形式的文件是很痛苦的事情。从技术上来说，这甚至是不可能的实现。有一种广为流传的一种技巧，是将 <code>MIME</code> 类型替换为由用户定义的字符集，如下所示：</p>
+<p>提取图片的旧方法：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">xhr.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;/path/to/image.png&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Hack to pass bytes through unprocessed.</span></span><br><span class="line">xhr.<span class="title function_">overrideMimeType</span>(<span class="string">&#x27;text/plain; charset=x-user-defined&#x27;</span>);</span><br><span class="line"></span><br><span class="line">xhr.<span class="property">onreadystatechange</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">readyState</span> == <span class="number">4</span> &amp;&amp; <span class="variable language_">this</span>.<span class="property">status</span> == <span class="number">200</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> binStr = <span class="variable language_">this</span>.<span class="property">responseText</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, len = binStr.<span class="property">length</span>; i &lt; len; ++i) &#123;</span><br><span class="line">      <span class="keyword">var</span> c = binStr.<span class="title function_">charCodeAt</span>(i);</span><br><span class="line">      <span class="comment">//String.fromCharCode(c &amp; 0xff);</span></span><br><span class="line">      <span class="keyword">var</span> byte = c &amp; <span class="number">0xff</span>;  <span class="comment">// byte at offset i</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">xhr.<span class="title function_">send</span>();</span><br></pre></td></tr></table></figure>
+
+<p>虽然这种方法可行，但是 <code>responseText</code> 中实际返回的并不是二进制 <code>blob</code>，而是代表图片文件的二进制字符串。我们要巧妙地让服务器在不作处理的情况下，将这些数据传递回去。虽然这个技巧有用，但是我不推荐大家走这种歪门邪道。只要是通过玩弄字符代码和字符串操控技巧，强行将数据转化成所需的格式，都会出现问题。</p>
+<h2 id="指定响应格式"><a href="#指定响应格式" class="headerlink" title="指定响应格式"></a>指定响应格式</h2><p>在前一个示例中，我们通过替换服务器的 <code>MIME</code> 类型并将响应文本作为二进制字符串处理，下载了二进制“文件”形式的图片。现在，让我们利用 <code>XMLHttpRequest</code> 新增的 <code>responseType</code> 和 <code>response</code> 属性，告知浏览器我们希望返回什么格式的数据。</p>
+<p><strong>xhr.responseType</strong></p>
+<p>在发送请求前，根据您的数据需要，将 <code>xhr.responseType</code> 设置为 “text”、“arraybuffer”、“blob” 或 “document”。请注意，设置（或忽略）<code>xhr.responseType = &#39;&#39;</code> 会默认将响应设为 “text”。</p>
+<p><strong>xhr.response</strong></p>
+<p>成功发送请求后，<code>xhr</code> 的响应属性会包含 <code>DOMString</code>、<code>ArrayBuffer</code>、<code>Blob</code> 或 <code>Document</code> 形式（具体取决于 <code>responseTyp</code> 的设置）的请求数据。<br>凭借这个优秀的新属性，我们可以修改上一个示例：以 <code>ArrayBuffer</code> 而非字符串的形式抓取图片。将缓冲区移交给 <code>BlobBuilder API</code> 可创建 <code>Blob</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">BlobBuilder</span> = <span class="variable language_">window</span>.<span class="property">MozBlobBuilder</span> || <span class="variable language_">window</span>.<span class="property">WebKitBlobBuilder</span> || <span class="variable language_">window</span>.<span class="property">BlobBuilder</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">xhr.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;/path/to/image.png&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">xhr.<span class="property">responseType</span> = <span class="string">&#x27;arraybuffer&#x27;</span>;</span><br><span class="line"></span><br><span class="line">xhr.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">status</span> == <span class="number">200</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> bb = <span class="keyword">new</span> <span class="title class_">BlobBuilder</span>();</span><br><span class="line">    bb.<span class="title function_">append</span>(<span class="variable language_">this</span>.<span class="property">response</span>); <span class="comment">// Note: not xhr.responseText</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> blob = bb.<span class="title function_">getBlob</span>(<span class="string">&#x27;image/png&#x27;</span>);</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">xhr.<span class="title function_">send</span>();</span><br></pre></td></tr></table></figure>
+
+<p>看，这不就好多了嘛！你觉得呢？</p>
+<h2 id="ArrayBuffer-响应"><a href="#ArrayBuffer-响应" class="headerlink" title="ArrayBuffer 响应"></a>ArrayBuffer 响应</h2><p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/JavaScript_typed_arrays/ArrayBuffer">ArrayBuffer</a> 是二进制数据通用的固定长度容器。如果您需要原始数据的通用缓冲区，<code>ArrayBuffer</code> 就非常好用，但是它真正强大的功能是让您使用 &lt;&#x2F;a href&#x3D;”<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/JavaScript_typed_arrays%22%3E">https://developer.mozilla.org/en/JavaScript_typed_arrays&quot;&gt;</a> JavaScript 类型数组 </a>创建底层数据的“视图”。实际上，可以通过单个 <code>ArrayBuffer</code> 来源创建多个视图。例如，您可以创建一个 <code>8</code> 位整数数组，与来自相同数据的现有 <code>32</code> 位整数数组共享同一个 <code>ArrayBuffer</code>。底层数据保持不变，我们只是创建其不同的表示方法。</p>
+<p>例如，下面以 <code>ArrayBuffer</code> 的形式抓取我们相同的图片，但是现在，会通过该数据缓冲区创建无符号的 <code>8</code> 位整数数组。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">xhr.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;/path/to/image.png&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">xhr.<span class="property">responseType</span> = <span class="string">&#x27;arraybuffer&#x27;</span>;</span><br><span class="line"></span><br><span class="line">xhr.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> uInt8Array = <span class="keyword">new</span> <span class="title class_">Uint8Array</span>(<span class="variable language_">this</span>.<span class="property">response</span>); <span class="comment">// this.response == uInt8Array.buffer</span></span><br><span class="line">  <span class="comment">// var byte3 = uInt8Array[4]; // byte at offset 4</span></span><br><span class="line">  ...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">xhr.<span class="title function_">send</span>();</span><br></pre></td></tr></table></figure>
+
+<h2 id="Blob-响应"><a href="#Blob-响应" class="headerlink" title="Blob 响应"></a>Blob 响应</h2><p>如果您要直接处理<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/DOM/Blob"> Blob </a>且&#x2F;或不需要操作任何文件的字节，可使用 <code>xhr.responseType=&#39;blob&#39;</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">URL</span> = <span class="variable language_">window</span>.<span class="property">URL</span> || <span class="variable language_">window</span>.<span class="property">webkitURL</span>;  <span class="comment">// Take care of vendor prefixes.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">xhr.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;/path/to/image.png&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">xhr.<span class="property">responseType</span> = <span class="string">&#x27;blob&#x27;</span>;</span><br><span class="line"></span><br><span class="line">xhr.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">status</span> == <span class="number">200</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> blob = <span class="variable language_">this</span>.<span class="property">response</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> img = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&#x27;img&#x27;</span>);</span><br><span class="line">    img.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">      <span class="variable language_">window</span>.<span class="property">URL</span>.<span class="title function_">revokeObjectURL</span>(img.<span class="property">src</span>); <span class="comment">// Clean up after yourself.</span></span><br><span class="line">    &#125;;</span><br><span class="line">    img.<span class="property">src</span> = <span class="variable language_">window</span>.<span class="property">URL</span>.<span class="title function_">createObjectURL</span>(blob);</span><br><span class="line">    <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(img);</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">xhr.<span class="title function_">send</span>();</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><code>Blob</code> 可用于很多场合，包括保存到<a target="_blank" rel="noopener" href="https://www.html5rocks.com/tutorials/indexeddb/todo/"> <code>indexedDB</code></a>、写入<code> HTML5</code>  <a target="_blank" rel="noopener" href="https://www.html5rocks.com/tutorials/file/filesystem/">文件系统</a> 或创建 <a target="_blank" rel="noopener" href="https://www.html5rocks.com/tutorials/workers/basics/#toc-inlineworkers-bloburis"><code>Blob</code> 网址</a>（如本例中所示）。</p>
+</blockquote>
+<h1 id="发送数据"><a href="#发送数据" class="headerlink" title="发送数据"></a>发送数据</h1><p>能够<a target="_blank" rel="noopener" href="https://www.html5rocks.com/zh/tutorials/file/xhr2/#toc-response">下载各种格式的数据</a>固然是件好事，但是如果不能将这些丰富格式的数据送回本垒（服务器），那就毫无意义了。<code>XMLHttpRequest</code> 有时候会限制我们发送 <code>DOMString</code> 或 <code>Document</code> (XML) 数据。但是现在不会了。现已替换成经过修改的 <code>send()</code> 方法，可接受以下任何类型：<code>DOMString</code>、<code>Document</code>、<code>FormData</code>、<code>Blob</code>、<code>File</code>、<code>ArrayBuffer</code>。本部分的其余内容中的示例演示了如何使用各类型发送数据。</p>
+<h2 id="发送字符串数据：xhr-send-DOMString"><a href="#发送字符串数据：xhr-send-DOMString" class="headerlink" title="发送字符串数据：xhr.send(DOMString)"></a>发送字符串数据：xhr.send(DOMString)</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sendText</span>(<span class="params">txt</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">  xhr.<span class="title function_">open</span>(<span class="string">&#x27;POST&#x27;</span>, <span class="string">&#x27;/server&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">  xhr.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">status</span> == <span class="number">200</span>) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">responseText</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  xhr.<span class="title function_">send</span>(txt);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">sendText</span>(<span class="string">&#x27;test string&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sendTextNew</span>(<span class="params">txt</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">  xhr.<span class="title function_">open</span>(<span class="string">&#x27;POST&#x27;</span>, <span class="string">&#x27;/server&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">  xhr.<span class="property">responseType</span> = <span class="string">&#x27;text&#x27;</span>;</span><br><span class="line">  xhr.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">status</span> == <span class="number">200</span>) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">response</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  xhr.<span class="title function_">send</span>(txt);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">sendText2</span>(<span class="string">&#x27;test string&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这没有新内容，只是正确的代码段略有不同。其中设置了 <code>responseType=&#39;text&#39;</code>作为对比。再次说明，省略此行会得到同样的结果。</p>
+<h2 id="提交表单：xhr-send-FormData"><a href="#提交表单：xhr-send-FormData" class="headerlink" title="提交表单：xhr.send(FormData)"></a>提交表单：xhr.send(FormData)</h2><p>很多人可能习惯于使用 <a target="_blank" rel="noopener" href="http://jquery.malsup.com/form/">jQuery 插件</a>或其他库来处理 <code>AJAX</code> 表单提交。而我们可以改用 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en/XMLHttpRequest/FormData"><code>FormData</code></a>，这是另一种针对 <code>XHR2</code> 设计的新数据类型。使用 <code>FormData</code> 能够很方便地实时以  <code>JavaScript</code> 创建 HTML <code>&lt;form&gt;</code>。然后可以使用 <code>AJAX</code> 提交该表单：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sendForm</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> formData = <span class="keyword">new</span> <span class="title class_">FormData</span>();</span><br><span class="line">  formData.<span class="title function_">append</span>(<span class="string">&#x27;username&#x27;</span>, <span class="string">&#x27;johndoe&#x27;</span>);</span><br><span class="line">  formData.<span class="title function_">append</span>(<span class="string">&#x27;id&#x27;</span>, <span class="number">123456</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">  xhr.<span class="title function_">open</span>(<span class="string">&#x27;POST&#x27;</span>, <span class="string">&#x27;/server&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">  xhr.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123; ... &#125;;</span><br><span class="line"></span><br><span class="line">  xhr.<span class="title function_">send</span>(formData);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p> 实质上，我们只是动态创建了 <code>&lt;form&gt;</code>，并通过调用 <code>append</code> 方法为其附加了 <code>&lt;input&gt;</code> 值。</p>
+</blockquote>
+<p>当然，您无需从一开始就创建 <code>&lt;form&gt;</code>。<code>FormData</code> 对象可通过页面上现有的 <code>HTMLFormElement</code> 进行初始化。例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">&quot;myform&quot;</span> <span class="attr">name</span>=<span class="string">&quot;myform&quot;</span> <span class="attr">action</span>=<span class="string">&quot;/server&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;text&quot;</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span> <span class="attr">value</span>=<span class="string">&quot;johndoe&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;number&quot;</span> <span class="attr">name</span>=<span class="string">&quot;id&quot;</span> <span class="attr">value</span>=<span class="string">&quot;123456&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">onclick</span>=<span class="string">&quot;return sendForm(this.form);&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sendForm</span>(<span class="params">form</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> formData = <span class="keyword">new</span> <span class="title class_">FormData</span>(form);</span><br><span class="line"></span><br><span class="line">  formData.<span class="title function_">append</span>(<span class="string">&#x27;secret_token&#x27;</span>, <span class="string">&#x27;1234567890&#x27;</span>); <span class="comment">// Append extra data before send.</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">  xhr.<span class="title function_">open</span>(<span class="string">&#x27;POST&#x27;</span>, form.<span class="property">action</span>, <span class="literal">true</span>);</span><br><span class="line">  xhr.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123; ... &#125;;</span><br><span class="line"></span><br><span class="line">  xhr.<span class="title function_">send</span>(formData);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">// Prevent page from submitting.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>HTML 表单可包含文件上传（例如 <code>&lt;input type=&quot;file&quot;&gt;</code>），而 <code>FormData</code> 也可以处理此操作。只需附加文件，浏览器就会在调用 <code>send()</code> 时构建 <code>multipart/form-data</code> 请求。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">uploadFiles</span>(<span class="params">url, files</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> formData = <span class="keyword">new</span> <span class="title class_">FormData</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>, file; file = files[i]; ++i) &#123;</span><br><span class="line">    formData.<span class="title function_">append</span>(file.<span class="property">name</span>, file);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">  xhr.<span class="title function_">open</span>(<span class="string">&#x27;POST&#x27;</span>, url, <span class="literal">true</span>);</span><br><span class="line">  xhr.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123; ... &#125;;</span><br><span class="line"></span><br><span class="line">  xhr.<span class="title function_">send</span>(formData);  <span class="comment">// multipart/form-data</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;input[type=&quot;file&quot;]&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;change&#x27;</span>, <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">  <span class="title function_">uploadFiles</span>(<span class="string">&#x27;/server&#x27;</span>, <span class="variable language_">this</span>.<span class="property">files</span>);</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="上传文件或-blob：xhr-send-Blob"><a href="#上传文件或-blob：xhr-send-Blob" class="headerlink" title="上传文件或 blob：xhr.send(Blob)"></a>上传文件或 blob：xhr.send(Blob)</h2><p>我们也可以使用 XHR 发送 <code>File</code> 或 <code>Blob</code>。请注意，所有 <code>File</code> 都是 <code>Blob</code>，所以在此使用两者皆可。</p>
+<p>该示例使用 <code>BlobBuilder</code> API 从头开始创建新的文本文件，并将该 <code>Blob</code> 上传到服务器。该代码还设置了一个处理程序，用于通知用户上传进度：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">progress</span> <span class="attr">min</span>=<span class="string">&quot;0&quot;</span> <span class="attr">max</span>=<span class="string">&quot;100&quot;</span> <span class="attr">value</span>=<span class="string">&quot;0&quot;</span>&gt;</span>0% complete<span class="tag">&lt;/<span class="name">progress</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">upload</span>(<span class="params">blobOrFile</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">  xhr.<span class="title function_">open</span>(<span class="string">&#x27;POST&#x27;</span>, <span class="string">&#x27;/server&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">  xhr.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123; ... &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Listen to the upload progress.</span></span><br><span class="line">  <span class="keyword">var</span> progressBar = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;progress&#x27;</span>);</span><br><span class="line">  xhr.<span class="property">upload</span>.<span class="property">onprogress</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (e.<span class="property">lengthComputable</span>) &#123;</span><br><span class="line">      progressBar.<span class="property">value</span> = (e.<span class="property">loaded</span> / e.<span class="property">total</span>) * <span class="number">100</span>;</span><br><span class="line">      progressBar.<span class="property">textContent</span> = progressBar.<span class="property">value</span>; <span class="comment">// Fallback for unsupported browsers.</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  xhr.<span class="title function_">send</span>(blobOrFile);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Take care of vendor prefixes.</span></span><br><span class="line"><span class="title class_">BlobBuilder</span> = <span class="variable language_">window</span>.<span class="property">MozBlobBuilder</span> || <span class="variable language_">window</span>.<span class="property">WebKitBlobBuilder</span> || <span class="variable language_">window</span>.<span class="property">BlobBuilder</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> bb = <span class="keyword">new</span> <span class="title class_">BlobBuilder</span>();</span><br><span class="line">bb.<span class="title function_">append</span>(<span class="string">&#x27;hello world&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">upload</span>(bb.<span class="title function_">getBlob</span>(<span class="string">&#x27;text/plain&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<h2 id="上传字节：xhr-send-ArrayBuffer"><a href="#上传字节：xhr-send-ArrayBuffer" class="headerlink" title="上传字节：xhr.send(ArrayBuffer)"></a>上传字节：xhr.send(ArrayBuffer)</h2><p>最后也是相当重要的一点就是，我们能以 XHR 的有效负载形式发送 <code>ArrayBuffer</code>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sendArrayBuffer</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">  xhr.<span class="title function_">open</span>(<span class="string">&#x27;POST&#x27;</span>, <span class="string">&#x27;/server&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">  xhr.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123; ... &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> uInt8Array = <span class="keyword">new</span> <span class="title class_">Uint8Array</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);</span><br><span class="line"></span><br><span class="line">  xhr.<span class="title function_">send</span>(uInt8Array.<span class="property">buffer</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="跨源资源共享-CORS"><a href="#跨源资源共享-CORS" class="headerlink" title="跨源资源共享 (CORS)"></a>跨源资源共享 (CORS)</h1><p><a target="_blank" rel="noopener" href="http://dev.w3.org/2006/waf/access-control/">CORS</a> 允许一个域上的网络应用向另一个域提交跨域 AJAX 请求。启用此功能非常简单，只需由服务器发送一个响应标头即可。</p>
+<h2 id="启用-CORS-请求"><a href="#启用-CORS-请求" class="headerlink" title="启用 CORS 请求"></a>启用 CORS 请求</h2><p>假设您的应用已经在 <code>example.com</code> 上了，而您想要从 <code>www.example2.com</code> 提取数据。一般情况下，如果您尝试进行这种类型的 AJAX 调用，请求将会失败，而浏览器将会出现“源不匹配”的错误。利用 CORS，<code>www.example2.com</code> 只需添加一个标头，就可以允许来自 <code>example.com</code> 的请求：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Access</span>-<span class="title class_">Control</span>-<span class="title class_">Allow</span>-<span class="title class_">Origin</span>: <span class="attr">http</span>:<span class="comment">//example.com</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>可将 <code>Access-Control-Allow-Origin</code> 添加到某网站下或整个域中的单个资源。要允许任何域向您提交请求，请设置如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Access</span>-<span class="title class_">Control</span>-<span class="title class_">Allow</span>-<span class="title class_">Origin</span>: *</span><br></pre></td></tr></table></figure>
+
+
+
+<p>启用跨源请求是非常简单的，因此如果您的数据是公开的，请务必 <a target="_blank" rel="noopener" href="http://enable-cors.org/">启用 CORS</a>！</p>
+<h2 id="提交跨域请求"><a href="#提交跨域请求" class="headerlink" title="提交跨域请求"></a>提交跨域请求</h2><p>如果服务器端已启用了 CORS，那么提交跨域请求就和普通的 <code>XMLHttpRequest</code> 请求没什么区别。例如，现在 <code>example.com</code> 可以向 <code>www.example2.com</code> 提交请求了：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">xhr.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;http://www.example2.com/hello.json&#x27;</span>);</span><br><span class="line">xhr.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> data = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="variable language_">this</span>.<span class="property">response</span>);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line">xhr.<span class="title function_">send</span>();</span><br></pre></td></tr></table></figure>
+
+<h1 id="实际示例："><a href="#实际示例：" class="headerlink" title="实际示例："></a>实际示例：</h1><h2 id="下载文件并保存到-HTML5-文件系统"><a href="#下载文件并保存到-HTML5-文件系统" class="headerlink" title="下载文件并保存到 HTML5 文件系统"></a>下载文件并保存到 HTML5 文件系统</h2><p>假设您有一个图片库，想要提取一些图片，然后使用 <a target="_blank" rel="noopener" href="https://www.html5rocks.com/tutorials/file/filesystem/">HTML5 文件系统</a>本地保存这些图片。一种方法是以 <code>ArrayBuffer</code> 形式请求图片，通过数据构建 <code>Blob</code>，并使用 <code>FileWriter</code> 写入 blob：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">requestFileSystem</span>  = <span class="variable language_">window</span>.<span class="property">requestFileSystem</span> || <span class="variable language_">window</span>.<span class="property">webkitRequestFileSystem</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">onError</span>(<span class="params">e</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Error&#x27;</span>, e);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">xhr.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;/path/to/image.png&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">xhr.<span class="property">responseType</span> = <span class="string">&#x27;arraybuffer&#x27;</span>;</span><br><span class="line"></span><br><span class="line">xhr.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="variable language_">window</span>.<span class="title function_">requestFileSystem</span>(<span class="variable constant_">TEMPORARY</span>, <span class="number">1024</span> * <span class="number">1024</span>, <span class="keyword">function</span>(<span class="params">fs</span>) &#123;</span><br><span class="line">    fs.<span class="property">root</span>.<span class="title function_">getFile</span>(<span class="string">&#x27;image.png&#x27;</span>, &#123;<span class="attr">create</span>: <span class="literal">true</span>&#125;, <span class="keyword">function</span>(<span class="params">fileEntry</span>) &#123;</span><br><span class="line">      fileEntry.<span class="title function_">createWriter</span>(<span class="keyword">function</span>(<span class="params">writer</span>) &#123;</span><br><span class="line"></span><br><span class="line">        writer.<span class="property">onwrite</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123; ... &#125;;</span><br><span class="line">        writer.<span class="property">onerror</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123; ... &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> bb = <span class="keyword">new</span> <span class="title class_">BlobBuilder</span>();</span><br><span class="line">        bb.<span class="title function_">append</span>(xhr.<span class="property">response</span>);</span><br><span class="line"></span><br><span class="line">        writer.<span class="title function_">write</span>(bb.<span class="title function_">getBlob</span>(<span class="string">&#x27;image/png&#x27;</span>));</span><br><span class="line"></span><br><span class="line">      &#125;, onError);</span><br><span class="line">    &#125;, onError);</span><br><span class="line">  &#125;, onError);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">xhr.<span class="title function_">send</span>();</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p> <strong>请注意</strong>：要使用此代码，请参阅“<a target="_blank" rel="noopener" href="https://www.html5rocks.com/tutorials/file/filesystem/">探索 FileSystem API</a>”教程中的<a target="_blank" rel="noopener" href="https://www.html5rocks.com/tutorials/file/filesystem/#toc-support">浏览器支持和存储限制</a>。</p>
+</blockquote>
+<h2 id="分割文件并上传各个部分"><a href="#分割文件并上传各个部分" class="headerlink" title="分割文件并上传各个部分"></a>分割文件并上传各个部分</h2><p>使用 <a target="_blank" rel="noopener" href="https://www.html5rocks.com/tutorials/file/dndfiles/">File API</a>，我们可以将操作简化为上传大文件。我们采用的技术是：将要上传的文件分割成多个部分，为每个部分生成一个 XHR，然后在服务器上将各部分组合成文件。这类似于 Gmail 快速上传大附件的方法。使用这种技术还可以规避 Google 应用引擎对 http 请求的 32 MB 限制。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">BlobBuilder</span> = <span class="variable language_">window</span>.<span class="property">MozBlobBuilder</span> || <span class="variable language_">window</span>.<span class="property">WebKitBlobBuilder</span> ||</span><br><span class="line">                     <span class="variable language_">window</span>.<span class="property">BlobBuilder</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">upload</span>(<span class="params">blobOrFile</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> xhr = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">  xhr.<span class="title function_">open</span>(<span class="string">&#x27;POST&#x27;</span>, <span class="string">&#x27;/server&#x27;</span>, <span class="literal">true</span>);</span><br><span class="line">  xhr.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123; ... &#125;;</span><br><span class="line">  xhr.<span class="title function_">send</span>(blobOrFile);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;input[type=&quot;file&quot;]&#x27;</span>).<span class="title function_">addEventListener</span>(<span class="string">&#x27;change&#x27;</span>, <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> blob = <span class="variable language_">this</span>.<span class="property">files</span>[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="variable constant_">BYTES_PER_CHUNK</span> = <span class="number">1024</span> * <span class="number">1024</span>; <span class="comment">// 1MB chunk sizes.</span></span><br><span class="line">  <span class="keyword">const</span> <span class="variable constant_">SIZE</span> = blob.<span class="property">size</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> start = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">var</span> end = <span class="variable constant_">BYTES_PER_CHUNK</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span>(start &lt; <span class="variable constant_">SIZE</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Note: blob.slice has changed semantics and been prefixed. See http://goo.gl/U9mE5.</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="string">&#x27;mozSlice&#x27;</span> <span class="keyword">in</span> blob) &#123;</span><br><span class="line">      <span class="keyword">var</span> chunk = blob.<span class="title function_">mozSlice</span>(start, end);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">var</span> chunk = blob.<span class="title function_">webkitSlice</span>(start, end);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">upload</span>(chunk);</span><br><span class="line"></span><br><span class="line">    start = end;</span><br><span class="line">    end = start + <span class="variable constant_">BYTES_PER_CHUNK</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p> 用于在服务器上重组文件的代码并未在此显示。</p>
+</blockquote>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<li><a target="_blank" rel="noopener" href="http://dev.w3.org/2006/webapi/XMLHttpRequest-2/">2 级 XMLHttpRequest</a> 规范</li>
+<li><a target="_blank" rel="noopener" href="http://dev.w3.org/2006/waf/access-control/">跨源资源共享 (CORS)</a> 规范</li>
+<li><a target="_blank" rel="noopener" href="http://www.w3.org/TR/file-upload/">File API</a> 规范</li>
+<li><a target="_blank" rel="noopener" href="http://dev.w3.org/2009/dap/file-system/pub/FileSystem/">FileSystem API</a> 规范</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/AJAX/" rel="tag"># AJAX</a>
+              <a href="/tags/XMLHttpRequest2/" rel="tag"># XMLHttpRequest2</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/04/03/javascript/instance/deepCloneInJavscript/" rel="prev" title="javascript中的对象类型拷贝问题">
+                  <i class="fa fa-chevron-left"></i> javascript中的对象类型拷贝问题
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/08/26/npm/npm-nrm/" rel="next" title="npm源管理器nrm">
+                  npm源管理器nrm <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">elenh</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

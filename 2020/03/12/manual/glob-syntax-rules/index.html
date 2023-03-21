@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hongwenqing.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.15.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="glob 是由普通字符和 &#x2F; 或 通配符 组成的字符串，用于 匹配文件路径。可以利用一个或多个 glob 在文件系统中定位文件。 它本身属于一种标准，并且各类语言都有其完整实现。本文将基于  node-glob  进行语法讲解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="glob文件匹配规则">
+<meta property="og:url" content="http://hongwenqing.com/2020/03/12/manual/glob-syntax-rules/index.html">
+<meta property="og:site_name" content="Hong WenQing&#39;s Blog">
+<meta property="og:description" content="glob 是由普通字符和 &#x2F; 或 通配符 组成的字符串，用于 匹配文件路径。可以利用一个或多个 glob 在文件系统中定位文件。 它本身属于一种标准，并且各类语言都有其完整实现。本文将基于  node-glob  进行语法讲解。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-20T09:48:37.166Z">
+<meta property="article:author" content="elenh">
+<meta property="article:tag" content="glob">
+<meta property="article:tag" content="node-glob">
+<meta property="article:tag" content="gulp">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://hongwenqing.com/2020/03/12/manual/glob-syntax-rules/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://hongwenqing.com/2020/03/12/manual/glob-syntax-rules/","path":"2020/03/12/manual/glob-syntax-rules/","title":"glob文件匹配规则"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>glob文件匹配规则 | Hong WenQing's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hong WenQing's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep fucking the world!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E9%9A%94%E7%AC%A6"><span class="nav-number">2.</span> <span class="nav-text">分隔符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E5%AD%97%E7%AC%A6"><span class="nav-number">3.</span> <span class="nav-text">特殊字符</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E6%98%9F%E5%8F%B7"><span class="nav-number">3.1.</span> <span class="nav-text">*(一个星号)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E6%98%9F%E5%8F%B7"><span class="nav-number">3.2.</span> <span class="nav-text">**(两个星号)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E9%85%8D%E7%AC%A6"><span class="nav-number">3.3.</span> <span class="nav-text">? 通配符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pattern-pattern-pattern"><span class="nav-number">3.4.</span> <span class="nav-text">?(pattern|pattern|pattern)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pattern-pattern-pattern-1"><span class="nav-number">3.5.</span> <span class="nav-text">!(pattern|pattern|pattern)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pattern-pattern-pattern-2"><span class="nav-number">3.6.</span> <span class="nav-text">+(pattern|pattern|pattern)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pattern-pattern-pattern-3"><span class="nav-number">3.7.</span> <span class="nav-text">*(pattern|pattern|pattern)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pattern-pat-pat-erN"><span class="nav-number">3.8.</span> <span class="nav-text">@(pattern|pat*|pat?erN)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E8%8C%83%E5%9B%B4%E5%8C%B9%E9%85%8D"><span class="nav-number">3.9.</span> <span class="nav-text">字符范围匹配</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%A9%E5%B1%95"><span class="nav-number">4.</span> <span class="nav-text">扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#gulp"><span class="nav-number">4.1.</span> <span class="nav-text">gulp</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">elenh</p>
+  <div class="site-description" itemprop="description">Are you ok , Are you ok！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hongwenqing.com/2020/03/12/manual/glob-syntax-rules/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="elenh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong WenQing's Blog">
+      <meta itemprop="description" content="Are you ok , Are you ok！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="glob文件匹配规则 | Hong WenQing's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          glob文件匹配规则
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-03-12 00:00:00" itemprop="dateCreated datePublished" datetime="2020-03-12T00:00:00+08:00">2020-03-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-03-20 17:48:37" itemprop="dateModified" datetime="2023-03-20T17:48:37+08:00">2023-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/manual/" itemprop="url" rel="index"><span itemprop="name">manual</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p><strong>glob</strong> 是由普通字符和 <code>/</code> 或 <code>通配符</code> 组成的字符串，用于 <strong>匹配文件路径</strong>。可以利用一个或多个 <strong>glob</strong> 在文件系统中定位文件。</p>
+<p>它本身属于一种标准，并且各类语言都有其完整实现。本文将基于 <a class="fc-danger" target="_blank" rel="noopener" href="https://github.com/isaacs/node-glob"> node-glob </a> 进行语法讲解。</p>
+<span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>文件匹配对于操作文件系统是很有必要的，他能帮助你方便，快捷的匹配到要找的目标文件，这对构建工具尤其有用，比如 <code>gulp</code> 、<code>webpack</code> 等，它可以根据你书写的规则高效匹配文件资源，提升构建速度。</p>
+<p>下面将介绍 <code>glob</code> 的匹配语法。</p>
+<h1 id="分隔符"><a href="#分隔符" class="headerlink" title="分隔符"></a>分隔符</h1><p>字符串片段（segment）是指两个分隔符之间的所有字符组成的字符串。在 <strong>glob</strong> 中，分隔符永远是 <code>/</code> 字符。不区分操作系统，即便是在采用 <code>\\</code> 作为分隔符的 <strong>Windows</strong> 操作系统中。</p>
+<p>下面表示匹配 <code>src</code> 下的 <code>a.js</code>。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;src/a.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<div class="note warning"><p>注意：<br>在 <strong>glob</strong> 中，<code>\\</code> 字符被保留作为转义符使用。</p>
+</div>
+
+<p>如下， <code>*</code> 被转义了，因此，<code>*</code> 将被作为一个普通字符使用，而不再是 <strong>通配符</strong> 了。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;glob_with_uncommon_\\*_character.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>所以，以上规则表示，匹配当前目录下的 <code>glob_with_uncommon_*_character.js</code> 文件。</p>
+<h1 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h1><p>特殊字符用来限制文件的匹配规则，你也可以称之为 <strong>通配符</strong>。</p>
+<h2 id="一个星号"><a href="#一个星号" class="headerlink" title="*(一个星号)"></a><code>*</code>(一个星号)</h2><p>在一个字符串片段中匹配任意数量的字符，包括零个匹配。对于匹配单级目录下的文件很有用。</p>
+<p>下面这个 <strong>glob</strong> 能够匹配类似 <code>index.js</code> 的文件，但是不能匹配类似 <code>scripts/index.js</code> 或 <code>scripts/nested/index.js</code> 的文件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;*.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="两个星号"><a href="#两个星号" class="headerlink" title="**(两个星号)"></a><code>**</code>(两个星号)</h2><p>在多个字符串片段中匹配任意数量的字符，包括零个匹配。 对于匹配嵌套目录下的文件很有用。请确保适当地限制带有两个星号的 <strong>glob</strong> 的使用，以避免匹配大量不必要的目录。</p>
+<p>下面这个 <strong>glob</strong> 被适当地限制在 <code>scripts/</code> 目录下。它将匹配类似 <code>scripts/index.js、scripts/nested/index.js</code> 和 <code>scripts/nested/twice/index.js</code> 的文件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;scripts/**/*.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>在上面的示例中，如果没有 <code>scripts/</code> 这个前缀做限制，<code>node_modules</code> 目录下的所有目录或其他目录也都将被匹配。</p>
+<h2 id="通配符"><a href="#通配符" class="headerlink" title="? 通配符"></a><code>?</code> 通配符</h2><p><code>?</code> 表示匹配 <code>1</code> 个字符。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;abc?.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上表示匹配，类似 <code>abc0.js</code> 或 <code>abc1.js</code> 这样的文件。<code>?</code> 占据的位置可以是任何字符，但是你得存在。</p>
+<h2 id="pattern-pattern-pattern"><a href="#pattern-pattern-pattern" class="headerlink" title="?(pattern|pattern|pattern)"></a><code>?(pattern|pattern|pattern)</code></h2><p>匹配满足 0 个 条件 或 1 个条件的文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/?(ab)c.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上表示匹配，<code>test/dir</code> 文件夹下的 <code>abc.js</code> 或 <code>c.js</code> 文件。</p>
+<h2 id="pattern-pattern-pattern-1"><a href="#pattern-pattern-pattern-1" class="headerlink" title="!(pattern|pattern|pattern)"></a><code>!(pattern|pattern|pattern)</code></h2><p>匹配不满足提供的条件的文件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/!(a|c)b.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上会匹配在 <code>test/dir</code> 文件夹下，非 <code>a</code> 、<code>c</code> 开头的，以 <code>b</code> 结尾的文件。</p>
+<h2 id="pattern-pattern-pattern-2"><a href="#pattern-pattern-pattern-2" class="headerlink" title="+(pattern|pattern|pattern)"></a><code>+(pattern|pattern|pattern)</code></h2><p>匹配满足 1 个及以上条件的文件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/+(ab)c.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上模式会匹配到 <code>test/dir</code> 文件夹下的 <code>ababc.js</code> 或 <code>abc.js</code> 这样的文件。</p>
+<h2 id="pattern-pattern-pattern-3"><a href="#pattern-pattern-pattern-3" class="headerlink" title="*(pattern|pattern|pattern)"></a><code>*(pattern|pattern|pattern)</code></h2><p>匹配满足 0 个及以上条件的文件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/*(a|b)b.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上模式会匹配到 <code>test/dir</code> 文件夹下的 <code>b.js</code> 、<code>ab.js</code> 或 <code>bb.js</code> 文件。</p>
+<h2 id="pattern-pat-pat-erN"><a href="#pattern-pat-pat-erN" class="headerlink" title="@(pattern|pat*|pat?erN)"></a><code>@(pattern|pat*|pat?erN)</code></h2><p>精确匹配提供条件之一的文件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/@(a|c)b.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上表示精确匹配 <code>test/dir</code> 文件夹下的 <code>ab.js</code> 或 <code>cb.js</code> 文件。</p>
+<h2 id="字符范围匹配"><a href="#字符范围匹配" class="headerlink" title="字符范围匹配"></a>字符范围匹配</h2><p>这个匹配规则类似于 <code>RegExp</code> 对象中的 <code>[...]</code>。可以用于表示一个字符的范围。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/[a-z].js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上表示匹配 <code>test/dir</code> 文件夹下像 <code>a.js</code> 、<code>b.js</code> 等等这样的文件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/[0-9].js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上表示匹配 <code>test/dir</code> 文件夹下像 <code>0.js</code> 、<code>1.js</code> 等等这样的文件。</p>
+<p>你还可以像 <code>RegExp</code> 对象那样，使用 <code>^</code> 或 <code>!</code> 进行取反操作。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/[^0-9].js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x27;test/dir/[!0-9].js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>这样对匹配 <code>test/dir</code> 文件夹下，以非单个数字命名的文件。例如 <code>1.js</code>，就不会被匹配到。</p>
+<h1 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h1><h2 id="gulp"><a href="#gulp" class="headerlink" title="gulp"></a>gulp</h2><p>在 <strong>gulp</strong> 中，其将 <strong>glob</strong> 进行了扩展，可以将多个 <strong>glob</strong> 进行组合，<strong>glob</strong> 匹配时按照每个 <strong>glob</strong> 在数组中的位置依次进行匹配操作。</p>
+<p>下面是 <code>gulp</code> 中的一个取反匹配操作：</p>
+<p>第一个 <strong>glob</strong> 匹配到一组匹配项，然后后面的取反 <strong>glob</strong> 删除这些匹配项中的一部分。</p>
+<p><strong>glob</strong> 数组中的取反 <strong>（negative）glob</strong> 必须跟在一个非取反 <strong>（non-negative）glob</strong> 后面。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">&#x27;script/**/*.js&#x27;</span>, <span class="string">&#x27;!scripts/vendor/&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>如果任何取反 <strong>（non-negative）glob</strong> 跟随着一个非取反 <strong>（negative）glob</strong>，任何匹配项都不会被删除。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">&#x27;script/**/*.js&#x27;</span>, <span class="string">&#x27;!scripts/vendor/&#x27;</span>, <span class="string">&#x27;scripts/vendor/react.js&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>如上规则，由于第三个 <strong>glob</strong> 的原因，第二个 <strong>glob</strong> 配置并不会生效，所以该条规则会递归返回 <code>script</code> 文件夹下的所有 <code>.js</code> 文件。</p>
+<p>取反 <strong>（negative） glob</strong> 可以作为对带有两个星号的 <strong>glob</strong> 的限制手段。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">&#x27;**/*.js&#x27;</span>, <span class="string">&#x27;!node_modules/&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>在上面的示例中，如果取反 <strong>（negative）glob</strong> 是 <code>!node_modules/**/*.js</code>，那么各匹配项都必须与取反 <strong>glob</strong> 进行比较，这将导致执行速度极慢。</p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/isaacs/node-glob#glob-primer" class="fc-danger"> node-glob </a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/glob/" rel="tag"># glob</a>
+              <a href="/tags/node-glob/" rel="tag"># node-glob</a>
+              <a href="/tags/gulp/" rel="tag"># gulp</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/03/09/yaml/index/" rel="prev" title="YAML语法说明">
+                  <i class="fa fa-chevron-left"></i> YAML语法说明
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">elenh</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

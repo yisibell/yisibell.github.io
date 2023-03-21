@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha256-/4UQcSmErDzPCMAiuOiWPVVsNN2s3ZY/NsmXNcj0IFc=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"hongwenqing.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.15.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="在 XMLHttpRequest level 2 中可以利用 Ajax 实现对二进制文件的下载功能，通过设置 responseType&#x3D;&#39;blob&#39;告诉浏览器放回的数据类型为二进制流大文件类型，即可触发浏览器的下载功能。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XMLHttpRequest Level 2 实现文件下载">
+<meta property="og:url" content="http://hongwenqing.com/2018/01/14/javascript/instance/downloadWithXHR2/index.html">
+<meta property="og:site_name" content="Hong WenQing&#39;s Blog">
+<meta property="og:description" content="在 XMLHttpRequest level 2 中可以利用 Ajax 实现对二进制文件的下载功能，通过设置 responseType&#x3D;&#39;blob&#39;告诉浏览器放回的数据类型为二进制流大文件类型，即可触发浏览器的下载功能。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-01-14T01:21:53.000Z">
+<meta property="article:modified_time" content="2023-03-20T09:48:37.163Z">
+<meta property="article:author" content="elenh">
+<meta property="article:tag" content="XMLHttpRequest2">
+<meta property="article:tag" content="blob">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://hongwenqing.com/2018/01/14/javascript/instance/downloadWithXHR2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://hongwenqing.com/2018/01/14/javascript/instance/downloadWithXHR2/","path":"2018/01/14/javascript/instance/downloadWithXHR2/","title":"XMLHttpRequest Level 2 实现文件下载"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>XMLHttpRequest Level 2 实现文件下载 | Hong WenQing's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hong WenQing's Blog</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">keep fucking the world!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96"><span class="nav-number">1.</span> <span class="nav-text">依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%AE%9E%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text">使用实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B4%E6%98%8E"><span class="nav-number">4.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Logs"><span class="nav-number">5.</span> <span class="nav-text">Logs</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">elenh</p>
+  <div class="site-description" itemprop="description">Are you ok , Are you ok！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">52</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://hongwenqing.com/2018/01/14/javascript/instance/downloadWithXHR2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="elenh">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hong WenQing's Blog">
+      <meta itemprop="description" content="Are you ok , Are you ok！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="XMLHttpRequest Level 2 实现文件下载 | Hong WenQing's Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          XMLHttpRequest Level 2 实现文件下载
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-01-14 09:21:53" itemprop="dateCreated datePublished" datetime="2018-01-14T09:21:53+08:00">2018-01-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-03-20 17:48:37" itemprop="dateModified" datetime="2023-03-20T17:48:37+08:00">2023-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>在 <code>XMLHttpRequest level 2</code> 中可以利用 <code>Ajax</code> 实现对二进制文件的下载功能，通过设置 <code>responseType=&#39;blob&#39;</code><br>告诉浏览器放回的数据类型为二进制流大文件类型，即可触发浏览器的下载功能。</p>
+<span id="more"></span>
+
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><ul>
+<li><code>element-ui</code> 加载层、提示层模块</li>
+<li><code>moment</code> 时间日期格式处理模块</li>
+</ul>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 如果想使用其他提示层，可以修改提示部分的逻辑代码</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">Loading</span>, <span class="title class_">Message</span> &#125; <span class="keyword">from</span> <span class="string">&quot;element-ui&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> moment <span class="keyword">from</span> <span class="string">&#x27;moment&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span>:      hongwenqing</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@desc</span>:        文件下载功能</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@url</span>:         请求地址</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@data</span>:        post 请求参数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@params</span>:      get 请求参数</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@method</span>:      请求方式</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@filename</span>:    自定义文件名</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@loadingText</span>:  loading 提示文本内容</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@errorText</span>:   下载失败时提示文本</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@returns</span>:     Promise</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">download</span> = (<span class="params">&#123;</span></span><br><span class="line"><span class="params">  url, // 请求地址</span></span><br><span class="line"><span class="params">  data, // post 请求参数</span></span><br><span class="line"><span class="params">  params, // get 请求参数</span></span><br><span class="line"><span class="params">  method = <span class="string">&quot;post&quot;</span>, // 请求方式</span></span><br><span class="line"><span class="params">  filename, // 文件名</span></span><br><span class="line"><span class="params">  loadingText = <span class="string">&quot;正在下载...&quot;</span>, // loading 提示文本内容</span></span><br><span class="line"><span class="params">  errorText = <span class="string">&quot;下载失败&quot;</span>, // 下载失败时提示文本</span></span><br><span class="line"><span class="params">  handleErr // 自定义文件下载时，系统级抛错时处理函数，非 http 错误</span></span><br><span class="line"><span class="params">&#125;</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">let</span> loadingInstance = <span class="title class_">Loading</span>.<span class="title function_">service</span>(&#123;</span><br><span class="line">    <span class="comment">// 创建加载提示实例</span></span><br><span class="line">    <span class="attr">background</span>: <span class="string">&quot;transparent&quot;</span>,</span><br><span class="line">    <span class="attr">fullscreen</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">text</span>: loadingText</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// for post</span></span><br><span class="line">  data = data ? <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data) : <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// for get</span></span><br><span class="line">  <span class="keyword">if</span> (params) &#123;</span><br><span class="line">    url += <span class="string">&#x27;?&#x27;</span> + <span class="built_in">decodeURIComponent</span>( <span class="keyword">new</span> <span class="title class_">URLSearchParams</span>( params ) )</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> x = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">    x.<span class="title function_">open</span>(method, url, <span class="literal">true</span>);</span><br><span class="line">    <span class="keyword">if</span> (method === <span class="string">&quot;post&quot;</span> || method === <span class="string">&quot;POST&quot;</span>)</span><br><span class="line">      x.<span class="title function_">setRequestHeader</span>(<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;application/json;charset=utf-8&quot;</span>); <span class="comment">// 设置请求头，格式为json</span></span><br><span class="line">    x.<span class="property">responseType</span> = <span class="string">&quot;blob&quot;</span>; <span class="comment">// 返回类型为二进制流</span></span><br><span class="line">    x.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">      <span class="keyword">let</span> client_msg = errorText,</span><br><span class="line">          blob = <span class="variable language_">this</span>.<span class="property">response</span>,</span><br><span class="line">          status = <span class="variable language_">this</span>.<span class="property">status</span>;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">// 获取文件名</span></span><br><span class="line">      filename = <span class="title function_">getFileName</span>( filename , <span class="variable language_">this</span> )</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">if</span> (status == <span class="number">504</span>) &#123;</span><br><span class="line">        client_msg = <span class="string">&quot;网络忒卡，连接超时&quot;</span>;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      loadingInstance.<span class="title function_">close</span>(); <span class="comment">// 关闭</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (status == <span class="number">200</span>) &#123;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">//文件下载/导出异常处理</span></span><br><span class="line">        <span class="keyword">if</span> (blob.<span class="property">type</span>.<span class="title function_">indexOf</span>(<span class="string">&quot;application/json&quot;</span>) !== -<span class="number">1</span>) &#123;</span><br><span class="line">          <span class="title function_">blobToJson</span>(blob).<span class="title function_">then</span>(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">            handleErr &amp;&amp; <span class="title function_">handleErr</span>(res);</span><br><span class="line">          &#125;);</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//文件正常下载</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">window</span>.<span class="property">navigator</span>.<span class="property">msSaveOrOpenBlob</span>) &#123;</span><br><span class="line">          <span class="comment">// for IE</span></span><br><span class="line">          <span class="variable language_">window</span>.<span class="property">navigator</span>.<span class="title function_">msSaveOrOpenBlob</span>(blob, filename);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="comment">// 现代浏览器</span></span><br><span class="line">          <span class="keyword">let</span> eleLink = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;a&quot;</span>), <span class="comment">// 创建隐藏的可下载链接</span></span><br><span class="line">              objectUrl = <span class="variable constant_">URL</span>.<span class="title function_">createObjectURL</span>(blob); <span class="comment">// 将内容转为 blob 地址</span></span><br><span class="line">         </span><br><span class="line">          eleLink.<span class="title function_">setAttribute</span>(<span class="string">&quot;download&quot;</span>, filename); <span class="comment">// 设置文件名</span></span><br><span class="line">          eleLink.<span class="property">style</span>.<span class="property">display</span> = <span class="string">&quot;none&quot;</span>;</span><br><span class="line">          eleLink.<span class="property">href</span> = objectUrl;</span><br><span class="line">          <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">appendChild</span>(eleLink); <span class="comment">// 插入body</span></span><br><span class="line">          eleLink.<span class="title function_">click</span>(); <span class="comment">// 触发点击</span></span><br><span class="line">          <span class="variable language_">document</span>.<span class="property">body</span>.<span class="title function_">removeChild</span>(eleLink); <span class="comment">// 然后移除</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="title function_">resolve</span>();</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="title class_">Message</span>.<span class="title function_">error</span>(&#123;</span><br><span class="line">          <span class="attr">message</span>: client_msg</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="title function_">reject</span>(e);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    x.<span class="property">onerror</span> = <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span><br><span class="line">      loadingInstance.<span class="title function_">close</span>(); <span class="comment">// 关闭</span></span><br><span class="line">      <span class="title class_">Message</span>.<span class="title function_">error</span>(&#123;</span><br><span class="line">        <span class="attr">message</span>: errorText</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="title function_">reject</span>(e);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 发送</span></span><br><span class="line">    <span class="keyword">if</span> (data) x.<span class="title function_">send</span>(data);</span><br><span class="line">    <span class="keyword">else</span> x.<span class="title function_">send</span>();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// blob数据转json处理函数</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">blobToJson</span>(<span class="params">blob</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> reader = <span class="keyword">new</span> <span class="title class_">FileReader</span>();</span><br><span class="line">    reader.<span class="title function_">readAsText</span>(blob);</span><br><span class="line">    reader.<span class="property">onload</span> = <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">let</span> jsonRes = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(e.<span class="property">target</span>.<span class="property">result</span>);</span><br><span class="line">      <span class="title function_">resolve</span>(jsonRes);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 文件名获取方式（来自自定义或响应头）</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getFileName</span>(<span class="params"> customFilename, xhr </span>)&#123;</span><br><span class="line">  <span class="keyword">let</span> name = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">  <span class="keyword">if</span> ( customFilename )&#123;</span><br><span class="line">    name = customFilename</span><br><span class="line">  &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> headers = xhr.<span class="title function_">getResponseHeader</span>(<span class="string">&#x27;content-disposition&#x27;</span>) || <span class="title function_">moment</span>( +<span class="keyword">new</span> <span class="title class_">Date</span>() ).<span class="title function_">format</span>(<span class="string">&#x27;YMDHmm&#x27;</span>),</span><br><span class="line">        index = headers.<span class="title function_">search</span>(<span class="string">&#x27;filename=&#x27;</span>),</span><br><span class="line">        start = index === -<span class="number">1</span> ? <span class="number">0</span> : index;</span><br><span class="line"></span><br><span class="line">    name = <span class="built_in">decodeURIComponent</span>( headers.<span class="title function_">slice</span>( start + <span class="number">9</span> ) );  </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果没有扩展名，默认加上 .xls </span></span><br><span class="line">  <span class="keyword">return</span> name.<span class="title function_">lastIndexOf</span>(<span class="string">&#x27;.&#x27;</span>) !== -<span class="number">1</span> ? name : ( name + <span class="string">&#x27;.xls&#x27;</span> );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> download;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>上方代码可直接应用到实际项目中，使用方式就是按照正常的 <code>Ajax</code> 请求那样调用此函数即可。</p>
+</blockquote>
+<h2 id="使用实例"><a href="#使用实例" class="headerlink" title="使用实例"></a>使用实例</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// foo.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> download <span class="keyword">from</span> <span class="string">&#x27;./download.js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="title function_">download</span>(&#123;</span><br><span class="line">  <span class="attr">url</span>: <span class="string">&#x27;/foo/bar/download&#x27;</span></span><br><span class="line">  <span class="attr">data</span>: &#123;</span><br><span class="line">    <span class="attr">fileId</span>: <span class="number">1</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">filename</span>: <span class="string">&#x27;自定义文件名.xls&#x27;</span>,</span><br><span class="line">  <span class="title function_">handleErr</span>(<span class="params"> res </span>)&#123;  <span class="comment">// 系统级抛错处理回调</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>( res )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">.<span class="title function_">then</span>( <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// download success</span></span><br><span class="line">  <span class="comment">// do something else ...</span></span><br><span class="line">&#125;)</span><br><span class="line">.<span class="title function_">catch</span>(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// download failed</span></span><br><span class="line">  <span class="comment">// do something else ...</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>( err )</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><ul>
+<li><p>如果想要自定义下载的文件名称，请始终保持你设置的 <code>filename</code> （必须包含文件名扩展后缀）。</p>
+</li>
+<li><p>该方法仅支持 <code>post</code> 、<code>get</code> 请求。</p>
+</li>
+</ul>
+<h2 id="Logs"><a href="#Logs" class="headerlink" title="Logs"></a>Logs</h2><ul>
+<li><p>2018-12-1 优化下载方法。</p>
+</li>
+<li><p>2019-3-1 新增 <code>handleErr</code>。</p>
+</li>
+<li><p>2019-5-27 去除 <code>mimetype</code> 参数，该参数无需传入。</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/XMLHttpRequest2/" rel="tag"># XMLHttpRequest2</a>
+              <a href="/tags/blob/" rel="tag"># blob</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/01/01/moduleDefinition/commonJs/nodejs-module/" rel="prev" title="nodejs之模块加载">
+                  <i class="fa fa-chevron-left"></i> nodejs之模块加载
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/02/14/moduleDefinition/esModule/es6-module/" rel="next" title="es6之模块加载">
+                  es6之模块加载 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">elenh</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
