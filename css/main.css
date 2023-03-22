@@ -4,20 +4,20 @@
   --card-bg-color: #f5f5f5;
   --text-color: #555;
   --blockquote-color: #666;
-  --link-color: #555;
-  --link-hover-color: #222;
-  --brand-color: #fff;
-  --brand-hover-color: #fff;
+  --link-color: #10b981;
+  --link-hover-color: #6ee7b7;
+  --brand-color: #3c3c43;
+  --brand-hover-color: #3c3c43;
   --table-row-odd-bg-color: #f9f9f9;
   --table-row-hover-bg-color: #f5f5f5;
   --menu-item-bg-color: #f5f5f5;
-  --theme-color: #222;
-  --btn-default-bg: #222;
-  --btn-default-color: #fff;
-  --btn-default-border-color: #222;
-  --btn-default-hover-bg: #fff;
-  --btn-default-hover-color: #222;
-  --btn-default-hover-border-color: #222;
+  --theme-color: #10b981;
+  --btn-default-bg: #f9f9fa;
+  --btn-default-color: #34d399;
+  --btn-default-border-color: #34d399;
+  --btn-default-hover-bg: #f9f9fa;
+  --btn-default-hover-color: #059669;
+  --btn-default-hover-border-color: #059669;
   --highlight-background: #f3f3f3;
   --highlight-foreground: #444;
   --highlight-gutter-background: #e1e1e1;
@@ -224,7 +224,7 @@ p {
   margin: 0 0 20px;
 }
 a {
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid #10b981;
   color: var(--link-color);
   cursor: pointer;
   outline: 0;
@@ -2598,7 +2598,7 @@ mark.search-keyword {
   transition: all 0.2s ease-in-out;
 }
 .links-of-author a::before {
-  background: #bb09ff;
+  background: #edffb8;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
