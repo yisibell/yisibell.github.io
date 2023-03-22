@@ -505,63 +505,6 @@
       </tags>
   </entry>
   <entry>
-    <title>linear-gradient线性渐变说明</title>
-    <url>/2019/03/19/css/css3-linear-gradient/</url>
-    <content><![CDATA[<p>记录 css3 中 <code>linear-gradient</code> 线性渐变的基本使用。</p>
-<span id="more"></span>
-
-<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>CSS <code>linear-gradient()</code> 函数用于创建一个表示两种或多种颜色线性渐变的图片。其结果属于<code>&lt;gradient&gt;</code> 数据类型，是一种特别的 <code>&lt;image&gt;</code> 数据类型。</p>
-<p><strong>列：</strong></p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* 渐变轴为180度，从红色渐变到蓝色 */</span></span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>( <span class="number">180deg</span> , red , blue );</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* 从右下到左上、从蓝色渐变到红色 */</span></span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(to left top, blue, red);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* 从下到上，从蓝色开始渐变、到高度40%位置是绿色渐变开始、最后以红色结束 */</span></span><br><span class="line">	<span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(<span class="number">0deg</span>, blue, green <span class="number">40%</span>, red);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="线性渐变的形成"><a href="#线性渐变的形成" class="headerlink" title="线性渐变的形成"></a>线性渐变的形成</h1><p>某个容器元素的线性渐变效果由 <code>渐变线</code> 上的各 <code>着色点</code> 平滑形成。而 <code>渐变线（Gradient Line）</code> 的形成由容器元素 <code>中心点</code> 和 <code>渐变角度</code> 所决定。一但 <code>渐变线</code> 被确定，那么渐变效果会从 <code>起始点（Starting Point）</code> 开始，沿着 <code>渐变线</code> ，将 <code>渐变线</code> 上各点的颜色映射到容器元素对应区域点上，直到 <code>结束点（Ending Point）</code>。这就像是，在一张画布上连续的放置了一排不同的颜料，刷子沿着这些颜料一刷后，你所看到的颜色效果。</p>
-<!-- <img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g18a3ndy0yj30a30dmglw.jpg" /> -->
-
-<p><img src="/2019/03/19/css/css3-linear-gradient/demo-1.jpg" alt="demo-1"></p>
-<blockquote>
-<p>渐变 <code>起始点</code> 的确定：</p>
-</blockquote>
-<p><code>起始点</code> 是 <code>渐变线</code> 上代表起始颜色值的点。<code>起始点</code> 由 <code>渐变线</code> 和过容器元素顶点的垂直线之间的交叉点来定义。（垂直线跟渐变线在同一象限内）</p>
-<blockquote>
-<p>渐变 <code>结束点</code> 的确定：</p>
-</blockquote>
-<p><code>结束点</code> 是 <code>渐变线</code> 上代表最终颜色值的点。<code>结束点</code> 也是由 <code>渐变线</code> 和从最近的顶点发出的垂直线之间的交叉点定义的，然而从 <code>起始点</code> 的对称点来定义 <code>结束点</code> 是更容易理解的一种方式，因为 <code>结束点</code> 是 <code>起始点</code> 关于容器元素的 <code>中心点</code> 的反射点。</p>
-<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">linear-gradient( <span class="selector-attr">[ &lt;angle&gt; | to &lt;side-or-corner&gt; ,]</span>? &lt;start <span class="attribute">color</span>&gt; <span class="selector-attr">[ &lt;percentage&gt; | &lt;length&gt; ]</span>, &lt;colors&gt; <span class="selector-attr">[ &lt;percentage&gt; | &lt;length&gt; ]</span> , &lt;end <span class="attribute">color</span>&gt; <span class="selector-attr">[ &lt;percentage&gt; | &lt;length&gt; ]</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<p>按顺序来解释<code>linear-gradient()</code> 函数的参数：</p>
-<p>第一个参数：</p>
-<blockquote>
-<p>角度 或者 边角，由此指定渐变的方向。角度值单位为 <code>deg</code>，边角的可选值有：left , right , top , bottom , left top , left bottom , right top , right bottom 。边角值只是角度值的快捷值，角度值是以容器元素中心点为轴顺时针旋转形成，如果不给定此参数的话，默认的角度值为 <code>180deg</code> ，即 <code>to bottom</code>，渐变效果是从上到下的。</p>
-</blockquote>
-<p>第二个参数(必需)：</p>
-<blockquote>
-<p>起始点颜色值及其断点长度。断点长度值单位可以是 <code>px</code> 或 <code>百分比</code>。</p>
-</blockquote>
-<p>第三及其后的参数：</p>
-<blockquote>
-<p>中间点颜色值及其断点长度。即中间可以设置多个不同的颜色渐变。</p>
-</blockquote>
-<p>最后一个参数(必需)：</p>
-<blockquote>
-<p>结束点颜色值及其断点长度。</p>
-</blockquote>
-<p>**例： **</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">400px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>( <span class="number">180deg</span> , red <span class="number">50%</span> , blue , yellow );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<!-- <img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g18a3jn2lij30e70awdfw.jpg" /> -->
-
-<p><img src="/2019/03/19/css/css3-linear-gradient/demo-2.jpg" alt="demo-2"></p>
-]]></content>
-      <categories>
-        <category>css相关</category>
-      </categories>
-      <tags>
-        <tag>css3</tag>
-        <tag>linear-gradient</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CSS Grid网格布局</title>
     <url>/2019/03/25/css/css3-grid/</url>
     <content><![CDATA[<p>Grid 布局与 Flex 布局有一定的相似性，都可以指定容器内部多个项目的位置。但是，它们也存在重大区别。同时跟表格 <code>&lt;table&gt;</code> 也有些相似，也有 <code>单元格</code> 的概念。</p>
@@ -763,7 +706,7 @@
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box-11</span> &#123;</span><br><span class="line">  <span class="attribute">grid-template-columns</span>: <span class="built_in">repeat</span>(<span class="number">3</span>,<span class="number">100px</span>);</span><br><span class="line">  <span class="attribute">grid-template-rows</span>: <span class="built_in">repeat</span>(<span class="number">2</span>,<span class="number">100px</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.box-11</span> <span class="selector-class">.item-1</span> &#123;</span><br><span class="line">  <span class="attribute">grid-column-start</span>: <span class="number">1</span>;</span><br><span class="line">  <span class="attribute">grid-column-end</span>: <span class="number">3</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <!-- <img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g1kvqqw8vzj30ai07v0t1.jpg"> -->
-<p><img src="/demo-22jpg" alt="demo-22"></p>
+<p><img src="/2019/03/25/css/css3-grid/demo-22.jpg" alt="demo-22"></p>
 <p>如上图所示，区域 1 占据了 2 个单元格，导致第6个单元格无法放置在原本的网格内，浏览器自动根据第6块内容的大小创建了一个单元格。该单元格的宽高取决于这块内容自身的大小。</p>
 <p>当我们设置了 <code>grid-auto-columns</code> 和 <code>grid-auto-rows</code> 属性时，浏览器则会根据这两个属性值去生成多余单元格的大小。</p>
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box-11</span> &#123;</span><br><span class="line">  <span class="attribute">grid-auto-columns</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">grid-auto-rows</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -922,6 +865,63 @@
         <tag>Grid</tag>
         <tag>css 布局</tag>
         <tag>网格</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linear-gradient线性渐变说明</title>
+    <url>/2019/03/19/css/css3-linear-gradient/</url>
+    <content><![CDATA[<p>记录 css3 中 <code>linear-gradient</code> 线性渐变的基本使用。</p>
+<span id="more"></span>
+
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>CSS <code>linear-gradient()</code> 函数用于创建一个表示两种或多种颜色线性渐变的图片。其结果属于<code>&lt;gradient&gt;</code> 数据类型，是一种特别的 <code>&lt;image&gt;</code> 数据类型。</p>
+<p><strong>列：</strong></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* 渐变轴为180度，从红色渐变到蓝色 */</span></span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>( <span class="number">180deg</span> , red , blue );</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* 从右下到左上、从蓝色渐变到红色 */</span></span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(to left top, blue, red);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* 从下到上，从蓝色开始渐变、到高度40%位置是绿色渐变开始、最后以红色结束 */</span></span><br><span class="line">	<span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(<span class="number">0deg</span>, blue, green <span class="number">40%</span>, red);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="线性渐变的形成"><a href="#线性渐变的形成" class="headerlink" title="线性渐变的形成"></a>线性渐变的形成</h1><p>某个容器元素的线性渐变效果由 <code>渐变线</code> 上的各 <code>着色点</code> 平滑形成。而 <code>渐变线（Gradient Line）</code> 的形成由容器元素 <code>中心点</code> 和 <code>渐变角度</code> 所决定。一但 <code>渐变线</code> 被确定，那么渐变效果会从 <code>起始点（Starting Point）</code> 开始，沿着 <code>渐变线</code> ，将 <code>渐变线</code> 上各点的颜色映射到容器元素对应区域点上，直到 <code>结束点（Ending Point）</code>。这就像是，在一张画布上连续的放置了一排不同的颜料，刷子沿着这些颜料一刷后，你所看到的颜色效果。</p>
+<!-- <img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g18a3ndy0yj30a30dmglw.jpg" /> -->
+
+<p><img src="/2019/03/19/css/css3-linear-gradient/demo-1.jpg" alt="demo-1"></p>
+<blockquote>
+<p>渐变 <code>起始点</code> 的确定：</p>
+</blockquote>
+<p><code>起始点</code> 是 <code>渐变线</code> 上代表起始颜色值的点。<code>起始点</code> 由 <code>渐变线</code> 和过容器元素顶点的垂直线之间的交叉点来定义。（垂直线跟渐变线在同一象限内）</p>
+<blockquote>
+<p>渐变 <code>结束点</code> 的确定：</p>
+</blockquote>
+<p><code>结束点</code> 是 <code>渐变线</code> 上代表最终颜色值的点。<code>结束点</code> 也是由 <code>渐变线</code> 和从最近的顶点发出的垂直线之间的交叉点定义的，然而从 <code>起始点</code> 的对称点来定义 <code>结束点</code> 是更容易理解的一种方式，因为 <code>结束点</code> 是 <code>起始点</code> 关于容器元素的 <code>中心点</code> 的反射点。</p>
+<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">linear-gradient( <span class="selector-attr">[ &lt;angle&gt; | to &lt;side-or-corner&gt; ,]</span>? &lt;start <span class="attribute">color</span>&gt; <span class="selector-attr">[ &lt;percentage&gt; | &lt;length&gt; ]</span>, &lt;colors&gt; <span class="selector-attr">[ &lt;percentage&gt; | &lt;length&gt; ]</span> , &lt;end <span class="attribute">color</span>&gt; <span class="selector-attr">[ &lt;percentage&gt; | &lt;length&gt; ]</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>按顺序来解释<code>linear-gradient()</code> 函数的参数：</p>
+<p>第一个参数：</p>
+<blockquote>
+<p>角度 或者 边角，由此指定渐变的方向。角度值单位为 <code>deg</code>，边角的可选值有：left , right , top , bottom , left top , left bottom , right top , right bottom 。边角值只是角度值的快捷值，角度值是以容器元素中心点为轴顺时针旋转形成，如果不给定此参数的话，默认的角度值为 <code>180deg</code> ，即 <code>to bottom</code>，渐变效果是从上到下的。</p>
+</blockquote>
+<p>第二个参数(必需)：</p>
+<blockquote>
+<p>起始点颜色值及其断点长度。断点长度值单位可以是 <code>px</code> 或 <code>百分比</code>。</p>
+</blockquote>
+<p>第三及其后的参数：</p>
+<blockquote>
+<p>中间点颜色值及其断点长度。即中间可以设置多个不同的颜色渐变。</p>
+</blockquote>
+<p>最后一个参数(必需)：</p>
+<blockquote>
+<p>结束点颜色值及其断点长度。</p>
+</blockquote>
+<p>**例： **</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">400px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>( <span class="number">180deg</span> , red <span class="number">50%</span> , blue , yellow );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<!-- <img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g18a3jn2lij30e70awdfw.jpg" /> -->
+
+<p><img src="/2019/03/19/css/css3-linear-gradient/demo-2.jpg" alt="demo-2"></p>
+]]></content>
+      <categories>
+        <category>css相关</category>
+      </categories>
+      <tags>
+        <tag>css3</tag>
+        <tag>linear-gradient</tag>
       </tags>
   </entry>
   <entry>
@@ -1302,7 +1302,7 @@
 </li>
 <li><p>粘贴公钥 <code>id_rsa.pub</code> 内容到对应文本框中。</p>
 </li>
-<li><p>在 <code>github</code> 中新建仓库或者使用现在仓库，拿到 <a href="mailto:&#103;&#105;&#x74;&#64;&#103;&#x69;&#116;&#104;&#117;&#98;&#x2e;&#99;&#x6f;&#109;">&#103;&#105;&#x74;&#64;&#103;&#x69;&#116;&#104;&#117;&#98;&#x2e;&#99;&#x6f;&#109;</a>:用户名&#x2F;仓库名.git。</p>
+<li><p>在 <code>github</code> 中新建仓库或者使用现在仓库，拿到 <a href="mailto:&#103;&#105;&#116;&#64;&#103;&#105;&#x74;&#x68;&#x75;&#98;&#46;&#x63;&#x6f;&#x6d;">&#103;&#105;&#116;&#64;&#103;&#105;&#x74;&#x68;&#x75;&#98;&#46;&#x63;&#x6f;&#x6d;</a>:用户名&#x2F;仓库名.git。</p>
 </li>
 <li><p>此后，再次 <code>SSH</code> 方式与 <code>github</code> “通信”，不用输入密码确认身份了。</p>
 </li>
@@ -2439,6 +2439,53 @@
       </tags>
   </entry>
   <entry>
+    <title>npm源管理器nrm</title>
+    <url>/2019/08/26/npm/npm-nrm/</url>
+    <content><![CDATA[<p>本文介绍 <code>npm</code> 的源管理器 <code>nrm</code> 如何使用。<code>nrm</code> 可以帮助你快速、方便的在各个下载源之间切换，目前已经包括有：<code>npm, cnpm, taobao, nj(nodejitsu).</code> 等可供选择切换。</p>
+<span id="more"></span>
+
+
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><code>nrm</code> 是一个 <code>node</code> 模块，所以使用 <code>npm</code> 命令安装即可。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install nrm -g</span><br></pre></td></tr></table></figure>
+
+<p>可以通过 <code>nrm -V</code> 查看 <code>nrm</code> 的版本号。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ nrm -V</span><br><span class="line"></span><br><span class="line">$ 1.2.1</span><br></pre></td></tr></table></figure>
+
+<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><h2 id="nrm-ls"><a href="#nrm-ls" class="headerlink" title="nrm ls"></a>nrm ls</h2><p>查看可用的源。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ nrm <span class="built_in">ls</span></span><br><span class="line"></span><br><span class="line">$ * npm -------- https://registry.npmjs.org/</span><br><span class="line">  yarn ------- https://registry.yarnpkg.com/</span><br><span class="line">  cnpm ------- http://r.cnpmjs.org/</span><br><span class="line">  taobao ----- https://registry.npm.taobao.org/</span><br><span class="line">  nj --------- https://registry.nodejitsu.com/</span><br><span class="line">  npmMirror -- https://skimdb.npmjs.com/registry/</span><br><span class="line">  edunpm ----- http://registry.enpmjs.org/</span><br></pre></td></tr></table></figure>
+
+<p>如上打印所示，以 <code>*</code> 号开头的表示当前正在使用的源，默认使用的则是<code>npm</code> 官方源地址。</p>
+<h2 id="nrm-use"><a href="#nrm-use" class="headerlink" title="nrm use"></a>nrm use</h2><p>切换 <code>npm</code> 的源。例如，切换到淘宝的源。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ nrm use taobao</span><br></pre></td></tr></table></figure>
+
+<h2 id="nrm-add"><a href="#nrm-add" class="headerlink" title="nrm add"></a>nrm add</h2><p>新增一个自定义的源。你可以增加定制的源，特别适用于添加企业内部的私有源，执行命令 <code>nrm add &lt;registry&gt; &lt;url&gt;</code>，其中 <code>reigstry</code> 为源名，<code>url</code> 为源的路径。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nrm add myregistry http://192.168.10.127:8081/repository/npm-public/</span><br></pre></td></tr></table></figure>
+
+<p>添加完后，你可以使用 <code>nrm ls</code> 命令查看可用源列表，使用 <code>nrm use</code> 切换源。</p>
+<h2 id="nrm-del"><a href="#nrm-del" class="headerlink" title="nrm del"></a>nrm del</h2><p>删除指定源。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ nrm del &lt;registry&gt;</span><br></pre></td></tr></table></figure>
+
+<p>例如，删除 <code>myregistry</code> 这个源：<code>nrm del myregistry</code>。</p>
+<h2 id="nrm-test"><a href="#nrm-test" class="headerlink" title="nrm test"></a>nrm test</h2><p>测试指定源的响应速度。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ nrm <span class="built_in">test</span> &lt;registry&gt;</span><br></pre></td></tr></table></figure>
+
+<p>例：<code>nrm test npm</code>，测试官方源的响应速度。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ * npm ---- 812ms</span><br></pre></td></tr></table></figure>
+
+<p>测试淘宝源的速度：<code>nrm test taobao</code>。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ taobao - 132ms</span><br></pre></td></tr></table></figure>
+
+<p>可以看出淘宝源是要快很多的！所以对于网速慢的同学，可以通过 <code>nrm</code> 这个工具灵活切换合适的源，提高开发效率。</p>
+]]></content>
+      <categories>
+        <category>npm相关</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+        <tag>nrm</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>npm使用说明</title>
     <url>/2019/03/14/npm/npm/</url>
     <content><![CDATA[<p>介绍 <code>npm</code> 的使用。</p>
@@ -2703,53 +2750,6 @@
         <tag>package-lock.json</tag>
         <tag>package.json</tag>
         <tag>Semver(语义化版本规则)</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>npm源管理器nrm</title>
-    <url>/2019/08/26/npm/npm-nrm/</url>
-    <content><![CDATA[<p>本文介绍 <code>npm</code> 的源管理器 <code>nrm</code> 如何使用。<code>nrm</code> 可以帮助你快速、方便的在各个下载源之间切换，目前已经包括有：<code>npm, cnpm, taobao, nj(nodejitsu).</code> 等可供选择切换。</p>
-<span id="more"></span>
-
-
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><code>nrm</code> 是一个 <code>node</code> 模块，所以使用 <code>npm</code> 命令安装即可。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install nrm -g</span><br></pre></td></tr></table></figure>
-
-<p>可以通过 <code>nrm -V</code> 查看 <code>nrm</code> 的版本号。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ nrm -V</span><br><span class="line"></span><br><span class="line">$ 1.2.1</span><br></pre></td></tr></table></figure>
-
-<h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><h2 id="nrm-ls"><a href="#nrm-ls" class="headerlink" title="nrm ls"></a>nrm ls</h2><p>查看可用的源。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ nrm <span class="built_in">ls</span></span><br><span class="line"></span><br><span class="line">$ * npm -------- https://registry.npmjs.org/</span><br><span class="line">  yarn ------- https://registry.yarnpkg.com/</span><br><span class="line">  cnpm ------- http://r.cnpmjs.org/</span><br><span class="line">  taobao ----- https://registry.npm.taobao.org/</span><br><span class="line">  nj --------- https://registry.nodejitsu.com/</span><br><span class="line">  npmMirror -- https://skimdb.npmjs.com/registry/</span><br><span class="line">  edunpm ----- http://registry.enpmjs.org/</span><br></pre></td></tr></table></figure>
-
-<p>如上打印所示，以 <code>*</code> 号开头的表示当前正在使用的源，默认使用的则是<code>npm</code> 官方源地址。</p>
-<h2 id="nrm-use"><a href="#nrm-use" class="headerlink" title="nrm use"></a>nrm use</h2><p>切换 <code>npm</code> 的源。例如，切换到淘宝的源。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ nrm use taobao</span><br></pre></td></tr></table></figure>
-
-<h2 id="nrm-add"><a href="#nrm-add" class="headerlink" title="nrm add"></a>nrm add</h2><p>新增一个自定义的源。你可以增加定制的源，特别适用于添加企业内部的私有源，执行命令 <code>nrm add &lt;registry&gt; &lt;url&gt;</code>，其中 <code>reigstry</code> 为源名，<code>url</code> 为源的路径。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nrm add myregistry http://192.168.10.127:8081/repository/npm-public/</span><br></pre></td></tr></table></figure>
-
-<p>添加完后，你可以使用 <code>nrm ls</code> 命令查看可用源列表，使用 <code>nrm use</code> 切换源。</p>
-<h2 id="nrm-del"><a href="#nrm-del" class="headerlink" title="nrm del"></a>nrm del</h2><p>删除指定源。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ nrm del &lt;registry&gt;</span><br></pre></td></tr></table></figure>
-
-<p>例如，删除 <code>myregistry</code> 这个源：<code>nrm del myregistry</code>。</p>
-<h2 id="nrm-test"><a href="#nrm-test" class="headerlink" title="nrm test"></a>nrm test</h2><p>测试指定源的响应速度。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ nrm <span class="built_in">test</span> &lt;registry&gt;</span><br></pre></td></tr></table></figure>
-
-<p>例：<code>nrm test npm</code>，测试官方源的响应速度。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ * npm ---- 812ms</span><br></pre></td></tr></table></figure>
-
-<p>测试淘宝源的速度：<code>nrm test taobao</code>。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ taobao - 132ms</span><br></pre></td></tr></table></figure>
-
-<p>可以看出淘宝源是要快很多的！所以对于网速慢的同学，可以通过 <code>nrm</code> 这个工具灵活切换合适的源，提高开发效率。</p>
-]]></content>
-      <categories>
-        <category>npm相关</category>
-      </categories>
-      <tags>
-        <tag>npm</tag>
-        <tag>nrm</tag>
       </tags>
   </entry>
   <entry>
@@ -4945,83 +4945,6 @@
       </tags>
   </entry>
   <entry>
-    <title>seajs之config</title>
-    <url>/2017/01/27/moduleDefinition/cmd/seajs-config/</url>
-    <content><![CDATA[<p>本文介绍 <code>seajs</code> 的配置方式。</p>
-<span id="more"></span>
-
-<h1 id="seajs-config-模块系统配置"><a href="#seajs-config-模块系统配置" class="headerlink" title="seajs.config() 模块系统配置"></a>seajs.config() 模块系统配置</h1><p>同样的， <code>seajs</code> 也可以进行配置。使用 <code>seajs.config</code> 方法。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 模块加载基础路径</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">base</span>: <span class="string">&#x27;http://example.com/path/to/base/&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 别名配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;es5-safe&#x27;</span>: <span class="string">&#x27;gallery/es5-safe/0.9.3/es5-safe&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;json&#x27;</span>: <span class="string">&#x27;gallery/json/1.0.2/json&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;jquery/jquery/1.10.1/jquery&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 路径配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">paths</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;gallery&#x27;</span>: <span class="string">&#x27;https://a.alipayobjects.com/gallery&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 变量配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">vars</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;locale&#x27;</span>: <span class="string">&#x27;zh-cn&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 映射配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">map</span>: [</span><br><span class="line"></span><br><span class="line">    [<span class="string">&#x27;http://example.com/js/app/&#x27;</span>, <span class="string">&#x27;http://localhost/js/app/&#x27;</span>]</span><br><span class="line"></span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 预加载项</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [</span><br><span class="line"></span><br><span class="line">    <span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">bind</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;es5-safe&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">JSON</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;json&#x27;</span></span><br><span class="line"></span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 调试模式</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">debug</span>: <span class="literal">true</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 文件编码</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">charset</span>: <span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="seajs-config详细说明"><a href="#seajs-config详细说明" class="headerlink" title="seajs.config详细说明"></a>seajs.config详细说明</h1><h2 id="alias-Object"><a href="#alias-Object" class="headerlink" title="alias [Object]"></a>alias [Object]</h2><p>当模块标识很长时，可以使用 alias 来简化。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;jquery/jquery/1.10.1/jquery&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;app/biz&#x27;</span>: <span class="string">&#x27;http://path/to/app/biz.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> $ = <span class="built_in">require</span>(<span class="string">&#x27;jquery&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 http://path/to/base/jquery/jquery/1.10.1/jquery.js</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> biz = <span class="built_in">require</span>(<span class="string">&#x27;app/biz&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 http://path/to/app/biz.js</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>使用 alias，可以让文件的真实路径与调用标识分开，有利于统一维护。</p>
-</blockquote>
-<h2 id="paths-Object"><a href="#paths-Object" class="headerlink" title="paths [Object]"></a>paths [Object]</h2><p>当目录比较深，或需要跨目录调用模块时，可以使用 paths 来简化书写。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">paths</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;gallery&#x27;</span>: <span class="string">&#x27;https://a.alipayobjects.com/gallery&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;app&#x27;</span>: <span class="string">&#x27;path/to/app&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> underscore = <span class="built_in">require</span>(<span class="string">&#x27;gallery/underscore&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 https://a.alipayobjects.com/gallery/underscore.js*</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> biz = <span class="built_in">require</span>(<span class="string">&#x27;app/biz&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 path/to/app/biz.js*</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>paths 配置可以结合 alias 配置一起使用，让模块引用非常方便。</p>
-</blockquote>
-<h2 id="vars-Object"><a href="#vars-Object" class="headerlink" title="vars [Object]"></a>vars [Object]</h2><p>有些场景下，模块路径在运行时才能确定，这时可以使用 vars 变量来配置。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">vars</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;locale&#x27;</span>: <span class="string">&#x27;zh-cn&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> lang = <span class="built_in">require</span>(<span class="string">&#x27;./i18n/&#123;locale&#125;.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 path/to/i18n/zh-cn.js</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>vars 配置的是模块标识中的变量值，在模块标识中用 {key} 来表示变量。</p>
-</blockquote>
-<h2 id="map-Array"><a href="#map-Array" class="headerlink" title="map [Array]"></a>map [Array]</h2><p>该配置可对模块路径进行映射修改，可用于路径转换、在线调试等。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">map</span>: [</span><br><span class="line"></span><br><span class="line">    [ <span class="string">&#x27;.js&#x27;</span>, <span class="string">&#x27;-debug.js&#x27;</span> ]</span><br><span class="line"></span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">&#x27;./a&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 path/to/a-debug.js</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="preload-Array"><a href="#preload-Array" class="headerlink" title="preload [Array]"></a>preload [Array]</h2><p>使用 preload 配置项，可以在普通模块加载前，提前加载并初始化好指定模块。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 在老浏览器中，提前加载好 ES5 和 json 模块</span></span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [</span><br><span class="line"></span><br><span class="line">    <span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">bind</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;es5-safe&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">JSON</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;json&#x27;</span></span><br><span class="line"></span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>preload 中的空字符串会被忽略掉。</p>
-<blockquote>
-<p>注意：preload 中的配置，需要等到 use 时才加载。比如：</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: <span class="string">&#x27;a&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在加载 b 之前，会确保模块 a 已经加载并执行好</span></span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">use</span>(<span class="string">&#x27;./b&#x27;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>preload 配置不能放在模块文件里面：</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: <span class="string">&#x27;a&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 此处执行时，不能保证模块 a 已经加载并执行好</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="debug-Boolean"><a href="#debug-Boolean" class="headerlink" title="debug [Boolean]"></a>debug [Boolean]</h2><p>值为 true 时，加载器不会删除动态插入的 <code>script</code> 标签。插件也可以根据 debug 配置，来决策 log 等信息的输出。</p>
-<h2 id="base-String"><a href="#base-String" class="headerlink" title="base [String]"></a>base [String]</h2><p>Sea.js 在解析顶级标识时，会相对 base 路径来解析。详情请参阅 模块标识</p>
-<p>注意：一般请不要配置 base 路径，把 sea.js 放在合适的路径往往更简单一致。</p>
-<h2 id="charset-String-Function"><a href="#charset-String-Function" class="headerlink" title="charset [String | Function]"></a>charset [String | Function]</h2><p>获取模块文件时，<code>&lt;script&gt;</code> 或 <code>&lt;link&gt;</code> 标签的 <code>charset</code> 属性。 默认是 <code>utf-8</code></p>
-<p>charset 还可以是一个函数：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">charset</span>: <span class="keyword">function</span>(<span class="params">url</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// xxx 目录下的文件用 gbk 编码加载</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (url.<span class="title function_">indexOf</span>(<span class="string">&#x27;http://example.com/js/xxx&#x27;</span>) === <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">return</span> <span class="string">&#x27;gbk&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 其他文件用 utf-8 编码</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;utf-8&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注：多次配置自动合并，seajs.config 可以多次运行，每次运行时，会对配置项进行合并操作：</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;path/to/jquery.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;path/to/a.js&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [<span class="string">&#x27;seajs-text&#x27;</span>]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;underscore&#x27;</span>: <span class="string">&#x27;path/to/underscore.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;path/to/biz/a.js&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [<span class="string">&#x27;seajs-combo&#x27;</span>]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>上面两处 config 运行的结果是：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">alias = &#123;</span><br><span class="line"></span><br><span class="line">  <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;path/to/jquery.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="string">&#x27;underscore&#x27;</span>: <span class="string">&#x27;path/to/underscore.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;path/to/biz/a.js&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">preload = [<span class="string">&#x27;seajs-text&#x27;</span>, <span class="string">&#x27;seajs-combo&#x27;</span>];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>即：config 会自动合并不存在的项，对存在的项则进行覆盖。</p>
-</blockquote>
-<p>插件的配置，插件可以给 Sea.js 添加配置项，请查看具体插件了解相关配置。</p>
-<p>配置文件，配置可以直接写在 html 页面上，也可以独立出来成为一个文件。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// seajs.config.js</span></span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>推荐将配置文件独立成一个文件放在项目根目录，方便管理，你可以将它命名为 <code>seajs.config.js</code>，方便区分。</p>
-]]></content>
-      <categories>
-        <category>模块化相关</category>
-      </categories>
-      <tags>
-        <tag>模块化</tag>
-        <tag>CMD规范</tag>
-        <tag>seajs.config</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>seajs之define函数</title>
     <url>/2017/01/28/moduleDefinition/cmd/seajs-define/</url>
     <content><![CDATA[<p>本文介绍 <code>seajs</code> 的模块定义方式。</p>
@@ -5097,6 +5020,83 @@
         <tag>模块化</tag>
         <tag>CMD规范</tag>
         <tag>define</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>seajs之config</title>
+    <url>/2017/01/27/moduleDefinition/cmd/seajs-config/</url>
+    <content><![CDATA[<p>本文介绍 <code>seajs</code> 的配置方式。</p>
+<span id="more"></span>
+
+<h1 id="seajs-config-模块系统配置"><a href="#seajs-config-模块系统配置" class="headerlink" title="seajs.config() 模块系统配置"></a>seajs.config() 模块系统配置</h1><p>同样的， <code>seajs</code> 也可以进行配置。使用 <code>seajs.config</code> 方法。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 模块加载基础路径</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">base</span>: <span class="string">&#x27;http://example.com/path/to/base/&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 别名配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;es5-safe&#x27;</span>: <span class="string">&#x27;gallery/es5-safe/0.9.3/es5-safe&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;json&#x27;</span>: <span class="string">&#x27;gallery/json/1.0.2/json&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;jquery/jquery/1.10.1/jquery&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 路径配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">paths</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;gallery&#x27;</span>: <span class="string">&#x27;https://a.alipayobjects.com/gallery&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 变量配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">vars</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;locale&#x27;</span>: <span class="string">&#x27;zh-cn&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 映射配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">map</span>: [</span><br><span class="line"></span><br><span class="line">    [<span class="string">&#x27;http://example.com/js/app/&#x27;</span>, <span class="string">&#x27;http://localhost/js/app/&#x27;</span>]</span><br><span class="line"></span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 预加载项</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [</span><br><span class="line"></span><br><span class="line">    <span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">bind</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;es5-safe&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">JSON</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;json&#x27;</span></span><br><span class="line"></span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 调试模式</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">debug</span>: <span class="literal">true</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 文件编码</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">charset</span>: <span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="seajs-config详细说明"><a href="#seajs-config详细说明" class="headerlink" title="seajs.config详细说明"></a>seajs.config详细说明</h1><h2 id="alias-Object"><a href="#alias-Object" class="headerlink" title="alias [Object]"></a>alias [Object]</h2><p>当模块标识很长时，可以使用 alias 来简化。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;jquery/jquery/1.10.1/jquery&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;app/biz&#x27;</span>: <span class="string">&#x27;http://path/to/app/biz.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> $ = <span class="built_in">require</span>(<span class="string">&#x27;jquery&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 http://path/to/base/jquery/jquery/1.10.1/jquery.js</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> biz = <span class="built_in">require</span>(<span class="string">&#x27;app/biz&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 http://path/to/app/biz.js</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用 alias，可以让文件的真实路径与调用标识分开，有利于统一维护。</p>
+</blockquote>
+<h2 id="paths-Object"><a href="#paths-Object" class="headerlink" title="paths [Object]"></a>paths [Object]</h2><p>当目录比较深，或需要跨目录调用模块时，可以使用 paths 来简化书写。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">paths</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;gallery&#x27;</span>: <span class="string">&#x27;https://a.alipayobjects.com/gallery&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;app&#x27;</span>: <span class="string">&#x27;path/to/app&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> underscore = <span class="built_in">require</span>(<span class="string">&#x27;gallery/underscore&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 https://a.alipayobjects.com/gallery/underscore.js*</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> biz = <span class="built_in">require</span>(<span class="string">&#x27;app/biz&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 path/to/app/biz.js*</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>paths 配置可以结合 alias 配置一起使用，让模块引用非常方便。</p>
+</blockquote>
+<h2 id="vars-Object"><a href="#vars-Object" class="headerlink" title="vars [Object]"></a>vars [Object]</h2><p>有些场景下，模块路径在运行时才能确定，这时可以使用 vars 变量来配置。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">vars</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;locale&#x27;</span>: <span class="string">&#x27;zh-cn&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> lang = <span class="built_in">require</span>(<span class="string">&#x27;./i18n/&#123;locale&#125;.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 path/to/i18n/zh-cn.js</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>vars 配置的是模块标识中的变量值，在模块标识中用 {key} 来表示变量。</p>
+</blockquote>
+<h2 id="map-Array"><a href="#map-Array" class="headerlink" title="map [Array]"></a>map [Array]</h2><p>该配置可对模块路径进行映射修改，可用于路径转换、在线调试等。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">map</span>: [</span><br><span class="line"></span><br><span class="line">    [ <span class="string">&#x27;.js&#x27;</span>, <span class="string">&#x27;-debug.js&#x27;</span> ]</span><br><span class="line"></span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">&#x27;./a&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 path/to/a-debug.js</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="preload-Array"><a href="#preload-Array" class="headerlink" title="preload [Array]"></a>preload [Array]</h2><p>使用 preload 配置项，可以在普通模块加载前，提前加载并初始化好指定模块。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 在老浏览器中，提前加载好 ES5 和 json 模块</span></span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [</span><br><span class="line"></span><br><span class="line">    <span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">bind</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;es5-safe&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">JSON</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;json&#x27;</span></span><br><span class="line"></span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>preload 中的空字符串会被忽略掉。</p>
+<blockquote>
+<p>注意：preload 中的配置，需要等到 use 时才加载。比如：</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: <span class="string">&#x27;a&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在加载 b 之前，会确保模块 a 已经加载并执行好</span></span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">use</span>(<span class="string">&#x27;./b&#x27;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>preload 配置不能放在模块文件里面：</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: <span class="string">&#x27;a&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 此处执行时，不能保证模块 a 已经加载并执行好</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="debug-Boolean"><a href="#debug-Boolean" class="headerlink" title="debug [Boolean]"></a>debug [Boolean]</h2><p>值为 true 时，加载器不会删除动态插入的 <code>script</code> 标签。插件也可以根据 debug 配置，来决策 log 等信息的输出。</p>
+<h2 id="base-String"><a href="#base-String" class="headerlink" title="base [String]"></a>base [String]</h2><p>Sea.js 在解析顶级标识时，会相对 base 路径来解析。详情请参阅 模块标识</p>
+<p>注意：一般请不要配置 base 路径，把 sea.js 放在合适的路径往往更简单一致。</p>
+<h2 id="charset-String-Function"><a href="#charset-String-Function" class="headerlink" title="charset [String | Function]"></a>charset [String | Function]</h2><p>获取模块文件时，<code>&lt;script&gt;</code> 或 <code>&lt;link&gt;</code> 标签的 <code>charset</code> 属性。 默认是 <code>utf-8</code></p>
+<p>charset 还可以是一个函数：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">charset</span>: <span class="keyword">function</span>(<span class="params">url</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// xxx 目录下的文件用 gbk 编码加载</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (url.<span class="title function_">indexOf</span>(<span class="string">&#x27;http://example.com/js/xxx&#x27;</span>) === <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">return</span> <span class="string">&#x27;gbk&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 其他文件用 utf-8 编码</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;utf-8&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：多次配置自动合并，seajs.config 可以多次运行，每次运行时，会对配置项进行合并操作：</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;path/to/jquery.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;path/to/a.js&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [<span class="string">&#x27;seajs-text&#x27;</span>]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;underscore&#x27;</span>: <span class="string">&#x27;path/to/underscore.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;path/to/biz/a.js&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [<span class="string">&#x27;seajs-combo&#x27;</span>]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面两处 config 运行的结果是：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">alias = &#123;</span><br><span class="line"></span><br><span class="line">  <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;path/to/jquery.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="string">&#x27;underscore&#x27;</span>: <span class="string">&#x27;path/to/underscore.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;path/to/biz/a.js&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">preload = [<span class="string">&#x27;seajs-text&#x27;</span>, <span class="string">&#x27;seajs-combo&#x27;</span>];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>即：config 会自动合并不存在的项，对存在的项则进行覆盖。</p>
+</blockquote>
+<p>插件的配置，插件可以给 Sea.js 添加配置项，请查看具体插件了解相关配置。</p>
+<p>配置文件，配置可以直接写在 html 页面上，也可以独立出来成为一个文件。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// seajs.config.js</span></span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>推荐将配置文件独立成一个文件放在项目根目录，方便管理，你可以将它命名为 <code>seajs.config.js</code>，方便区分。</p>
+]]></content>
+      <categories>
+        <category>模块化相关</category>
+      </categories>
+      <tags>
+        <tag>模块化</tag>
+        <tag>CMD规范</tag>
+        <tag>seajs.config</tag>
       </tags>
   </entry>
   <entry>
