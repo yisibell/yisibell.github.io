@@ -1125,6 +1125,22 @@
       </tags>
   </entry>
   <entry>
+    <title>如何在 hexo 中使用图片资源</title>
+    <url>/2023/03/21/hexo/how-to-use-img-in-hexo/</url>
+    <content><![CDATA[<h1 id="使用-Markdown-嵌入图片"><a href="#使用-Markdown-嵌入图片" class="headerlink" title="使用 Markdown 嵌入图片"></a>使用 Markdown 嵌入图片</h1><p><code>hexo-renderer-marked 3.1.0</code> 引入了一个新的选项，其允许你无需使用 <code>asset_img</code> 标签插件就可以在 <strong>markdown</strong> 中嵌入图片</p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">marked:</span></span><br><span class="line">  <span class="attr">prependRoot:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">postAsset:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2023/03/21/hexo/how-to-use-img-in-hexo/sass-webpack-js-hero.webp" alt="alt" title="title"></p>
+<p>启用后，资源图片将会被自动解析为其对应文章的路径。<br>例如： <code>image.jpg</code> 位置为 <code>/2020/01/02/foo/image.jpg</code> ，这表示它是 <code>/2020/01/02/foo/</code> 文章的一张资源图片， <code>![](image.jpg)</code> 将会被解析为 <code>&lt;img src=&quot;/2020/01/02/foo/image.jpg&quot;&gt;</code> 。</p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git常用命令</title>
     <url>/2018/04/14/git/git/</url>
     <content><![CDATA[<p>记录 <strong>Git</strong> 的常用操作命令，方便日后查看。</p>
@@ -1302,7 +1318,7 @@
 </li>
 <li><p>粘贴公钥 <code>id_rsa.pub</code> 内容到对应文本框中。</p>
 </li>
-<li><p>在 <code>github</code> 中新建仓库或者使用现在仓库，拿到 <a href="mailto:&#x67;&#x69;&#x74;&#x40;&#103;&#x69;&#116;&#x68;&#x75;&#x62;&#x2e;&#x63;&#x6f;&#x6d;">&#x67;&#x69;&#x74;&#x40;&#103;&#x69;&#116;&#x68;&#x75;&#x62;&#x2e;&#x63;&#x6f;&#x6d;</a>:用户名&#x2F;仓库名.git。</p>
+<li><p>在 <code>github</code> 中新建仓库或者使用现在仓库，拿到 <a href="mailto:&#103;&#x69;&#116;&#x40;&#x67;&#x69;&#x74;&#x68;&#117;&#98;&#x2e;&#99;&#x6f;&#109;">&#103;&#x69;&#116;&#x40;&#x67;&#x69;&#x74;&#x68;&#117;&#98;&#x2e;&#99;&#x6f;&#109;</a>:用户名&#x2F;仓库名.git。</p>
 </li>
 <li><p>此后，再次 <code>SSH</code> 方式与 <code>github</code> “通信”，不用输入密码确认身份了。</p>
 </li>
@@ -1313,22 +1329,6 @@
       </categories>
       <tags>
         <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>如何在 hexo 中使用图片资源</title>
-    <url>/2023/03/21/hexo/how-to-use-img-in-hexo/</url>
-    <content><![CDATA[<h1 id="使用-Markdown-嵌入图片"><a href="#使用-Markdown-嵌入图片" class="headerlink" title="使用 Markdown 嵌入图片"></a>使用 Markdown 嵌入图片</h1><p><code>hexo-renderer-marked 3.1.0</code> 引入了一个新的选项，其允许你无需使用 <code>asset_img</code> 标签插件就可以在 <strong>markdown</strong> 中嵌入图片</p>
-<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># _config.yml</span></span><br><span class="line"><span class="attr">post_asset_folder:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">marked:</span></span><br><span class="line">  <span class="attr">prependRoot:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">postAsset:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/2023/03/21/hexo/how-to-use-img-in-hexo/sass-webpack-js-hero.webp" alt="alt" title="title"></p>
-<p>启用后，资源图片将会被自动解析为其对应文章的路径。<br>例如： <code>image.jpg</code> 位置为 <code>/2020/01/02/foo/image.jpg</code> ，这表示它是 <code>/2020/01/02/foo/</code> 文章的一张资源图片， <code>![](image.jpg)</code> 将会被解析为 <code>&lt;img src=&quot;/2020/01/02/foo/image.jpg&quot;&gt;</code> 。</p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
       </tags>
   </entry>
   <entry>
@@ -1460,99 +1460,6 @@
         <tag>vue</tag>
         <tag>node</tag>
         <tag>es6</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>glob文件匹配规则</title>
-    <url>/2020/03/12/manual/glob-syntax-rules/</url>
-    <content><![CDATA[<p><strong>glob</strong> 是由普通字符和 <code>/</code> 或 <code>通配符</code> 组成的字符串，用于 <strong>匹配文件路径</strong>。可以利用一个或多个 <strong>glob</strong> 在文件系统中定位文件。</p>
-<p>它本身属于一种标准，并且各类语言都有其完整实现。本文将基于 <a class="fc-danger" href="https://github.com/isaacs/node-glob"> node-glob </a> 进行语法讲解。</p>
-<p><img src="/2020/03/12/manual/glob-syntax-rules/glob.png" alt="glob"></p>
-<span id="more"></span>
-
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>文件匹配对于操作文件系统是很有必要的，他能帮助你方便，快捷的匹配到要找的目标文件，这对构建工具尤其有用，比如 <code>gulp</code> 、<code>webpack</code> 等，它可以根据你书写的规则高效匹配文件资源，提升构建速度。</p>
-<p>下面将介绍 <code>glob</code> 的匹配语法。</p>
-<h1 id="分隔符"><a href="#分隔符" class="headerlink" title="分隔符"></a>分隔符</h1><p>字符串片段（segment）是指两个分隔符之间的所有字符组成的字符串。在 <strong>glob</strong> 中，分隔符永远是 <code>/</code> 字符。不区分操作系统，即便是在采用 <code>\\</code> 作为分隔符的 <strong>Windows</strong> 操作系统中。</p>
-<p>下面表示匹配 <code>src</code> 下的 <code>a.js</code>。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;src/a.js&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<div class="note warning"><p>注意：<br>在 <strong>glob</strong> 中，<code>\\</code> 字符被保留作为转义符使用。</p>
-</div>
-
-<p>如下， <code>*</code> 被转义了，因此，<code>*</code> 将被作为一个普通字符使用，而不再是 <strong>通配符</strong> 了。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;glob_with_uncommon_\\*_character.js&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>所以，以上规则表示，匹配当前目录下的 <code>glob_with_uncommon_*_character.js</code> 文件。</p>
-<h1 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h1><p>特殊字符用来限制文件的匹配规则，你也可以称之为 <strong>通配符</strong>。</p>
-<h2 id="一个星号"><a href="#一个星号" class="headerlink" title="*(一个星号)"></a><code>*</code>(一个星号)</h2><p>在一个字符串片段中匹配任意数量的字符，包括零个匹配。对于匹配单级目录下的文件很有用。</p>
-<p>下面这个 <strong>glob</strong> 能够匹配类似 <code>index.js</code> 的文件，但是不能匹配类似 <code>scripts/index.js</code> 或 <code>scripts/nested/index.js</code> 的文件。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;*.js&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="两个星号"><a href="#两个星号" class="headerlink" title="**(两个星号)"></a><code>**</code>(两个星号)</h2><p>在多个字符串片段中匹配任意数量的字符，包括零个匹配。 对于匹配嵌套目录下的文件很有用。请确保适当地限制带有两个星号的 <strong>glob</strong> 的使用，以避免匹配大量不必要的目录。</p>
-<p>下面这个 <strong>glob</strong> 被适当地限制在 <code>scripts/</code> 目录下。它将匹配类似 <code>scripts/index.js、scripts/nested/index.js</code> 和 <code>scripts/nested/twice/index.js</code> 的文件。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;scripts/**/*.js&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>在上面的示例中，如果没有 <code>scripts/</code> 这个前缀做限制，<code>node_modules</code> 目录下的所有目录或其他目录也都将被匹配。</p>
-<h2 id="通配符"><a href="#通配符" class="headerlink" title="? 通配符"></a><code>?</code> 通配符</h2><p><code>?</code> 表示匹配 <code>1</code> 个字符。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;abc?.js&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>以上表示匹配，类似 <code>abc0.js</code> 或 <code>abc1.js</code> 这样的文件。<code>?</code> 占据的位置可以是任何字符，但是你得存在。</p>
-<h2 id="pattern-pattern-pattern"><a href="#pattern-pattern-pattern" class="headerlink" title="?(pattern|pattern|pattern)"></a><code>?(pattern|pattern|pattern)</code></h2><p>匹配满足 0 个 条件 或 1 个条件的文件</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/?(ab)c.js&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>以上表示匹配，<code>test/dir</code> 文件夹下的 <code>abc.js</code> 或 <code>c.js</code> 文件。</p>
-<h2 id="pattern-pattern-pattern-1"><a href="#pattern-pattern-pattern-1" class="headerlink" title="!(pattern|pattern|pattern)"></a><code>!(pattern|pattern|pattern)</code></h2><p>匹配不满足提供的条件的文件。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/!(a|c)b.js&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>以上会匹配在 <code>test/dir</code> 文件夹下，非 <code>a</code> 、<code>c</code> 开头的，以 <code>b</code> 结尾的文件。</p>
-<h2 id="pattern-pattern-pattern-2"><a href="#pattern-pattern-pattern-2" class="headerlink" title="+(pattern|pattern|pattern)"></a><code>+(pattern|pattern|pattern)</code></h2><p>匹配满足 1 个及以上条件的文件。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/+(ab)c.js&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>以上模式会匹配到 <code>test/dir</code> 文件夹下的 <code>ababc.js</code> 或 <code>abc.js</code> 这样的文件。</p>
-<h2 id="pattern-pattern-pattern-3"><a href="#pattern-pattern-pattern-3" class="headerlink" title="*(pattern|pattern|pattern)"></a><code>*(pattern|pattern|pattern)</code></h2><p>匹配满足 0 个及以上条件的文件。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/*(a|b)b.js&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>以上模式会匹配到 <code>test/dir</code> 文件夹下的 <code>b.js</code> 、<code>ab.js</code> 或 <code>bb.js</code> 文件。</p>
-<h2 id="pattern-pat-pat-erN"><a href="#pattern-pat-pat-erN" class="headerlink" title="@(pattern|pat*|pat?erN)"></a><code>@(pattern|pat*|pat?erN)</code></h2><p>精确匹配提供条件之一的文件。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/@(a|c)b.js&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>以上表示精确匹配 <code>test/dir</code> 文件夹下的 <code>ab.js</code> 或 <code>cb.js</code> 文件。</p>
-<h2 id="字符范围匹配"><a href="#字符范围匹配" class="headerlink" title="字符范围匹配"></a>字符范围匹配</h2><p>这个匹配规则类似于 <code>RegExp</code> 对象中的 <code>[...]</code>。可以用于表示一个字符的范围。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/[a-z].js&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>以上表示匹配 <code>test/dir</code> 文件夹下像 <code>a.js</code> 、<code>b.js</code> 等等这样的文件。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/[0-9].js&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>以上表示匹配 <code>test/dir</code> 文件夹下像 <code>0.js</code> 、<code>1.js</code> 等等这样的文件。</p>
-<p>你还可以像 <code>RegExp</code> 对象那样，使用 <code>^</code> 或 <code>!</code> 进行取反操作。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/[^0-9].js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x27;test/dir/[!0-9].js&#x27;</span></span><br></pre></td></tr></table></figure>
-
-<p>这样对匹配 <code>test/dir</code> 文件夹下，以非单个数字命名的文件。例如 <code>1.js</code>，就不会被匹配到。</p>
-<h1 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h1><h2 id="gulp"><a href="#gulp" class="headerlink" title="gulp"></a>gulp</h2><p>在 <strong>gulp</strong> 中，其将 <strong>glob</strong> 进行了扩展，可以将多个 <strong>glob</strong> 进行组合，<strong>glob</strong> 匹配时按照每个 <strong>glob</strong> 在数组中的位置依次进行匹配操作。</p>
-<p>下面是 <code>gulp</code> 中的一个取反匹配操作：</p>
-<p>第一个 <strong>glob</strong> 匹配到一组匹配项，然后后面的取反 <strong>glob</strong> 删除这些匹配项中的一部分。</p>
-<p><strong>glob</strong> 数组中的取反 <strong>（negative）glob</strong> 必须跟在一个非取反 <strong>（non-negative）glob</strong> 后面。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;script/**/*.js&#x27;</span>, <span class="string">&#x27;!scripts/vendor/&#x27;</span>]</span><br></pre></td></tr></table></figure>
-
-<p>如果任何取反 <strong>（non-negative）glob</strong> 跟随着一个非取反 <strong>（negative）glob</strong>，任何匹配项都不会被删除。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;script/**/*.js&#x27;</span>, <span class="string">&#x27;!scripts/vendor/&#x27;</span>, <span class="string">&#x27;scripts/vendor/react.js&#x27;</span>]</span><br></pre></td></tr></table></figure>
-
-<p>如上规则，由于第三个 <strong>glob</strong> 的原因，第二个 <strong>glob</strong> 配置并不会生效，所以该条规则会递归返回 <code>script</code> 文件夹下的所有 <code>.js</code> 文件。</p>
-<p>取反 <strong>（negative） glob</strong> 可以作为对带有两个星号的 <strong>glob</strong> 的限制手段。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;**/*.js&#x27;</span>, <span class="string">&#x27;!node_modules/&#x27;</span>]</span><br></pre></td></tr></table></figure>
-
-<p>在上面的示例中，如果取反 <strong>（negative）glob</strong> 是 <code>!node_modules/**/*.js</code>，那么各匹配项都必须与取反 <strong>glob</strong> 进行比较，这将导致执行速度极慢。</p>
-<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
-<li><a href="https://github.com/isaacs/node-glob#glob-primer" class="fc-danger"> node-glob </a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>manual</category>
-      </categories>
-      <tags>
-        <tag>glob</tag>
-        <tag>node-glob</tag>
-        <tag>gulp</tag>
       </tags>
   </entry>
   <entry>
@@ -1974,6 +1881,99 @@
       </categories>
       <tags>
         <tag>markdown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>glob文件匹配规则</title>
+    <url>/2020/03/12/manual/glob-syntax-rules/</url>
+    <content><![CDATA[<p><strong>glob</strong> 是由普通字符和 <code>/</code> 或 <code>通配符</code> 组成的字符串，用于 <strong>匹配文件路径</strong>。可以利用一个或多个 <strong>glob</strong> 在文件系统中定位文件。</p>
+<p>它本身属于一种标准，并且各类语言都有其完整实现。本文将基于 <a class="fc-danger" href="https://github.com/isaacs/node-glob"> node-glob </a> 进行语法讲解。</p>
+<p><img src="/2020/03/12/manual/glob-syntax-rules/glob.png" alt="glob"></p>
+<span id="more"></span>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>文件匹配对于操作文件系统是很有必要的，他能帮助你方便，快捷的匹配到要找的目标文件，这对构建工具尤其有用，比如 <code>gulp</code> 、<code>webpack</code> 等，它可以根据你书写的规则高效匹配文件资源，提升构建速度。</p>
+<p>下面将介绍 <code>glob</code> 的匹配语法。</p>
+<h1 id="分隔符"><a href="#分隔符" class="headerlink" title="分隔符"></a>分隔符</h1><p>字符串片段（segment）是指两个分隔符之间的所有字符组成的字符串。在 <strong>glob</strong> 中，分隔符永远是 <code>/</code> 字符。不区分操作系统，即便是在采用 <code>\\</code> 作为分隔符的 <strong>Windows</strong> 操作系统中。</p>
+<p>下面表示匹配 <code>src</code> 下的 <code>a.js</code>。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;src/a.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<div class="note warning"><p>注意：<br>在 <strong>glob</strong> 中，<code>\\</code> 字符被保留作为转义符使用。</p>
+</div>
+
+<p>如下， <code>*</code> 被转义了，因此，<code>*</code> 将被作为一个普通字符使用，而不再是 <strong>通配符</strong> 了。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;glob_with_uncommon_\\*_character.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>所以，以上规则表示，匹配当前目录下的 <code>glob_with_uncommon_*_character.js</code> 文件。</p>
+<h1 id="特殊字符"><a href="#特殊字符" class="headerlink" title="特殊字符"></a>特殊字符</h1><p>特殊字符用来限制文件的匹配规则，你也可以称之为 <strong>通配符</strong>。</p>
+<h2 id="一个星号"><a href="#一个星号" class="headerlink" title="*(一个星号)"></a><code>*</code>(一个星号)</h2><p>在一个字符串片段中匹配任意数量的字符，包括零个匹配。对于匹配单级目录下的文件很有用。</p>
+<p>下面这个 <strong>glob</strong> 能够匹配类似 <code>index.js</code> 的文件，但是不能匹配类似 <code>scripts/index.js</code> 或 <code>scripts/nested/index.js</code> 的文件。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;*.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="两个星号"><a href="#两个星号" class="headerlink" title="**(两个星号)"></a><code>**</code>(两个星号)</h2><p>在多个字符串片段中匹配任意数量的字符，包括零个匹配。 对于匹配嵌套目录下的文件很有用。请确保适当地限制带有两个星号的 <strong>glob</strong> 的使用，以避免匹配大量不必要的目录。</p>
+<p>下面这个 <strong>glob</strong> 被适当地限制在 <code>scripts/</code> 目录下。它将匹配类似 <code>scripts/index.js、scripts/nested/index.js</code> 和 <code>scripts/nested/twice/index.js</code> 的文件。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;scripts/**/*.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>在上面的示例中，如果没有 <code>scripts/</code> 这个前缀做限制，<code>node_modules</code> 目录下的所有目录或其他目录也都将被匹配。</p>
+<h2 id="通配符"><a href="#通配符" class="headerlink" title="? 通配符"></a><code>?</code> 通配符</h2><p><code>?</code> 表示匹配 <code>1</code> 个字符。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;abc?.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上表示匹配，类似 <code>abc0.js</code> 或 <code>abc1.js</code> 这样的文件。<code>?</code> 占据的位置可以是任何字符，但是你得存在。</p>
+<h2 id="pattern-pattern-pattern"><a href="#pattern-pattern-pattern" class="headerlink" title="?(pattern|pattern|pattern)"></a><code>?(pattern|pattern|pattern)</code></h2><p>匹配满足 0 个 条件 或 1 个条件的文件</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/?(ab)c.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上表示匹配，<code>test/dir</code> 文件夹下的 <code>abc.js</code> 或 <code>c.js</code> 文件。</p>
+<h2 id="pattern-pattern-pattern-1"><a href="#pattern-pattern-pattern-1" class="headerlink" title="!(pattern|pattern|pattern)"></a><code>!(pattern|pattern|pattern)</code></h2><p>匹配不满足提供的条件的文件。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/!(a|c)b.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上会匹配在 <code>test/dir</code> 文件夹下，非 <code>a</code> 、<code>c</code> 开头的，以 <code>b</code> 结尾的文件。</p>
+<h2 id="pattern-pattern-pattern-2"><a href="#pattern-pattern-pattern-2" class="headerlink" title="+(pattern|pattern|pattern)"></a><code>+(pattern|pattern|pattern)</code></h2><p>匹配满足 1 个及以上条件的文件。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/+(ab)c.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上模式会匹配到 <code>test/dir</code> 文件夹下的 <code>ababc.js</code> 或 <code>abc.js</code> 这样的文件。</p>
+<h2 id="pattern-pattern-pattern-3"><a href="#pattern-pattern-pattern-3" class="headerlink" title="*(pattern|pattern|pattern)"></a><code>*(pattern|pattern|pattern)</code></h2><p>匹配满足 0 个及以上条件的文件。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/*(a|b)b.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上模式会匹配到 <code>test/dir</code> 文件夹下的 <code>b.js</code> 、<code>ab.js</code> 或 <code>bb.js</code> 文件。</p>
+<h2 id="pattern-pat-pat-erN"><a href="#pattern-pat-pat-erN" class="headerlink" title="@(pattern|pat*|pat?erN)"></a><code>@(pattern|pat*|pat?erN)</code></h2><p>精确匹配提供条件之一的文件。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/@(a|c)b.js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上表示精确匹配 <code>test/dir</code> 文件夹下的 <code>ab.js</code> 或 <code>cb.js</code> 文件。</p>
+<h2 id="字符范围匹配"><a href="#字符范围匹配" class="headerlink" title="字符范围匹配"></a>字符范围匹配</h2><p>这个匹配规则类似于 <code>RegExp</code> 对象中的 <code>[...]</code>。可以用于表示一个字符的范围。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/[a-z].js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上表示匹配 <code>test/dir</code> 文件夹下像 <code>a.js</code> 、<code>b.js</code> 等等这样的文件。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/[0-9].js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>以上表示匹配 <code>test/dir</code> 文件夹下像 <code>0.js</code> 、<code>1.js</code> 等等这样的文件。</p>
+<p>你还可以像 <code>RegExp</code> 对象那样，使用 <code>^</code> 或 <code>!</code> 进行取反操作。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">&#x27;test/dir/[^0-9].js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x27;test/dir/[!0-9].js&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>这样对匹配 <code>test/dir</code> 文件夹下，以非单个数字命名的文件。例如 <code>1.js</code>，就不会被匹配到。</p>
+<h1 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h1><h2 id="gulp"><a href="#gulp" class="headerlink" title="gulp"></a>gulp</h2><p>在 <strong>gulp</strong> 中，其将 <strong>glob</strong> 进行了扩展，可以将多个 <strong>glob</strong> 进行组合，<strong>glob</strong> 匹配时按照每个 <strong>glob</strong> 在数组中的位置依次进行匹配操作。</p>
+<p>下面是 <code>gulp</code> 中的一个取反匹配操作：</p>
+<p>第一个 <strong>glob</strong> 匹配到一组匹配项，然后后面的取反 <strong>glob</strong> 删除这些匹配项中的一部分。</p>
+<p><strong>glob</strong> 数组中的取反 <strong>（negative）glob</strong> 必须跟在一个非取反 <strong>（non-negative）glob</strong> 后面。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;script/**/*.js&#x27;</span>, <span class="string">&#x27;!scripts/vendor/&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>如果任何取反 <strong>（non-negative）glob</strong> 跟随着一个非取反 <strong>（negative）glob</strong>，任何匹配项都不会被删除。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;script/**/*.js&#x27;</span>, <span class="string">&#x27;!scripts/vendor/&#x27;</span>, <span class="string">&#x27;scripts/vendor/react.js&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>如上规则，由于第三个 <strong>glob</strong> 的原因，第二个 <strong>glob</strong> 配置并不会生效，所以该条规则会递归返回 <code>script</code> 文件夹下的所有 <code>.js</code> 文件。</p>
+<p>取反 <strong>（negative） glob</strong> 可以作为对带有两个星号的 <strong>glob</strong> 的限制手段。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">[<span class="string">&#x27;**/*.js&#x27;</span>, <span class="string">&#x27;!node_modules/&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>在上面的示例中，如果取反 <strong>（negative）glob</strong> 是 <code>!node_modules/**/*.js</code>，那么各匹配项都必须与取反 <strong>glob</strong> 进行比较，这将导致执行速度极慢。</p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h1><ul>
+<li><a href="https://github.com/isaacs/node-glob#glob-primer" class="fc-danger"> node-glob </a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>manual</category>
+      </categories>
+      <tags>
+        <tag>glob</tag>
+        <tag>node-glob</tag>
+        <tag>gulp</tag>
       </tags>
   </entry>
   <entry>
