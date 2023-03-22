@@ -27,12 +27,17 @@
 <meta property="og:description" content="本文记录 javascript 中有关 this 的问题。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6m257iqo6j30cr064glg.jpg">
+<meta property="og:image" content="http://hongwenqing.com/2019/09/02/javascript/this/this/demo-1.jpg">
 <meta property="og:image" content="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6m25sfu32j30l50820st.jpg">
+<meta property="og:image" content="http://hongwenqing.com/2019/09/02/javascript/this/this/demo-2.jpg">
 <meta property="og:image" content="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6m25rwafxj30li09p74i.jpg">
+<meta property="og:image" content="http://hongwenqing.com/2019/09/02/javascript/this/this/demo-3.jpg">
 <meta property="og:image" content="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6m25qtixuj30lp0hdaam.jpg">
+<meta property="og:image" content="http://hongwenqing.com/2019/09/02/javascript/this/this/demo-4.jpg">
 <meta property="og:image" content="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6m25rejyjj30lr0h50tb.jpg">
+<meta property="og:image" content="http://hongwenqing.com/2019/09/02/javascript/this/this/demo-5.jpg">
 <meta property="article:published_time" content="2019-09-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-03-20T09:48:37.164Z">
+<meta property="article:modified_time" content="2023-03-22T07:39:02.322Z">
 <meta property="article:author" content="elenh">
 <meta property="article:tag" content="this">
 <meta name="twitter:card" content="summary">
@@ -167,12 +172,12 @@
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">90</span>
+        <span class="site-state-item-count">91</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -243,7 +248,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-03-20 17:48:37" itemprop="dateModified" datetime="2023-03-20T17:48:37+08:00">2023-03-20</time>
+      <time title="修改时间：2023-03-22 15:39:02" itemprop="dateModified" datetime="2023-03-22T15:39:02+08:00">2023-03-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -302,14 +307,13 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">foo</span>:  <span class="number">5</span> &#125;;</span><br></pre></td></tr></table></figure>
 
 <p>上面的代码将一个对象赋值给变量 <code>obj</code>。JavaScript 引擎会先在内存里面，生成一个对象 <code>&#123; foo: 5 &#125;</code>，然后把这个对象的内存地址赋值给变量 <code>obj</code>。</p>
-<img src="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6m257iqo6j30cr064glg.jpg" />
+<!-- <img src="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6m257iqo6j30cr064glg.jpg" /> -->
 
-
+<p><img src="/2019/09/02/javascript/this/this/demo-1.jpg" alt="demo-1"></p>
 <p>也就是说，变量 <code>obj</code> 是一个地址（reference）。后面如果要读取 <code>obj.foo</code>，引擎先从<code>obj</code>拿到内存地址，然后再从该地址读出原始的对象，返回它的<code>foo</code>属性。</p>
 <p>原始的对象以字典结构保存，每一个属性名都对应一个属性描述对象。举例来说，上面例子的 <code>foo</code> 属性，实际上是以下面的形式保存的。</p>
-<img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6m25sfu32j30l50820st.jpg" />
-
-
+<!-- <img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6m25sfu32j30l50820st.jpg" /> -->
+<p><img src="/2019/09/02/javascript/this/this/demo-2.jpg" alt="demo-2"></p>
 <blockquote>
 <p>注意，foo属性的值保存在属性描述对象的 <code>value</code> 属性里面。对象属性描述请参考 <a class="fc-danger" target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty"> Object.defineProperty APIS</a>。</p>
 </blockquote>
@@ -317,9 +321,8 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">foo</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;&#125; &#125;;</span><br></pre></td></tr></table></figure>
 
 <p>这时，引擎会将函数单独保存在内存中，然后再将函数的地址赋值给 <code>foo</code> 属性的 <code>value</code> 属性。</p>
-<img src="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6m25rwafxj30li09p74i.jpg" />
-
-
+<!-- <img src="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6m25rwafxj30li09p74i.jpg" /> -->
+<p><img src="/2019/09/02/javascript/this/this/demo-3.jpg" alt="demo-3"></p>
 <p>由于函数是一个单独的值，所以它可以在不同的环境（上下文）执行。</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> f = <span class="keyword">function</span> (<span class="params"></span>) &#123;&#125;;</span><br><span class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">f</span>: f &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 单独执行</span></span><br><span class="line"><span class="title function_">f</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// obj 环境执行</span></span><br><span class="line">obj.<span class="title function_">f</span>()</span><br></pre></td></tr></table></figure>
 
@@ -334,13 +337,11 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> f = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">this</span>.<span class="property">x</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> x = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">  <span class="attr">f</span>: f,</span><br><span class="line">  <span class="attr">x</span>: <span class="number">2</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 单独执行</span></span><br><span class="line"><span class="title function_">f</span>() <span class="comment">// 1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// obj 环境执行</span></span><br><span class="line">obj.<span class="title function_">f</span>() <span class="comment">// 2</span></span><br></pre></td></tr></table></figure>
 
 <p>上面代码中，函数f在全局环境执行，<code>this.x</code> 指向全局环境的x。</p>
-<img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6m25qtixuj30lp0hdaam.jpg" />
-
-
+<!-- <img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6m25qtixuj30lp0hdaam.jpg" /> -->
+<p><img src="/2019/09/02/javascript/this/this/demo-4.jpg" alt="demo-4"></p>
 <p>当在 <code>obj</code> 环境中执行，<code>this.x</code> 则指向 <code>obj.x</code>。</p>
-<img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6m25rejyjj30lr0h50tb.jpg" />
-
-
+<!-- <img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6m25rejyjj30lr0h50tb.jpg" /> -->
+<p><img src="/2019/09/02/javascript/this/this/demo-5.jpg" alt="demo-5"></p>
 <p>回到第二个例子，<code>obj.foo()</code> 是通过 <code>obj</code> 找到 <code>foo</code>，所以就是在 <code>obj</code> 环境执行。一旦<code>var foo = obj.foo</code>，变量 <code>foo</code> 就直接指向函数本身，所以 <code>foo()</code> 就变成在全局环境执行。</p>
 <h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h1><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">Person</span>(<span class="params"> name , age </span>)&#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">name</span> = name</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">age</span> = age</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> <span class="title class_">Person</span>(<span class="string">&#x27;hong&#x27;</span>, <span class="number">18</span>)</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>( p.<span class="property">name</span> , p.<span class="property">age</span> ) <span class="comment">// hong 18</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 

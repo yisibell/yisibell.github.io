@@ -22,21 +22,30 @@
     <meta name="description" content="我们已经知道如何发布一个 node 包到 npm，整个操作过程也不是很复杂，在看这篇文章之前，如果你还不知道如何发布，你可以参考我之前的一篇文章  如何发布一个自己的node模块到npm 。 这篇文章将介绍如何在后期维护你已发布的 npm 包，以及如何更好的管理你的 包版本。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何更好的维护你的 npm 包">
-<meta property="og:url" content="http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPckBetter/index.html">
+<meta property="og:url" content="http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPkgBetter/index.html">
 <meta property="og:site_name" content="Hong WenQing&#39;s Blog">
 <meta property="og:description" content="我们已经知道如何发布一个 node 包到 npm，整个操作过程也不是很复杂，在看这篇文章之前，如果你还不知道如何发布，你可以参考我之前的一篇文章  如何发布一个自己的node模块到npm 。 这篇文章将介绍如何在后期维护你已发布的 npm 包，以及如何更好的管理你的 包版本。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6pwqgvfkoj30rl0kf40k.jpg">
+<meta property="og:image" content="http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPkgBetter/demo-1.jpg">
 <meta property="og:image" content="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6pwqiwd33j30qz0kxac9.jpg">
+<meta property="og:image" content="http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPkgBetter/demo-2.jpg">
 <meta property="og:image" content="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6pwqjhlzfj30qo0jn40i.jpg">
+<meta property="og:image" content="http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPkgBetter/demo-3.jpg">
 <meta property="og:image" content="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6pwqjvxvxj30qo0kywgo.jpg">
+<meta property="og:image" content="http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPkgBetter/demo-4.jpg">
 <meta property="og:image" content="http://wx3.sinaimg.cn/mw690/005KBvkkgy1g6pwqcrw61j30dp0cp751.jpg">
+<meta property="og:image" content="http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPkgBetter/demo-5.jpg">
 <meta property="og:image" content="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6pwqg2xhlj30dg0k0t9h.jpg">
+<meta property="og:image" content="http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPkgBetter/demo-6.jpg">
 <meta property="og:image" content="http://wx3.sinaimg.cn/mw690/005KBvkkgy1g6pwqh7y6oj30rg0ie40e.jpg">
+<meta property="og:image" content="http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPkgBetter/demo-7.jpg">
 <meta property="og:image" content="http://wx3.sinaimg.cn/mw690/005KBvkkgy1g6pwqeja6mj30db09ymxi.jpg">
+<meta property="og:image" content="http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPkgBetter/demo-8.jpg">
 <meta property="og:image" content="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6pwqeyhzxj30rb0hu40b.jpg">
+<meta property="og:image" content="http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPkgBetter/demo-9.jpg">
 <meta property="article:published_time" content="2019-09-05T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-03-20T09:48:37.168Z">
+<meta property="article:modified_time" content="2023-03-22T07:48:12.647Z">
 <meta property="article:author" content="elenh">
 <meta property="article:tag" content="npm">
 <meta property="article:tag" content="package">
@@ -47,11 +56,11 @@
 <meta name="twitter:image" content="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6pwqgvfkoj30rl0kf40k.jpg">
 
 
-<link rel="canonical" href="http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPckBetter/">
+<link rel="canonical" href="http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPkgBetter/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPckBetter/","path":"2019/09/06/npm/howToMaintainYourPckBetter/","title":"如何更好的维护你的 npm 包"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPkgBetter/","path":"2019/09/06/npm/howToMaintainYourPkgBetter/","title":"如何更好的维护你的 npm 包"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>如何更好的维护你的 npm 包 | Hong WenQing's Blog</title>
@@ -175,12 +184,12 @@
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">90</span>
+        <span class="site-state-item-count">91</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -215,7 +224,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPckBetter/">
+    <link itemprop="mainEntityOfPage" href="http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPkgBetter/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -251,7 +260,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-03-20 17:48:37" itemprop="dateModified" datetime="2023-03-20T17:48:37+08:00">2023-03-20</time>
+      <time title="修改时间：2023-03-22 15:48:12" itemprop="dateModified" datetime="2023-03-22T15:48:12+08:00">2023-03-22</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -388,8 +397,9 @@
 <h1 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h1><p>OK！需要了解的额外知识就是以上这些了。现在开始一个简单的案例。</p>
 <p>首先，我们在之前已经有发布过一个 <code>npm</code> 包了，名字就叫做 <code>hello-npm-test</code>。现在，我们开始对它进行更新及版本维护。</p>
 <p>当前 <code>hello-npm-test</code> 的版本图是这样的：</p>
-<img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6pwqgvfkoj30rl0kf40k.jpg" />
+<!-- <img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6pwqgvfkoj30rl0kf40k.jpg" /> -->
 
+<p><img src="/2019/09/06/npm/howToMaintainYourPkgBetter/demo-1.jpg" alt="demo-1"></p>
 <p>观察上图，<code>hello-npm-test</code> 的最后版本(latest)是 <code>2.0.1</code>，还有一个预先发布的测试版本(alpha) <code>2.0.3-alpha.0</code>。</p>
 <p>经过一段时间的测试，alpha 版 <code>2.0.3-alpha.0</code> 已经可以升级为最后的稳定版（latest）发布了。</p>
 <p>首先 git 工作区是干净的，所有修改已全部提交至 github，然后我们对版本进行更新。</p>
@@ -399,13 +409,15 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm publish</span><br></pre></td></tr></table></figure>
 
 <p>发布成功后的版本如下：</p>
-<img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6pwqiwd33j30qz0kxac9.jpg" />
+<!-- <img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g6pwqiwd33j30qz0kxac9.jpg" /> -->
 
+<p><img src="/2019/09/06/npm/howToMaintainYourPkgBetter/demo-2.jpg" alt="demo-2"></p>
 <p>现在 <code>2.0.3-alpha.0</code> 这个版本的 dist-tag <code>alpha</code> 就可以删除了。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm dist-tag <span class="built_in">rm</span> hello-npm-test alpha</span><br><span class="line">-alpha: hello-npm-test@2.0.3-alpha.0</span><br></pre></td></tr></table></figure>
 
-<img src="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6pwqjhlzfj30qo0jn40i.jpg" />
+<!-- <img src="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6pwqjhlzfj30qo0jn40i.jpg" /> -->
 
+<p><img src="/2019/09/06/npm/howToMaintainYourPkgBetter/demo-3.jpg" alt="demo-3"></p>
 <p>现在 <strong>Current Tags</strong> 中就只有 <code>2.0.3</code> 这个 latest 标签了。其作为最后的稳定版本。</p>
 <h2 id="最高版本的小版本升级"><a href="#最高版本的小版本升级" class="headerlink" title="最高版本的小版本升级"></a>最高版本的小版本升级</h2><p>一段时间后，我们对 <code>hello-npm-test</code> 又加入了一些新的功能，这时，我们需要对其进行小版本(minor)的升级了。</p>
 <p>先更新版本号：</p>
@@ -415,23 +427,25 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm publish</span><br></pre></td></tr></table></figure>
 
 <p>更新后的版本图：</p>
-<img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6pwqjvxvxj30qo0kywgo.jpg" />
+<!-- <img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6pwqjvxvxj30qo0kywgo.jpg" /> -->
 
-
+<p><img src="/2019/09/06/npm/howToMaintainYourPkgBetter/demo-4.jpg" alt="demo-4"></p>
 <h2 id="低的大版本持续维护"><a href="#低的大版本持续维护" class="headerlink" title="低的大版本持续维护"></a>低的大版本持续维护</h2><p>当前 <code>hello-npm-test</code> 的最新版本为 <code>2.x</code>。但是此时，还在使用着 <code>1.x</code> 的同学们提交了 <code>issue</code> 说是有 BUGS 存在，希望尽快修复。那么我们会这样做：</p>
 <blockquote>
 <p>注：在 <code>hello-npm-test</code> 的版本还是 1.x 的时，2.x准备开发的时候，我们创建了名为 <code>1.x</code> 的分支来管理 <code>1.x</code> 的代码。</p>
 </blockquote>
-<img src="http://wx3.sinaimg.cn/mw690/005KBvkkgy1g6pwqcrw61j30dp0cp751.jpg" />
+<!-- <img src="http://wx3.sinaimg.cn/mw690/005KBvkkgy1g6pwqcrw61j30dp0cp751.jpg" /> -->
 
+<p><img src="/2019/09/06/npm/howToMaintainYourPkgBetter/demo-5.jpg" alt="demo-5"></p>
 <p>好，我们切换到 1.x 分支。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout 1.x</span><br></pre></td></tr></table></figure>
 
 <p>然后一顿操作，BUGS 修复了，真快呢！嗯，男人不能说快，这叫猛！好了，提交至 github。这时，注意一定要打上标签附注版本号。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git add .</span><br><span class="line">$ git commit -m <span class="string">&#x27;bug fix&#x27;</span></span><br><span class="line">$ git tag -a v1.2.1 -m <span class="string">&#x27;bug fix to 1.2.1&#x27;</span></span><br><span class="line">$ git push --tags</span><br></pre></td></tr></table></figure>
 
-<img src="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6pwqg2xhlj30dg0k0t9h.jpg" />
+<!-- <img src="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g6pwqg2xhlj30dg0k0t9h.jpg" /> -->
 
+<p><img src="/2019/09/06/npm/howToMaintainYourPkgBetter/demo-6.jpg" alt="demo-6"></p>
 <p>然后根据这个 git tag 来为 <code>1.x</code> 升级版本。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm version from-git</span><br><span class="line">v1.2.1</span><br><span class="line">$ npm publish</span><br></pre></td></tr></table></figure>
 
@@ -439,23 +453,24 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm dist-tag add hello-npm-test@2.1.0 latest</span><br></pre></td></tr></table></figure>
 
 <p>这样就完成了一次 <code>低的大版本</code> 升级。然后我们就可以切换回 master 分支，继续 <code>2.x</code> 版本的开发维护了。</p>
-<img src="http://wx3.sinaimg.cn/mw690/005KBvkkgy1g6pwqh7y6oj30rg0ie40e.jpg" />
+<!-- <img src="http://wx3.sinaimg.cn/mw690/005KBvkkgy1g6pwqh7y6oj30rg0ie40e.jpg" /> -->
 
+<p><img src="/2019/09/06/npm/howToMaintainYourPkgBetter/demo-7.jpg" alt="demo-7"></p>
 <h2 id="升级大版本"><a href="#升级大版本" class="headerlink" title="升级大版本"></a>升级大版本</h2><p>为了响应新时代的召唤，我们决定对 <code>hello-npm-test</code> 进行一次大的颠覆性的改动，好刺激呢！</p>
 <p>首先，我们新建一个 2.x 的分支，用于之后维护 2.x 版本的代码。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout -b 2.x</span><br><span class="line">$ git push origin 2.x</span><br></pre></td></tr></table></figure>
 
-<img src="http://wx3.sinaimg.cn/mw690/005KBvkkgy1g6pwqeja6mj30db09ymxi.jpg" />
+<!-- <img src="http://wx3.sinaimg.cn/mw690/005KBvkkgy1g6pwqeja6mj30db09ymxi.jpg" /> -->
 
+<p><img src="/2019/09/06/npm/howToMaintainYourPkgBetter/demo-8.jpg" alt="demo-8"></p>
 <p>推送到 github 上之后，我们再切换回 master 分支，进行 <code>3.x</code> 的开发工作。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git checkout master</span><br></pre></td></tr></table></figure>
 
 <p>又是一顿华丽操作后，我们需要将 <code>hello-npm-test</code> 升级为 <code>3.x</code>。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ npm version major</span><br><span class="line">v3.0.0</span><br><span class="line">$ npm publish</span><br></pre></td></tr></table></figure>
 
-<img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6pwqeyhzxj30rb0hu40b.jpg" />
-
-
+<!-- <img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g6pwqeyhzxj30rb0hu40b.jpg" /> -->
+<p><img src="/2019/09/06/npm/howToMaintainYourPkgBetter/demo-9.jpg"></p>
 <p>现在最新版本就是 <code>3.0.0</code> 了。</p>
 <p>之后的各种升级就大同小异了，玩的愉快呢！</p>
 
@@ -591,7 +606,7 @@
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/quicklink/2.3.0/quicklink.umd.js" integrity="sha256-yvJQOINiH9fWemHn0vCA5lsHWJaHs6/ZmO+1Ft04SvM=" crossorigin="anonymous"></script>
-  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPckBetter/"}</script>
+  <script class="next-config" data-name="quicklink" type="application/json">{"enable":true,"home":true,"archive":true,"delay":true,"timeout":3000,"priority":true,"url":"http://hongwenqing.com/2019/09/06/npm/howToMaintainYourPkgBetter/"}</script>
   <script src="/js/third-party/quicklink.js"></script>
 
 </body>
