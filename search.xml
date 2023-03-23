@@ -1,6 +1,263 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>bootstrap-paginator分页插件的使用</title>
+    <url>/2016/05/22/bootstrap/bootstrap-paginator/</url>
+    <content><![CDATA[<p>​Bootstrap Paginator是一款基于Bootstrap的js分页插件，功能很丰富，个人觉得这款插件已经无可挑剔了。它提供了一系列的参数用来支持用户的定制，提供了公共的方法可随时获得插件状态的改变，以及事件来监听用户的动作。目前经过测试的浏览器包括： Firefox 5+, Chrome 14+, Safari 5+, Opera 11.6+ and IE 7+。</p>
+<span id="more"></span>
+
+<p>GitHub 官网地址：<a href="https://github.com/lyonlai/bootstrap-paginator">https://github.com/lyonlai/bootstrap-paginator</a></p>
+<h2 id="html结构"><a href="#html结构" class="headerlink" title="html结构"></a>html结构</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">&quot;pagintor&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">ul</span>&gt;</span>   <span class="comment">&lt;!--版本3.x使用ul元素--&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&quot;#pagintor&quot;</span>).<span class="title function_">bootstrapPaginator</span>(&#123;</span><br><span class="line">  <span class="attr">bootstrapMajorVersion</span>:<span class="number">3</span>,<span class="comment">//默认是2，如果是bootstrap3版本，这个参数必填</span></span><br><span class="line">  <span class="attr">currentPage</span>:<span class="number">1</span>,<span class="comment">//当前页</span></span><br><span class="line">  <span class="attr">totalPages</span>:<span class="number">10</span>,<span class="comment">//总页数</span></span><br><span class="line">  <span class="attr">size</span>:<span class="string">&quot;small&quot;</span>,<span class="comment">//设置控件的大小，mini, small, normal,large</span></span><br><span class="line">  <span class="attr">onPageClicked</span>:<span class="keyword">function</span>(<span class="params">event, originalEvent, type,page</span>)&#123;</span><br><span class="line">    <span class="comment">//为按钮绑定点击事件 page:当前点击的按钮值</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="参数介绍"><a href="#参数介绍" class="headerlink" title="参数介绍"></a>参数介绍</h2><table>
+<thead>
+<tr>
+<th align="left"><strong>数据类型</strong></th>
+<th align="center"><strong>参数名</strong></th>
+<th align="center"><strong>描述</strong></th>
+<th align="center"><strong>默认值</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">number</td>
+<td align="center">bootstrapMajorVersion</td>
+<td align="center">搭配使用的Bootstrap版本，2.X 的 分页必须使用div元素，3.X分页的必须使用ul元素。请注意与所使用的bootstrap版本对应上。</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="left">string</td>
+<td align="center">size</td>
+<td align="center">设置控件的显示大小，是个字符串. 允许的值: <em>mini</em>, <em>small</em>, <em>normal</em>,<em>large。</em>值：mini版的、小号的、正常的、大号的。</td>
+<td align="center">“normal”</td>
+</tr>
+<tr>
+<td align="left">function</td>
+<td align="center">itemContainerClass</td>
+<td align="center">该参数接收一个函数，返回一个字符串，该字符串是一个我们自定义的class类样式。当控件内的每个操纵按钮被渲染(render)时，都会调用该函数，同时把有关该按钮的信息作为参数传入。参数：<strong>type</strong>,<strong>page</strong>, <strong>current</strong> 。<strong>type</strong>为该控件的操作按钮的类型，如上图所示的五种类型：first、prev、page、next、last。<strong>page</strong>为该按钮所属第几页。<strong>current</strong> 指示整个控件的当前页是第几页。</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">number</td>
+<td align="center">currentPage</td>
+<td align="center">设置当前页.</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="left">number</td>
+<td align="center">numberOfPages</td>
+<td align="center">设置控件显示的页码数.即：类型为”page”的操作按钮的数量。</td>
+<td align="center">5</td>
+</tr>
+<tr>
+<td align="left">number</td>
+<td align="center">totalPages</td>
+<td align="center">设置总页数.</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="left">function</td>
+<td align="center">pageUrl</td>
+<td align="center">实际上，控件内的每个操作按钮最终会被渲染成超链接，该参数的作用就是设置超链接的链接地址。该参数是个函数，参数为：<strong>type</strong>,<strong>page</strong>, <strong>current。</strong>这样我们就可以通过这个函数为每个操作按钮动态设置链接地址。如：”<a href="http://example.com/list/page/%22+page">http://example.com/list/page/&quot;+page</a></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">boolean&#x2F;function</td>
+<td align="center">shouldShowPage</td>
+<td align="center">该参数用于设置某个操作按钮是否显示，可是个布尔值也可是个函数。当为true时，显示。当为false时，不显示。如果该参数是个函数，需要返回个布尔值，通过这个返回值判断是否显示。函数有3个参数: <strong>type</strong>, <strong>page</strong>, <strong>current。</strong>使用函数的好处是，可以对每个操作按钮进行显示控制。</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="left">function</td>
+<td align="center">itemTexts</td>
+<td align="center">控制每个操作按钮的显示文字。是个函数，有3个参数: <strong>type</strong>, <strong>page</strong>, <strong>current。</strong>通过这个参数我们就可以将操作按钮上的英文改为中文，如first–&gt;首页，last–&gt;尾页。</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">function</td>
+<td align="center">tooltipTitles</td>
+<td align="center">设置操作按钮的title属性。是个函数，有3个参数: <strong>type</strong>, <strong>page</strong>, <strong>current。</strong></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">boolean</td>
+<td align="center">useBootstrapTooltip</td>
+<td align="center">设置是否使用Bootstrap内置的tooltip。 true是使用，false是不使用,默认是不使用。注意：如果使用，则需要引入bootstrap-tooltip.js插件。</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="left">object</td>
+<td align="center">bootstrapTooltipOptions</td>
+<td align="center">Default:    {        animation: true,        html: true,        placement: ‘top’,        selector: false,        title: “”,        container: false }该参数是个js对象。当参数useBootstrapTooltip为true时，会将该对象传给Bootstrap的bootstrap-tooltip.js插件。</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">function</td>
+<td align="center">onPageClicked</td>
+<td align="center">为操作按钮绑定click事件。回调函数的参数：<strong>event</strong>, <strong>originalEvent</strong>, <strong>type</strong>,<strong>page。</strong></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">function</td>
+<td align="center">onPageChanged</td>
+<td align="center">为操作按钮绑定页码改变事件，回调函数的参数：<strong>event</strong>, <strong>oldPage</strong>, <strong>newPage。</strong></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<h2 id="公共命令"><a href="#公共命令" class="headerlink" title="公共命令"></a>公共命令</h2><p>另外该插件还提供了几个公共的命令，可以通过如下方法调用，如：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&#x27;#example&#x27;</span>).<span class="title function_">bootstrapPaginator</span>(<span class="string">&quot;show&quot;</span>,<span class="number">3</span>);    <span class="comment">//调用show命令</span></span><br><span class="line">$(<span class="string">&#x27;#example&#x27;</span>).<span class="title function_">bootstrapPaginator</span>(<span class="string">&quot;getPages&quot;</span>);  <span class="comment">//调用getPages命令</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th align="center"><strong>命令名</strong></th>
+<th align="center"><strong>参数</strong></th>
+<th align="center"><strong>返回值</strong></th>
+<th align="center"><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>show</code></td>
+<td align="center">page</td>
+<td align="center"></td>
+<td align="center"><strong>show</strong>命令用于直接跳转到特定的page，与直接点击操作按钮的效果是一样的。使用方法，如：<code>$(&#39;#example&#39;).bootstrapPaginator(&quot;show&quot;,3)</code> 直接跳转到第3页</td>
+</tr>
+<tr>
+<td align="center"><code>showFirst</code></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><strong>showFirst</strong> 命令用于直接跳转到首页，与点击first按钮相同。使用方法：<code>$(&#39;#example&#39;).bootstrapPaginator(&quot;showFirst&quot;)</code></td>
+</tr>
+<tr>
+<td align="center"><code>showPrevious</code></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><strong>showPrevious</strong> 命令用于直接跳转到上一页。使用方法：<code>$(&#39;#example&#39;).bootstrapPaginator(&quot;showPrevious&quot;)</code></td>
+</tr>
+<tr>
+<td align="center"><code>showNext</code></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><strong>showNext</strong>命令用于直接跳转到下一页。</td>
+</tr>
+<tr>
+<td align="center"><code>showLast</code></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><strong>showLast</strong> 命令用于直接跳转到上一页。</td>
+</tr>
+<tr>
+<td align="center"><code>getPages</code></td>
+<td align="center"></td>
+<td align="center"><em>object</em></td>
+<td align="center"><strong>getPages</strong>命令用于返回当前控件中显示的页码，以数组形式返回。使用方法：<code>var arra = $(&#39;#example&#39;).bootstrapPaginator(&quot;getPages&quot;)</code></td>
+</tr>
+<tr>
+<td align="center">setOptions</td>
+<td align="center"><em>object</em></td>
+<td align="center"></td>
+<td align="center"><strong>setOptions</strong>命令用于重新设置参数，使用方法：<code>$(&#39;#example&#39;).bootstrapPaginator(&quot;setOptions&quot;,newoptions)</code></td>
+</tr>
+</tbody></table>
+<h2 id="事件Events"><a href="#事件Events" class="headerlink" title="事件Events"></a>事件Events</h2><p>​	Bootstrap Paginator 提供了俩个事件：<em>page-clicked</em>和<em>page-changed</em>。这俩个事件作为参数使用，分别对应<em>onPageClicked</em>和<em>onPageChanged</em>。</p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>事件名</strong></th>
+<th align="center"><strong>回调函数</strong></th>
+<th align="center"><strong>描述</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">page-clicked</td>
+<td align="center">function(<em>event</em>, <em>originalEvent</em>, <em>type</em>, <em>page</em>)</td>
+<td align="center">同上文。另外，参数<em>event</em>, <em>originalEvent是俩个jquery事件对象，可参考jquery文档</em></td>
+</tr>
+<tr>
+<td align="center">page-changed</td>
+<td align="center">function(<em>event</em>, <em>oldPage</em>, <em>newPage</em>)</td>
+<td align="center">同上文</td>
+</tr>
+</tbody></table>
+<p>注意：分页样式用<code>BootStrap</code> 的，如果单独使用，请去<code>BootStrap</code>中把分页样式拷出来。<code>jQuery</code>版本需要1.8及以上。</p>
+]]></content>
+      <categories>
+        <category>bootstrap</category>
+      </categories>
+      <tags>
+        <tag>bootstrap-paginator</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>bootstrap-validator表单校验插件的使用</title>
+    <url>/2016/05/21/bootstrap/bootstrap-validator/</url>
+    <content><![CDATA[<p>基于bootstrap的表单校验插件使用说明。</p>
+<span id="more"></span>
+
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
+<li><a href="http://blog.csdn.net/nazhidao/article/details/51542508">http://blog.csdn.net/nazhidao/article/details/51542508</a></li>
+<li><a href="http://blog.csdn.net/u013938465/article/details/53507109">http://blog.csdn.net/u013938465/article/details/53507109</a></li>
+<li><a href="http://www.cnblogs.com/v-weiwang/p/4834672.html?ptvd">http://www.cnblogs.com/v-weiwang/p/4834672.html?ptvd</a></li>
+<li><a href="http://bootstrapvalidator.votintsev.ru/api/">http://bootstrapvalidator.votintsev.ru/api/</a></li>
+</ul>
+<h2 id="引包"><a href="#引包" class="headerlink" title="引包"></a>引包</h2><p>引入bootstrap-validator的css文件注意bootstrap-validator是bootstrap插件，因此依赖与bootstrap。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;lib/bootstrap/css/bootstrap<span class="selector-class">.css</span>&quot;&gt;</span><br><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;lib/bootstrap-validator/css/bootstrapValidator<span class="selector-class">.css</span>&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="引入js文件"><a href="#引入js文件" class="headerlink" title="引入js文件"></a>引入js文件</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;script src=<span class="string">&quot;lib/jquery/jquery.js&quot;</span>&gt;&lt;/script&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;lib/bootstrap/js/bootstrap.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;lib/bootstrap-validator/js/bootstrapValidator.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="html结构"><a href="#html结构" class="headerlink" title="html结构"></a>html结构</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">&quot;demo_form&quot;</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">button</span>&gt;</span>   <span class="comment">&lt;!--当需要自动触发验证时，type必须为submit--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--也可以是表单元素外的提交按钮,加上关联属性form即可--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">form</span>=<span class="string">&quot;demo_form&quot;</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="初始化表单校验插件"><a href="#初始化表单校验插件" class="headerlink" title="初始化表单校验插件"></a>初始化表单校验插件</h2><blockquote>
+<p>bootstrap-validator插件会在表单提交的时候进行校验，如果校验成功了，表单会继续提交，但是如果校验失败了，就会阻止表单的提交。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//使用表单校验插件</span></span><br><span class="line">$(formSelector).<span class="title function_">bootstrapValidator</span>(&#123;</span><br><span class="line">  <span class="comment">//1. 指定不校验的类型，默认为[&#x27;:disabled&#x27;, &#x27;:hidden&#x27;, &#x27;:not(:visible)&#x27;],可以不设置</span></span><br><span class="line">  <span class="comment">// excluded: [&#x27;:disabled&#x27;, &#x27;:hidden&#x27;, &#x27;:not(:visible)&#x27;],</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//2. 指定校验时的图标显示，默认是bootstrap风格</span></span><br><span class="line">  <span class="attr">feedbackIcons</span>: &#123;</span><br><span class="line">    <span class="attr">valid</span>: <span class="string">&#x27;glyphicon glyphicon-ok&#x27;</span>,</span><br><span class="line">    <span class="attr">invalid</span>: <span class="string">&#x27;glyphicon glyphicon-remove&#x27;</span>,</span><br><span class="line">    <span class="attr">validating</span>: <span class="string">&#x27;glyphicon glyphicon-refresh&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">//3. 指定校验字段</span></span><br><span class="line">  <span class="attr">fields</span>: &#123;</span><br><span class="line">    <span class="comment">//校验用户名，对应name表单的name属性</span></span><br><span class="line">    <span class="attr">username</span>: &#123;</span><br><span class="line">      <span class="attr">validators</span>: &#123;</span><br><span class="line">        <span class="comment">//不能为空</span></span><br><span class="line">        <span class="attr">notEmpty</span>: &#123;</span><br><span class="line">          <span class="attr">message</span>: <span class="string">&#x27;用户名不能为空&#x27;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">//长度校验</span></span><br><span class="line">        <span class="attr">stringLength</span>: &#123;</span><br><span class="line">          <span class="attr">min</span>: <span class="number">6</span>,</span><br><span class="line">          <span class="attr">max</span>: <span class="number">30</span>,</span><br><span class="line">          <span class="attr">message</span>: <span class="string">&#x27;用户名长度必须在6到30之间&#x27;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">//正则校验</span></span><br><span class="line">        <span class="attr">regexp</span>: &#123;</span><br><span class="line">          <span class="attr">regexp</span>: <span class="regexp">/^[a-zA-Z0-9_\.]+$/</span>,</span><br><span class="line">          <span class="attr">message</span>: <span class="string">&#x27;用户名由数字字母下划线和.组成&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    email : &#123;</span><br><span class="line">       validators : &#123;</span><br><span class="line">          <span class="attr">notEmpty</span>: &#123;</span><br><span class="line">          	<span class="attr">message</span>: <span class="string">&#x27;用户名不能为空&#x27;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">emailAddress</span>: &#123;</span><br><span class="line">           	<span class="attr">message</span>: <span class="string">&#x27;邮箱地址格式有误&#x27;</span></span><br><span class="line">      	  &#125;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="注册表单验证成功事件"><a href="#注册表单验证成功事件" class="headerlink" title="注册表单验证成功事件"></a>注册表单验证成功事件</h2><p>当表单校验成功时，会触发<code>success.form.bv</code>事件，此时会提交表单，这时候，通常我们需要禁止表单的自动提交，使用ajax进行表单的提交。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1.当提交按钮是: [type=&quot;submit&quot;] 表单元素时，会在提交之前自动去进行表单验证</span></span><br><span class="line"></span><br><span class="line">$(<span class="string">&quot;#form&quot;</span>).<span class="title function_">on</span>(<span class="string">&#x27;success.form.bv&#x27;</span>, <span class="keyword">function</span> (<span class="params">e</span>) &#123;</span><br><span class="line">    e.<span class="title function_">preventDefault</span>();</span><br><span class="line">    <span class="comment">//使用ajax提交逻辑</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//2.当提交按钮是 普通按钮时</span></span><br><span class="line"></span><br><span class="line">$(<span class="string">&quot;buttonName&quot;</span>).<span class="title function_">on</span>(<span class="string">&quot;click&quot;</span>, <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">     <span class="comment">//获取表单对象</span></span><br><span class="line">    <span class="keyword">var</span> bootstrapValidator = $(<span class="string">&quot;form&quot;</span>).<span class="title function_">data</span>(<span class="string">&#x27;bootstrapValidator&#x27;</span>);</span><br><span class="line">  </span><br><span class="line">        bootstrapValidator.<span class="title function_">validate</span>();  <span class="comment">//手动触发验证</span></span><br><span class="line">  </span><br><span class="line">        <span class="keyword">if</span>(bootstrapValidator.<span class="title function_">isValid</span>())&#123;  <span class="comment">//验证通过时执行相关操作</span></span><br><span class="line">            <span class="comment">//表单提交的方法、比如ajax提交</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h2><h3 id="获取validator实例-对象"><a href="#获取validator实例-对象" class="headerlink" title="获取validator实例(对象)"></a>获取validator实例(对象)</h3><p>当我们初始化好表单校验插件时，我们可以通过以下方法来获取表单校验的validator实例，通过validator实例调用一些方法来完成某些功能。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> validator = $(<span class="string">&quot;#form&quot;</span>).<span class="title function_">data</span>(<span class="string">&#x27;bootstrapValidator&#x27;</span>);  <span class="comment">//获取表单校验实例</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//使用表单校验实例可以调用一些常用的方法。</span></span><br><span class="line">validator.<span class="title function_">methodName</span>(params);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>1.手动触发表单验证</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//触发全部验证</span></span><br><span class="line">$(formName).<span class="title function_">data</span>(<span class="string">&quot;bootstrapValidator&quot;</span>).<span class="title function_">validate</span>();</span><br><span class="line"><span class="comment">//触发指定字段的验证</span></span><br><span class="line">$(formName).<span class="title function_">data</span>(<span class="string">&quot;bootstrapValidator&quot;</span>).<span class="title function_">validateField</span>(<span class="string">&#x27;fieldName&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>2.获取当前表单验证状态</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// flag = true/false , 返回true表示验证通过</span></span><br><span class="line"><span class="keyword">var</span> flag = $(formName).<span class="title function_">data</span>(“bootstrapValidator”).<span class="title function_">isValid</span>();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="重置表单"><a href="#重置表单" class="headerlink" title="重置表单"></a>重置表单</h3><p>重置表单中设置过校验的内容，将隐藏所有错误提示和图标。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//方法1:</span></span><br><span class="line">validator.<span class="title function_">resetForm</span>();<span class="comment">//重置表单，并且会隐藏所有的错误提示和图标</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//方法2:</span></span><br><span class="line"><span class="comment">//注册模态框关闭事件,模态框关闭后清除所有验证样式,隐藏所有的错误提示和图标</span></span><br><span class="line">  $(<span class="string">&#x27;#mymodal&#x27;</span>).<span class="title function_">on</span>(<span class="string">&#x27;hidden.bs.modal&#x27;</span>, <span class="keyword">function</span> (<span class="params">e</span>) &#123;</span><br><span class="line">    e.<span class="title function_">preventDefault</span>();</span><br><span class="line">    <span class="comment">//清除验证样式</span></span><br><span class="line">    $(<span class="string">&quot;#user_form&quot;</span>).<span class="title function_">data</span>(<span class="string">&quot;bootstrapValidator&quot;</span>).<span class="title function_">destroy</span>();</span><br><span class="line">    $(<span class="string">&quot;#user_form&quot;</span>).<span class="title function_">data</span>(<span class="string">&quot;bootstrapValidator&quot;</span> , <span class="literal">null</span>);</span><br><span class="line">    <span class="title function_">formValidator</span>();  <span class="comment">//封装的验证函数</span></span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="更新字段的状态"><a href="#更新字段的状态" class="headerlink" title="更新字段的状态"></a>更新字段的状态</h3><p>BootstrapValidator在用户输入内容的时候，会做校验，当调用bootstrap的插件的方法可以手动会改变字段值的状态。可以使用<code>updateStatus(field, status, validatorName)</code>方法更新字段的状态</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//参数说明：</span></span><br><span class="line"><span class="comment">// field   字段名</span></span><br><span class="line"><span class="comment">// status  校验状态</span></span><br><span class="line"><span class="comment">// validatorName   验证器名字（例如：notEmpty）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//status的值有：</span></span><br><span class="line"><span class="comment">// &quot;NOT_VALIDATED&quot;   //未校验的</span></span><br><span class="line"><span class="comment">// &quot;VALIDATING&quot;    //校验中的</span></span><br><span class="line"><span class="comment">// &quot;INVALID&quot;     //校验失败的</span></span><br><span class="line"><span class="comment">// &quot;VALID&quot;    //校验成功的。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>bootstrap</category>
+      </categories>
+      <tags>
+        <tag>bootstrap-validator</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSS Flex弹性布局</title>
     <url>/2018/10/01/css/css3-flex/</url>
     <content><![CDATA[<p>flex弹性布局简介(flexible box)。</p>
@@ -245,63 +502,6 @@
       <tags>
         <tag>flex</tag>
         <tag>布局</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linear-gradient线性渐变说明</title>
-    <url>/2019/03/19/css/css3-linear-gradient/</url>
-    <content><![CDATA[<p>记录 css3 中 <code>linear-gradient</code> 线性渐变的基本使用。</p>
-<span id="more"></span>
-
-<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>CSS <code>linear-gradient()</code> 函数用于创建一个表示两种或多种颜色线性渐变的图片。其结果属于<code>&lt;gradient&gt;</code> 数据类型，是一种特别的 <code>&lt;image&gt;</code> 数据类型。</p>
-<p><strong>列：</strong></p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* 渐变轴为180度，从红色渐变到蓝色 */</span></span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>( <span class="number">180deg</span> , red , blue );</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* 从右下到左上、从蓝色渐变到红色 */</span></span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(to left top, blue, red);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* 从下到上，从蓝色开始渐变、到高度40%位置是绿色渐变开始、最后以红色结束 */</span></span><br><span class="line">	<span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(<span class="number">0deg</span>, blue, green <span class="number">40%</span>, red);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="线性渐变的形成"><a href="#线性渐变的形成" class="headerlink" title="线性渐变的形成"></a>线性渐变的形成</h1><p>某个容器元素的线性渐变效果由 <code>渐变线</code> 上的各 <code>着色点</code> 平滑形成。而 <code>渐变线（Gradient Line）</code> 的形成由容器元素 <code>中心点</code> 和 <code>渐变角度</code> 所决定。一但 <code>渐变线</code> 被确定，那么渐变效果会从 <code>起始点（Starting Point）</code> 开始，沿着 <code>渐变线</code> ，将 <code>渐变线</code> 上各点的颜色映射到容器元素对应区域点上，直到 <code>结束点（Ending Point）</code>。这就像是，在一张画布上连续的放置了一排不同的颜料，刷子沿着这些颜料一刷后，你所看到的颜色效果。</p>
-<!-- <img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g18a3ndy0yj30a30dmglw.jpg" /> -->
-
-<p><img src="/2019/03/19/css/css3-linear-gradient/demo-1.jpg" alt="demo-1"></p>
-<blockquote>
-<p>渐变 <code>起始点</code> 的确定：</p>
-</blockquote>
-<p><code>起始点</code> 是 <code>渐变线</code> 上代表起始颜色值的点。<code>起始点</code> 由 <code>渐变线</code> 和过容器元素顶点的垂直线之间的交叉点来定义。（垂直线跟渐变线在同一象限内）</p>
-<blockquote>
-<p>渐变 <code>结束点</code> 的确定：</p>
-</blockquote>
-<p><code>结束点</code> 是 <code>渐变线</code> 上代表最终颜色值的点。<code>结束点</code> 也是由 <code>渐变线</code> 和从最近的顶点发出的垂直线之间的交叉点定义的，然而从 <code>起始点</code> 的对称点来定义 <code>结束点</code> 是更容易理解的一种方式，因为 <code>结束点</code> 是 <code>起始点</code> 关于容器元素的 <code>中心点</code> 的反射点。</p>
-<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">linear-gradient( <span class="selector-attr">[ &lt;angle&gt; | to &lt;side-or-corner&gt; ,]</span>? &lt;start <span class="attribute">color</span>&gt; <span class="selector-attr">[ &lt;percentage&gt; | &lt;length&gt; ]</span>, &lt;colors&gt; <span class="selector-attr">[ &lt;percentage&gt; | &lt;length&gt; ]</span> , &lt;end <span class="attribute">color</span>&gt; <span class="selector-attr">[ &lt;percentage&gt; | &lt;length&gt; ]</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<p>按顺序来解释<code>linear-gradient()</code> 函数的参数：</p>
-<p>第一个参数：</p>
-<blockquote>
-<p>角度 或者 边角，由此指定渐变的方向。角度值单位为 <code>deg</code>，边角的可选值有：left , right , top , bottom , left top , left bottom , right top , right bottom 。边角值只是角度值的快捷值，角度值是以容器元素中心点为轴顺时针旋转形成，如果不给定此参数的话，默认的角度值为 <code>180deg</code> ，即 <code>to bottom</code>，渐变效果是从上到下的。</p>
-</blockquote>
-<p>第二个参数(必需)：</p>
-<blockquote>
-<p>起始点颜色值及其断点长度。断点长度值单位可以是 <code>px</code> 或 <code>百分比</code>。</p>
-</blockquote>
-<p>第三及其后的参数：</p>
-<blockquote>
-<p>中间点颜色值及其断点长度。即中间可以设置多个不同的颜色渐变。</p>
-</blockquote>
-<p>最后一个参数(必需)：</p>
-<blockquote>
-<p>结束点颜色值及其断点长度。</p>
-</blockquote>
-<p>**例： **</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">400px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>( <span class="number">180deg</span> , red <span class="number">50%</span> , blue , yellow );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<!-- <img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g18a3jn2lij30e70awdfw.jpg" /> -->
-
-<p><img src="/2019/03/19/css/css3-linear-gradient/demo-2.jpg" alt="demo-2"></p>
-]]></content>
-      <categories>
-        <category>css</category>
-      </categories>
-      <tags>
-        <tag>css3</tag>
-        <tag>linear-gradient</tag>
       </tags>
   </entry>
   <entry>
@@ -668,6 +868,63 @@
       </tags>
   </entry>
   <entry>
+    <title>linear-gradient线性渐变说明</title>
+    <url>/2019/03/19/css/css3-linear-gradient/</url>
+    <content><![CDATA[<p>记录 css3 中 <code>linear-gradient</code> 线性渐变的基本使用。</p>
+<span id="more"></span>
+
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>CSS <code>linear-gradient()</code> 函数用于创建一个表示两种或多种颜色线性渐变的图片。其结果属于<code>&lt;gradient&gt;</code> 数据类型，是一种特别的 <code>&lt;image&gt;</code> 数据类型。</p>
+<p><strong>列：</strong></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">200px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">400px</span>;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* 渐变轴为180度，从红色渐变到蓝色 */</span></span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>( <span class="number">180deg</span> , red , blue );</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* 从右下到左上、从蓝色渐变到红色 */</span></span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(to left top, blue, red);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">/* 从下到上，从蓝色开始渐变、到高度40%位置是绿色渐变开始、最后以红色结束 */</span></span><br><span class="line">	<span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(<span class="number">0deg</span>, blue, green <span class="number">40%</span>, red);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="线性渐变的形成"><a href="#线性渐变的形成" class="headerlink" title="线性渐变的形成"></a>线性渐变的形成</h1><p>某个容器元素的线性渐变效果由 <code>渐变线</code> 上的各 <code>着色点</code> 平滑形成。而 <code>渐变线（Gradient Line）</code> 的形成由容器元素 <code>中心点</code> 和 <code>渐变角度</code> 所决定。一但 <code>渐变线</code> 被确定，那么渐变效果会从 <code>起始点（Starting Point）</code> 开始，沿着 <code>渐变线</code> ，将 <code>渐变线</code> 上各点的颜色映射到容器元素对应区域点上，直到 <code>结束点（Ending Point）</code>。这就像是，在一张画布上连续的放置了一排不同的颜料，刷子沿着这些颜料一刷后，你所看到的颜色效果。</p>
+<!-- <img src="http://wx4.sinaimg.cn/mw690/005KBvkkgy1g18a3ndy0yj30a30dmglw.jpg" /> -->
+
+<p><img src="/2019/03/19/css/css3-linear-gradient/demo-1.jpg" alt="demo-1"></p>
+<blockquote>
+<p>渐变 <code>起始点</code> 的确定：</p>
+</blockquote>
+<p><code>起始点</code> 是 <code>渐变线</code> 上代表起始颜色值的点。<code>起始点</code> 由 <code>渐变线</code> 和过容器元素顶点的垂直线之间的交叉点来定义。（垂直线跟渐变线在同一象限内）</p>
+<blockquote>
+<p>渐变 <code>结束点</code> 的确定：</p>
+</blockquote>
+<p><code>结束点</code> 是 <code>渐变线</code> 上代表最终颜色值的点。<code>结束点</code> 也是由 <code>渐变线</code> 和从最近的顶点发出的垂直线之间的交叉点定义的，然而从 <code>起始点</code> 的对称点来定义 <code>结束点</code> 是更容易理解的一种方式，因为 <code>结束点</code> 是 <code>起始点</code> 关于容器元素的 <code>中心点</code> 的反射点。</p>
+<h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">linear-gradient( <span class="selector-attr">[ &lt;angle&gt; | to &lt;side-or-corner&gt; ,]</span>? &lt;start <span class="attribute">color</span>&gt; <span class="selector-attr">[ &lt;percentage&gt; | &lt;length&gt; ]</span>, &lt;colors&gt; <span class="selector-attr">[ &lt;percentage&gt; | &lt;length&gt; ]</span> , &lt;end <span class="attribute">color</span>&gt; <span class="selector-attr">[ &lt;percentage&gt; | &lt;length&gt; ]</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>按顺序来解释<code>linear-gradient()</code> 函数的参数：</p>
+<p>第一个参数：</p>
+<blockquote>
+<p>角度 或者 边角，由此指定渐变的方向。角度值单位为 <code>deg</code>，边角的可选值有：left , right , top , bottom , left top , left bottom , right top , right bottom 。边角值只是角度值的快捷值，角度值是以容器元素中心点为轴顺时针旋转形成，如果不给定此参数的话，默认的角度值为 <code>180deg</code> ，即 <code>to bottom</code>，渐变效果是从上到下的。</p>
+</blockquote>
+<p>第二个参数(必需)：</p>
+<blockquote>
+<p>起始点颜色值及其断点长度。断点长度值单位可以是 <code>px</code> 或 <code>百分比</code>。</p>
+</blockquote>
+<p>第三及其后的参数：</p>
+<blockquote>
+<p>中间点颜色值及其断点长度。即中间可以设置多个不同的颜色渐变。</p>
+</blockquote>
+<p>最后一个参数(必需)：</p>
+<blockquote>
+<p>结束点颜色值及其断点长度。</p>
+</blockquote>
+<p>**例： **</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">400px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>( <span class="number">180deg</span> , red <span class="number">50%</span> , blue , yellow );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<!-- <img src="http://wx2.sinaimg.cn/mw690/005KBvkkgy1g18a3jn2lij30e70awdfw.jpg" /> -->
+
+<p><img src="/2019/03/19/css/css3-linear-gradient/demo-2.jpg" alt="demo-2"></p>
+]]></content>
+      <categories>
+        <category>css</category>
+      </categories>
+      <tags>
+        <tag>css3</tag>
+        <tag>linear-gradient</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSS radial-gradient() 函数</title>
     <url>/2019/04/02/css/css3-radial-gradient/</url>
     <content><![CDATA[<p>CSS radial-gradient() 函数创建一个 <code>&lt;image&gt;</code>，用来展示由 ** 原点（渐变中心）**  辐射开的颜色渐变。这个方法得到的是一个 CSS <code>&lt;gradient&gt;</code> 数据类型的对象。本篇文章记录其简单使用及案例。</p>
@@ -683,9 +940,8 @@
 
 <h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>由于 <code>radial-gradient()</code> 创建的是一个 <code>&lt;image&gt;</code> 类型，所以其只能作用于像 <code>background-image</code> 或 <code>border-image</code> 这样的定义图片的 css 规则上。</p>
 <h2 id="径向渐变的形成"><a href="#径向渐变的形成" class="headerlink" title="径向渐变的形成"></a>径向渐变的形成</h2><p>径向渐变(Radial gradients) 由其 <code>中心点</code>、<code>边缘形状轮廓</code> 及 <code>位置</code>、<code>色值结束点（color stops）</code> 定义而成。  径向渐变的 <code>中心点</code> 至 <code>边缘形状</code> 以及其延伸的部分，由连续缩放的若干<code>同心轮廓</code> 组成，这个轮廓由设定的边缘形状决定。<code>色值结束点</code> 用于设定 <code>虚拟渐变射线（virtual gradient ray）</code> 的变化方式，由 <code>中心点</code> 水平变化至右侧（如下图）。<code>色值结束点</code> 由百分比设定时，则是相对于终点为 <code>渐变射线</code> 与边缘形状相交点的 <code>渐变半径</code>，<code>渐变半径</code> 的终点位置即为 100%。每个轮廓均为纯色，颜色由 <code>渐变射线</code> 上相应 <code>横切点</code> 所定义的颜色决定。边缘形状只能为圆形或者椭圆形。</p>
-<img src="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g1o7zzsl7yj30dv06ojrq.jpg" />
-![demo-1](demo-1.jpg)
-
+<!-- <img src="http://wx1.sinaimg.cn/mw690/005KBvkkgy1g1o7zzsl7yj30dv06ojrq.jpg" /> -->
+<p><img src="/2019/04/02/css/css3-radial-gradient/demo-1.jpg" alt="demo-1"></p>
 <h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p><code>radial-gradient()</code> 只存在两种渐变形状，正圆（circle）和椭圆（ellipse），大体的语法如下。</p>
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">radial-gradient( <span class="selector-attr">[ x [, y]</span> ] <span class="selector-attr">[ circle | ellipse ]</span> <span class="selector-attr">[ extent-keyword ]</span> at <span class="selector-attr">[ position ]</span> , <span class="selector-attr">[color-stop [, length | persentage]</span>]+ )</span><br></pre></td></tr></table></figure>
 
@@ -868,263 +1124,6 @@
       </tags>
   </entry>
   <entry>
-    <title>bootstrap-paginator分页插件的使用</title>
-    <url>/2016/05/22/bootstrap/bootstrap-paginator/</url>
-    <content><![CDATA[<p>​Bootstrap Paginator是一款基于Bootstrap的js分页插件，功能很丰富，个人觉得这款插件已经无可挑剔了。它提供了一系列的参数用来支持用户的定制，提供了公共的方法可随时获得插件状态的改变，以及事件来监听用户的动作。目前经过测试的浏览器包括： Firefox 5+, Chrome 14+, Safari 5+, Opera 11.6+ and IE 7+。</p>
-<span id="more"></span>
-
-<p>GitHub 官网地址：<a href="https://github.com/lyonlai/bootstrap-paginator">https://github.com/lyonlai/bootstrap-paginator</a></p>
-<h2 id="html结构"><a href="#html结构" class="headerlink" title="html结构"></a>html结构</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">id</span>=<span class="string">&quot;pagintor&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">ul</span>&gt;</span>   <span class="comment">&lt;!--版本3.x使用ul元素--&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&quot;#pagintor&quot;</span>).<span class="title function_">bootstrapPaginator</span>(&#123;</span><br><span class="line">  <span class="attr">bootstrapMajorVersion</span>:<span class="number">3</span>,<span class="comment">//默认是2，如果是bootstrap3版本，这个参数必填</span></span><br><span class="line">  <span class="attr">currentPage</span>:<span class="number">1</span>,<span class="comment">//当前页</span></span><br><span class="line">  <span class="attr">totalPages</span>:<span class="number">10</span>,<span class="comment">//总页数</span></span><br><span class="line">  <span class="attr">size</span>:<span class="string">&quot;small&quot;</span>,<span class="comment">//设置控件的大小，mini, small, normal,large</span></span><br><span class="line">  <span class="attr">onPageClicked</span>:<span class="keyword">function</span>(<span class="params">event, originalEvent, type,page</span>)&#123;</span><br><span class="line">    <span class="comment">//为按钮绑定点击事件 page:当前点击的按钮值</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="参数介绍"><a href="#参数介绍" class="headerlink" title="参数介绍"></a>参数介绍</h2><table>
-<thead>
-<tr>
-<th align="left"><strong>数据类型</strong></th>
-<th align="center"><strong>参数名</strong></th>
-<th align="center"><strong>描述</strong></th>
-<th align="center"><strong>默认值</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">number</td>
-<td align="center">bootstrapMajorVersion</td>
-<td align="center">搭配使用的Bootstrap版本，2.X 的 分页必须使用div元素，3.X分页的必须使用ul元素。请注意与所使用的bootstrap版本对应上。</td>
-<td align="center">2</td>
-</tr>
-<tr>
-<td align="left">string</td>
-<td align="center">size</td>
-<td align="center">设置控件的显示大小，是个字符串. 允许的值: <em>mini</em>, <em>small</em>, <em>normal</em>,<em>large。</em>值：mini版的、小号的、正常的、大号的。</td>
-<td align="center">“normal”</td>
-</tr>
-<tr>
-<td align="left">function</td>
-<td align="center">itemContainerClass</td>
-<td align="center">该参数接收一个函数，返回一个字符串，该字符串是一个我们自定义的class类样式。当控件内的每个操纵按钮被渲染(render)时，都会调用该函数，同时把有关该按钮的信息作为参数传入。参数：<strong>type</strong>,<strong>page</strong>, <strong>current</strong> 。<strong>type</strong>为该控件的操作按钮的类型，如上图所示的五种类型：first、prev、page、next、last。<strong>page</strong>为该按钮所属第几页。<strong>current</strong> 指示整个控件的当前页是第几页。</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="left">number</td>
-<td align="center">currentPage</td>
-<td align="center">设置当前页.</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="left">number</td>
-<td align="center">numberOfPages</td>
-<td align="center">设置控件显示的页码数.即：类型为”page”的操作按钮的数量。</td>
-<td align="center">5</td>
-</tr>
-<tr>
-<td align="left">number</td>
-<td align="center">totalPages</td>
-<td align="center">设置总页数.</td>
-<td align="center">1</td>
-</tr>
-<tr>
-<td align="left">function</td>
-<td align="center">pageUrl</td>
-<td align="center">实际上，控件内的每个操作按钮最终会被渲染成超链接，该参数的作用就是设置超链接的链接地址。该参数是个函数，参数为：<strong>type</strong>,<strong>page</strong>, <strong>current。</strong>这样我们就可以通过这个函数为每个操作按钮动态设置链接地址。如：”<a href="http://example.com/list/page/%22+page">http://example.com/list/page/&quot;+page</a></td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="left">boolean&#x2F;function</td>
-<td align="center">shouldShowPage</td>
-<td align="center">该参数用于设置某个操作按钮是否显示，可是个布尔值也可是个函数。当为true时，显示。当为false时，不显示。如果该参数是个函数，需要返回个布尔值，通过这个返回值判断是否显示。函数有3个参数: <strong>type</strong>, <strong>page</strong>, <strong>current。</strong>使用函数的好处是，可以对每个操作按钮进行显示控制。</td>
-<td align="center">true</td>
-</tr>
-<tr>
-<td align="left">function</td>
-<td align="center">itemTexts</td>
-<td align="center">控制每个操作按钮的显示文字。是个函数，有3个参数: <strong>type</strong>, <strong>page</strong>, <strong>current。</strong>通过这个参数我们就可以将操作按钮上的英文改为中文，如first–&gt;首页，last–&gt;尾页。</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="left">function</td>
-<td align="center">tooltipTitles</td>
-<td align="center">设置操作按钮的title属性。是个函数，有3个参数: <strong>type</strong>, <strong>page</strong>, <strong>current。</strong></td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="left">boolean</td>
-<td align="center">useBootstrapTooltip</td>
-<td align="center">设置是否使用Bootstrap内置的tooltip。 true是使用，false是不使用,默认是不使用。注意：如果使用，则需要引入bootstrap-tooltip.js插件。</td>
-<td align="center">false</td>
-</tr>
-<tr>
-<td align="left">object</td>
-<td align="center">bootstrapTooltipOptions</td>
-<td align="center">Default:    {        animation: true,        html: true,        placement: ‘top’,        selector: false,        title: “”,        container: false }该参数是个js对象。当参数useBootstrapTooltip为true时，会将该对象传给Bootstrap的bootstrap-tooltip.js插件。</td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="left">function</td>
-<td align="center">onPageClicked</td>
-<td align="center">为操作按钮绑定click事件。回调函数的参数：<strong>event</strong>, <strong>originalEvent</strong>, <strong>type</strong>,<strong>page。</strong></td>
-<td align="center"></td>
-</tr>
-<tr>
-<td align="left">function</td>
-<td align="center">onPageChanged</td>
-<td align="center">为操作按钮绑定页码改变事件，回调函数的参数：<strong>event</strong>, <strong>oldPage</strong>, <strong>newPage。</strong></td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-<h2 id="公共命令"><a href="#公共命令" class="headerlink" title="公共命令"></a>公共命令</h2><p>另外该插件还提供了几个公共的命令，可以通过如下方法调用，如：</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="string">&#x27;#example&#x27;</span>).<span class="title function_">bootstrapPaginator</span>(<span class="string">&quot;show&quot;</span>,<span class="number">3</span>);    <span class="comment">//调用show命令</span></span><br><span class="line">$(<span class="string">&#x27;#example&#x27;</span>).<span class="title function_">bootstrapPaginator</span>(<span class="string">&quot;getPages&quot;</span>);  <span class="comment">//调用getPages命令</span></span><br></pre></td></tr></table></figure>
-
-<table>
-<thead>
-<tr>
-<th align="center"><strong>命令名</strong></th>
-<th align="center"><strong>参数</strong></th>
-<th align="center"><strong>返回值</strong></th>
-<th align="center"><strong>描述</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center"><code>show</code></td>
-<td align="center">page</td>
-<td align="center"></td>
-<td align="center"><strong>show</strong>命令用于直接跳转到特定的page，与直接点击操作按钮的效果是一样的。使用方法，如：<code>$(&#39;#example&#39;).bootstrapPaginator(&quot;show&quot;,3)</code> 直接跳转到第3页</td>
-</tr>
-<tr>
-<td align="center"><code>showFirst</code></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"><strong>showFirst</strong> 命令用于直接跳转到首页，与点击first按钮相同。使用方法：<code>$(&#39;#example&#39;).bootstrapPaginator(&quot;showFirst&quot;)</code></td>
-</tr>
-<tr>
-<td align="center"><code>showPrevious</code></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"><strong>showPrevious</strong> 命令用于直接跳转到上一页。使用方法：<code>$(&#39;#example&#39;).bootstrapPaginator(&quot;showPrevious&quot;)</code></td>
-</tr>
-<tr>
-<td align="center"><code>showNext</code></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"><strong>showNext</strong>命令用于直接跳转到下一页。</td>
-</tr>
-<tr>
-<td align="center"><code>showLast</code></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"><strong>showLast</strong> 命令用于直接跳转到上一页。</td>
-</tr>
-<tr>
-<td align="center"><code>getPages</code></td>
-<td align="center"></td>
-<td align="center"><em>object</em></td>
-<td align="center"><strong>getPages</strong>命令用于返回当前控件中显示的页码，以数组形式返回。使用方法：<code>var arra = $(&#39;#example&#39;).bootstrapPaginator(&quot;getPages&quot;)</code></td>
-</tr>
-<tr>
-<td align="center">setOptions</td>
-<td align="center"><em>object</em></td>
-<td align="center"></td>
-<td align="center"><strong>setOptions</strong>命令用于重新设置参数，使用方法：<code>$(&#39;#example&#39;).bootstrapPaginator(&quot;setOptions&quot;,newoptions)</code></td>
-</tr>
-</tbody></table>
-<h2 id="事件Events"><a href="#事件Events" class="headerlink" title="事件Events"></a>事件Events</h2><p>​	Bootstrap Paginator 提供了俩个事件：<em>page-clicked</em>和<em>page-changed</em>。这俩个事件作为参数使用，分别对应<em>onPageClicked</em>和<em>onPageChanged</em>。</p>
-<table>
-<thead>
-<tr>
-<th align="center"><strong>事件名</strong></th>
-<th align="center"><strong>回调函数</strong></th>
-<th align="center"><strong>描述</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">page-clicked</td>
-<td align="center">function(<em>event</em>, <em>originalEvent</em>, <em>type</em>, <em>page</em>)</td>
-<td align="center">同上文。另外，参数<em>event</em>, <em>originalEvent是俩个jquery事件对象，可参考jquery文档</em></td>
-</tr>
-<tr>
-<td align="center">page-changed</td>
-<td align="center">function(<em>event</em>, <em>oldPage</em>, <em>newPage</em>)</td>
-<td align="center">同上文</td>
-</tr>
-</tbody></table>
-<p>注意：分页样式用<code>BootStrap</code> 的，如果单独使用，请去<code>BootStrap</code>中把分页样式拷出来。<code>jQuery</code>版本需要1.8及以上。</p>
-]]></content>
-      <categories>
-        <category>bootstrap</category>
-      </categories>
-      <tags>
-        <tag>bootstrap-paginator</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>bootstrap-validator表单校验插件的使用</title>
-    <url>/2016/05/21/bootstrap/bootstrap-validator/</url>
-    <content><![CDATA[<p>基于bootstrap的表单校验插件使用说明。</p>
-<span id="more"></span>
-
-<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
-<li><a href="http://blog.csdn.net/nazhidao/article/details/51542508">http://blog.csdn.net/nazhidao/article/details/51542508</a></li>
-<li><a href="http://blog.csdn.net/u013938465/article/details/53507109">http://blog.csdn.net/u013938465/article/details/53507109</a></li>
-<li><a href="http://www.cnblogs.com/v-weiwang/p/4834672.html?ptvd">http://www.cnblogs.com/v-weiwang/p/4834672.html?ptvd</a></li>
-<li><a href="http://bootstrapvalidator.votintsev.ru/api/">http://bootstrapvalidator.votintsev.ru/api/</a></li>
-</ul>
-<h2 id="引包"><a href="#引包" class="headerlink" title="引包"></a>引包</h2><p>引入bootstrap-validator的css文件注意bootstrap-validator是bootstrap插件，因此依赖与bootstrap。</p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;lib/bootstrap/css/bootstrap<span class="selector-class">.css</span>&quot;&gt;</span><br><span class="line">&lt;link rel=&quot;stylesheet&quot; href=&quot;lib/bootstrap-validator/css/bootstrapValidator<span class="selector-class">.css</span>&quot;&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="引入js文件"><a href="#引入js文件" class="headerlink" title="引入js文件"></a>引入js文件</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;script src=<span class="string">&quot;lib/jquery/jquery.js&quot;</span>&gt;&lt;/script&gt;</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;lib/bootstrap/js/bootstrap.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;lib/bootstrap-validator/js/bootstrapValidator.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="html结构"><a href="#html结构" class="headerlink" title="html结构"></a>html结构</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">id</span>=<span class="string">&quot;demo_form&quot;</span>&gt;</span></span><br><span class="line">  ...</span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">button</span>&gt;</span>   <span class="comment">&lt;!--当需要自动触发验证时，type必须为submit--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!--也可以是表单元素外的提交按钮,加上关联属性form即可--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;submit&quot;</span> <span class="attr">form</span>=<span class="string">&quot;demo_form&quot;</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="初始化表单校验插件"><a href="#初始化表单校验插件" class="headerlink" title="初始化表单校验插件"></a>初始化表单校验插件</h2><blockquote>
-<p>bootstrap-validator插件会在表单提交的时候进行校验，如果校验成功了，表单会继续提交，但是如果校验失败了，就会阻止表单的提交。</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//使用表单校验插件</span></span><br><span class="line">$(formSelector).<span class="title function_">bootstrapValidator</span>(&#123;</span><br><span class="line">  <span class="comment">//1. 指定不校验的类型，默认为[&#x27;:disabled&#x27;, &#x27;:hidden&#x27;, &#x27;:not(:visible)&#x27;],可以不设置</span></span><br><span class="line">  <span class="comment">// excluded: [&#x27;:disabled&#x27;, &#x27;:hidden&#x27;, &#x27;:not(:visible)&#x27;],</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">//2. 指定校验时的图标显示，默认是bootstrap风格</span></span><br><span class="line">  <span class="attr">feedbackIcons</span>: &#123;</span><br><span class="line">    <span class="attr">valid</span>: <span class="string">&#x27;glyphicon glyphicon-ok&#x27;</span>,</span><br><span class="line">    <span class="attr">invalid</span>: <span class="string">&#x27;glyphicon glyphicon-remove&#x27;</span>,</span><br><span class="line">    <span class="attr">validating</span>: <span class="string">&#x27;glyphicon glyphicon-refresh&#x27;</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">//3. 指定校验字段</span></span><br><span class="line">  <span class="attr">fields</span>: &#123;</span><br><span class="line">    <span class="comment">//校验用户名，对应name表单的name属性</span></span><br><span class="line">    <span class="attr">username</span>: &#123;</span><br><span class="line">      <span class="attr">validators</span>: &#123;</span><br><span class="line">        <span class="comment">//不能为空</span></span><br><span class="line">        <span class="attr">notEmpty</span>: &#123;</span><br><span class="line">          <span class="attr">message</span>: <span class="string">&#x27;用户名不能为空&#x27;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">//长度校验</span></span><br><span class="line">        <span class="attr">stringLength</span>: &#123;</span><br><span class="line">          <span class="attr">min</span>: <span class="number">6</span>,</span><br><span class="line">          <span class="attr">max</span>: <span class="number">30</span>,</span><br><span class="line">          <span class="attr">message</span>: <span class="string">&#x27;用户名长度必须在6到30之间&#x27;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">//正则校验</span></span><br><span class="line">        <span class="attr">regexp</span>: &#123;</span><br><span class="line">          <span class="attr">regexp</span>: <span class="regexp">/^[a-zA-Z0-9_\.]+$/</span>,</span><br><span class="line">          <span class="attr">message</span>: <span class="string">&#x27;用户名由数字字母下划线和.组成&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    email : &#123;</span><br><span class="line">       validators : &#123;</span><br><span class="line">          <span class="attr">notEmpty</span>: &#123;</span><br><span class="line">          	<span class="attr">message</span>: <span class="string">&#x27;用户名不能为空&#x27;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">emailAddress</span>: &#123;</span><br><span class="line">           	<span class="attr">message</span>: <span class="string">&#x27;邮箱地址格式有误&#x27;</span></span><br><span class="line">      	  &#125;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<h2 id="注册表单验证成功事件"><a href="#注册表单验证成功事件" class="headerlink" title="注册表单验证成功事件"></a>注册表单验证成功事件</h2><p>当表单校验成功时，会触发<code>success.form.bv</code>事件，此时会提交表单，这时候，通常我们需要禁止表单的自动提交，使用ajax进行表单的提交。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1.当提交按钮是: [type=&quot;submit&quot;] 表单元素时，会在提交之前自动去进行表单验证</span></span><br><span class="line"></span><br><span class="line">$(<span class="string">&quot;#form&quot;</span>).<span class="title function_">on</span>(<span class="string">&#x27;success.form.bv&#x27;</span>, <span class="keyword">function</span> (<span class="params">e</span>) &#123;</span><br><span class="line">    e.<span class="title function_">preventDefault</span>();</span><br><span class="line">    <span class="comment">//使用ajax提交逻辑</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//2.当提交按钮是 普通按钮时</span></span><br><span class="line"></span><br><span class="line">$(<span class="string">&quot;buttonName&quot;</span>).<span class="title function_">on</span>(<span class="string">&quot;click&quot;</span>, <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">     <span class="comment">//获取表单对象</span></span><br><span class="line">    <span class="keyword">var</span> bootstrapValidator = $(<span class="string">&quot;form&quot;</span>).<span class="title function_">data</span>(<span class="string">&#x27;bootstrapValidator&#x27;</span>);</span><br><span class="line">  </span><br><span class="line">        bootstrapValidator.<span class="title function_">validate</span>();  <span class="comment">//手动触发验证</span></span><br><span class="line">  </span><br><span class="line">        <span class="keyword">if</span>(bootstrapValidator.<span class="title function_">isValid</span>())&#123;  <span class="comment">//验证通过时执行相关操作</span></span><br><span class="line">            <span class="comment">//表单提交的方法、比如ajax提交</span></span><br><span class="line">        &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h2><h3 id="获取validator实例-对象"><a href="#获取validator实例-对象" class="headerlink" title="获取validator实例(对象)"></a>获取validator实例(对象)</h3><p>当我们初始化好表单校验插件时，我们可以通过以下方法来获取表单校验的validator实例，通过validator实例调用一些方法来完成某些功能。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> validator = $(<span class="string">&quot;#form&quot;</span>).<span class="title function_">data</span>(<span class="string">&#x27;bootstrapValidator&#x27;</span>);  <span class="comment">//获取表单校验实例</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//使用表单校验实例可以调用一些常用的方法。</span></span><br><span class="line">validator.<span class="title function_">methodName</span>(params);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>1.手动触发表单验证</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//触发全部验证</span></span><br><span class="line">$(formName).<span class="title function_">data</span>(<span class="string">&quot;bootstrapValidator&quot;</span>).<span class="title function_">validate</span>();</span><br><span class="line"><span class="comment">//触发指定字段的验证</span></span><br><span class="line">$(formName).<span class="title function_">data</span>(<span class="string">&quot;bootstrapValidator&quot;</span>).<span class="title function_">validateField</span>(<span class="string">&#x27;fieldName&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<p>2.获取当前表单验证状态</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// flag = true/false , 返回true表示验证通过</span></span><br><span class="line"><span class="keyword">var</span> flag = $(formName).<span class="title function_">data</span>(“bootstrapValidator”).<span class="title function_">isValid</span>();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="重置表单"><a href="#重置表单" class="headerlink" title="重置表单"></a>重置表单</h3><p>重置表单中设置过校验的内容，将隐藏所有错误提示和图标。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//方法1:</span></span><br><span class="line">validator.<span class="title function_">resetForm</span>();<span class="comment">//重置表单，并且会隐藏所有的错误提示和图标</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//方法2:</span></span><br><span class="line"><span class="comment">//注册模态框关闭事件,模态框关闭后清除所有验证样式,隐藏所有的错误提示和图标</span></span><br><span class="line">  $(<span class="string">&#x27;#mymodal&#x27;</span>).<span class="title function_">on</span>(<span class="string">&#x27;hidden.bs.modal&#x27;</span>, <span class="keyword">function</span> (<span class="params">e</span>) &#123;</span><br><span class="line">    e.<span class="title function_">preventDefault</span>();</span><br><span class="line">    <span class="comment">//清除验证样式</span></span><br><span class="line">    $(<span class="string">&quot;#user_form&quot;</span>).<span class="title function_">data</span>(<span class="string">&quot;bootstrapValidator&quot;</span>).<span class="title function_">destroy</span>();</span><br><span class="line">    $(<span class="string">&quot;#user_form&quot;</span>).<span class="title function_">data</span>(<span class="string">&quot;bootstrapValidator&quot;</span> , <span class="literal">null</span>);</span><br><span class="line">    <span class="title function_">formValidator</span>();  <span class="comment">//封装的验证函数</span></span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="更新字段的状态"><a href="#更新字段的状态" class="headerlink" title="更新字段的状态"></a>更新字段的状态</h3><p>BootstrapValidator在用户输入内容的时候，会做校验，当调用bootstrap的插件的方法可以手动会改变字段值的状态。可以使用<code>updateStatus(field, status, validatorName)</code>方法更新字段的状态</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//参数说明：</span></span><br><span class="line"><span class="comment">// field   字段名</span></span><br><span class="line"><span class="comment">// status  校验状态</span></span><br><span class="line"><span class="comment">// validatorName   验证器名字（例如：notEmpty）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//status的值有：</span></span><br><span class="line"><span class="comment">// &quot;NOT_VALIDATED&quot;   //未校验的</span></span><br><span class="line"><span class="comment">// &quot;VALIDATING&quot;    //校验中的</span></span><br><span class="line"><span class="comment">// &quot;INVALID&quot;     //校验失败的</span></span><br><span class="line"><span class="comment">// &quot;VALID&quot;    //校验成功的。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>bootstrap</category>
-      </categories>
-      <tags>
-        <tag>bootstrap-validator</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>git常用命令</title>
     <url>/2018/04/14/git/git/</url>
     <content><![CDATA[<p>记录 <strong>Git</strong> 的常用操作命令，方便日后查看。</p>
@@ -1302,7 +1301,7 @@
 </li>
 <li><p>粘贴公钥 <code>id_rsa.pub</code> 内容到对应文本框中。</p>
 </li>
-<li><p>在 <code>github</code> 中新建仓库或者使用现在仓库，拿到 <a href="mailto:&#103;&#x69;&#116;&#x40;&#103;&#x69;&#116;&#104;&#117;&#x62;&#x2e;&#99;&#111;&#x6d;">&#103;&#x69;&#116;&#x40;&#103;&#x69;&#116;&#104;&#117;&#x62;&#x2e;&#99;&#111;&#x6d;</a>:用户名&#x2F;仓库名.git。</p>
+<li><p>在 <code>github</code> 中新建仓库或者使用现在仓库，拿到 <a href="mailto:&#103;&#105;&#116;&#x40;&#103;&#105;&#x74;&#x68;&#x75;&#98;&#46;&#99;&#111;&#x6d;">&#103;&#105;&#116;&#x40;&#103;&#105;&#x74;&#x68;&#x75;&#98;&#46;&#99;&#111;&#x6d;</a>:用户名&#x2F;仓库名.git。</p>
 </li>
 <li><p>此后，再次 <code>SSH</code> 方式与 <code>github</code> “通信”，不用输入密码确认身份了。</p>
 </li>
@@ -1977,85 +1976,6 @@
       </tags>
   </entry>
   <entry>
-    <title>node.js版本控制器nvm的使用</title>
-    <url>/2019/02/01/nodejs/howtousenvm/</url>
-    <content><![CDATA[<p>介绍如何使用 <code>node.js</code> 的版本控制工具 <code>nvm</code>。可用于切换不同版本的 node.js。</p>
-<span id="more"></span>
-
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>进入安装包下载地址 <a href="https://github.com/coreybutler/nvm-windows/releases">nvm 安装包 github地址</a> ，下载后，直接解压安装即可。</p>
-<p><strong>注：</strong> 如果已经单独安装了 <code>node</code> ，请先行卸载该 <code>node</code> ，因为<code>nvm</code> 会将你 <code>use</code> 的 <code>node</code> 版本安装到你设置的<code>path</code> 路径中。  </p>
-<h1 id="如何修改当前-node-的保存路径"><a href="#如何修改当前-node-的保存路径" class="headerlink" title="如何修改当前 node 的保存路径"></a>如何修改当前 <code>node</code> 的保存路径</h1><p>在 <code>nvm</code> 文件夹下的 <code>settings.txt</code> 文件中修改 <code>path</code> 字段即可。</p>
-<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">root: E:\nvm</span><br><span class="line">path: E:\nodejs</span><br></pre></td></tr></table></figure>
-
-<h1 id="环境变量设置"><a href="#环境变量设置" class="headerlink" title="环境变量设置"></a>环境变量设置</h1><p><strong>注：</strong> 在 <code>nvm-1.1.6</code> 及以下版本，默认不会在安装时自动配置环境变量，所以如果没有正确设置 <code>nvm</code> 的环境变量，会导致如下错误。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">elenh@elenh MINGW64 ~/Desktop</span><br><span class="line">$ node -v</span><br><span class="line">bash: node: <span class="built_in">command</span> not found</span><br><span class="line"></span><br><span class="line">elenh@elenh MINGW64 ~/Desktop</span><br><span class="line">$ npm -v</span><br><span class="line">bash: npm: <span class="built_in">command</span> not found</span><br><span class="line"></span><br><span class="line">elenh@elenh MINGW64 ~/Desktop</span><br><span class="line">$ nvm -v</span><br><span class="line">bash: nvm: <span class="built_in">command</span> not found</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>新版的 <code>nvm-1.1.7</code>不存在这个问题，她会在安装时自动为你设置好环境变量。所以如果你使用的是 <code>nvm-1.1.7</code> 及以上版本，那么下面的环境变量设置流程你可以忽略不看。</p>
-</blockquote>
-<p><strong>window 10下设置流程：</strong></p>
-<ul>
-<li>找到<code>控制面板</code></li>
-</ul>
-<p><img src="/2019/02/01/nodejs/howtousenvm/demo-1.jpg"></p>
-<ul>
-<li>点击进入<code>系统和安全</code></li>
-</ul>
-<p><img src="/2019/02/01/nodejs/howtousenvm/demo-2.jpg"></p>
-<ul>
-<li>点击进入 <code>系统</code></li>
-</ul>
-<p><img src="/2019/02/01/nodejs/howtousenvm/demo-3.jpg"></p>
-<ul>
-<li>点击左侧<code>高级系统设置</code></li>
-</ul>
-<p><img src="/2019/02/01/nodejs/howtousenvm/demo-4.jpg"></p>
-<ul>
-<li>点击弹窗中的 <code>环境变量</code></li>
-</ul>
-<p><img src="/2019/02/01/nodejs/howtousenvm/demo-5.jpg"></p>
-<ul>
-<li>在 <code>系统变量 </code>  模块 新建一个系统变量 <code>NVM_HOME</code> 并将值设置为 你安装的 <code>nvm</code> 所在目录。</li>
-</ul>
-<p><img src="/2019/02/01/nodejs/howtousenvm/demo-6.jpg"></p>
-<ul>
-<li>再在<code>系统变量 </code>  模块新建一个系统变量 <code>NVM_SYMLINK</code> 并将值设置为 <code>node</code> 所在目录。</li>
-</ul>
-<p><img src="/2019/02/01/nodejs/howtousenvm/demo-7.jpg"></p>
-<ul>
-<li>最后将 <code>%NVM_HOME%</code>  和  <code>%NVM_SYMLINK%</code>  添加进 <code>path</code> 变量中保存确定即可。</li>
-</ul>
-<p><img src="/2019/02/01/nodejs/howtousenvm/demo-8.jpg"></p>
-<p>到此便配置完成，现在你可以在任意地方打开 <code>cmd.exe</code>、<code>powershell.exe</code> 或 <code>git.exe</code> 。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看 nvm 版本</span></span><br><span class="line">nvm -v</span><br><span class="line"></span><br><span class="line">Running version 1.1.6.</span><br><span class="line"></span><br><span class="line">Usage:</span><br><span class="line"></span><br><span class="line">  nvm <span class="built_in">arch</span>                     : Show <span class="keyword">if</span> node is running <span class="keyword">in</span> 32 or 64 bit mode.</span><br><span class="line">  nvm install &lt;version&gt; [<span class="built_in">arch</span>] : The version can be a node.js version or <span class="string">&quot;latest&quot;</span> <span class="keyword">for</span> the latest stable version.</span><br><span class="line">                                 Optionally specify whether to install the 32 or 64 bit version (defaults to system <span class="built_in">arch</span>).</span><br><span class="line">                                 Set [<span class="built_in">arch</span>] to <span class="string">&quot;all&quot;</span> to install 32 AND 64 bit versions.</span><br><span class="line">                                 Add --insecure to the end of this <span class="built_in">command</span> to bypass SSL validation of the remote download server.</span><br><span class="line">  nvm list [available]         : List the node.js installations. Type <span class="string">&quot;available&quot;</span> at the end to see what can be installed. Aliased as <span class="built_in">ls</span>.</span><br><span class="line">  nvm on                       : Enable node.js version management.</span><br><span class="line">  nvm off                      : Disable node.js version management.</span><br><span class="line">  nvm proxy [url]              : Set a proxy to use <span class="keyword">for</span> downloads. Leave [url] blank to see the current proxy.</span><br><span class="line">                                 Set [url] to <span class="string">&quot;none&quot;</span> to remove the proxy.</span><br><span class="line">  nvm node_mirror [url]        : Set the node mirror. Defaults to https://nodejs.org/dist/. Leave [url] blank to use default url.</span><br><span class="line">  nvm npm_mirror [url]         : Set the npm mirror. Defaults to https://github.com/npm/npm/archive/. Leave [url] blank to default url.</span><br><span class="line">  nvm uninstall &lt;version&gt;      : The version must be a specific version.</span><br><span class="line">  nvm use [version] [<span class="built_in">arch</span>]     : Switch to use the specified version. Optionally specify 32/64bit architecture.</span><br><span class="line">                                 nvm use &lt;<span class="built_in">arch</span>&gt; will <span class="built_in">continue</span> using the selected version, but switch to 32/64 bit mode.</span><br><span class="line">  nvm root [path]              : Set the directory <span class="built_in">where</span> nvm should store different versions of node.js.</span><br><span class="line">                                 If &lt;path&gt; is not <span class="built_in">set</span>, the current root will be displayed.</span><br><span class="line">  nvm version                  : Displays the current running version of nvm <span class="keyword">for</span> Windows. Aliased as v.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>如上所示，打印出了正确的 <code>nvm</code> 版本，就表示 <code>nvm</code> 已经安装成功了，接下来使用 <code>nvm</code> 的安装命令来安装你需要的 <code>node</code> 版本。</p>
-<h1 id="下载源配置"><a href="#下载源配置" class="headerlink" title="下载源配置"></a>下载源配置</h1><p>由于 <code>nvm</code> 默认的下载地址 <a href="http://nodejs.org/dist/">http://nodejs.org/dist/</a> 是外国外服务器，网速不快的时候，经常会导致 <code>npm</code> 下载失败，所以可以设置 <code>node</code> 和 <code>npm</code> 的下载源地址为淘宝镜像，速度还是很可观的。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置 nodejs 的下载源地址</span></span><br><span class="line">nvm node_mirror https://npm.taobao.org/mirrors/node/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 npm 的下载源地址</span></span><br><span class="line">nvm npm_mirror https://npm.taobao.org/mirrors/npm/</span><br></pre></td></tr></table></figure>
-
-<p>你也可以通过直接修改 <code>nvm</code> 安装包里的 <code>settings.txt</code> 文件：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">node_mirror: https://npm.taobao.org/mirrors/node/</span><br><span class="line">npm_mirror: https://npm.taobao.org/mirrors/npm/</span><br></pre></td></tr></table></figure>
-
-<h1 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nvm install 10.19.0</span><br></pre></td></tr></table></figure>
-
-<p>安装完成后，使用 <code>nvm ls</code> 命令，可以查看你已经安装了哪些版本的 <code>node</code>。</p>
-<p>然后再使用 <code>nvm on</code> 命令启用 <code>nvm</code>。</p>
-<p>接着再使用 <code>nvm use 10.19.0</code> 命令，切换到 <code>node v10.19.0</code>。</p>
-<p>为了检验是否切换成功了，可以使用下面的方式进行检查。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">elenh@elenh MINGW64 ~/Desktop</span><br><span class="line">$ node -v</span><br><span class="line">v10.16.3</span><br><span class="line"></span><br><span class="line">elenh@elenh MINGW64 ~/Desktop</span><br><span class="line">$ npm -v</span><br><span class="line">6.9.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>打印出了正确的 <code>node</code> 和 <code>npm</code> 版本，就表示切换成功了。</p>
-<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看nvm是否安装成功，安装成功则会显示当前版本号和一些命令说明</span></span><br><span class="line">nvm -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看nvm的当前版本</span></span><br><span class="line">nvm version</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装最新版node</span></span><br><span class="line">nvm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装某个版本的node</span></span><br><span class="line"><span class="comment"># 例：nvm install v10.15.2 64 安装64位的，版本为 10.15.2 的node</span></span><br><span class="line">nvm install &lt;version&gt; [<span class="built_in">arch</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 卸载某个版本</span></span><br><span class="line">nvm uninstall &lt;version&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启 nvm</span></span><br><span class="line">nvm on</span><br><span class="line"></span><br><span class="line"><span class="comment"># 禁用 nvm</span></span><br><span class="line">nvm off</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看已被管理的版本</span></span><br><span class="line">nvm <span class="built_in">ls</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看可安装的 nodejs 版本</span></span><br><span class="line">nvm list available</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切换node版本</span></span><br><span class="line">nvm use &lt;version&gt; [<span class="built_in">arch</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示当前版本</span></span><br><span class="line">nvm current</span><br><span class="line"></span><br><span class="line"><span class="comment"># 给不同的版本号添加别名</span></span><br><span class="line">nvm <span class="built_in">alias</span> &lt;name&gt; &lt;version&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除已定义的别名</span></span><br><span class="line">nvm <span class="built_in">unalias</span> &lt;name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看设置与代理</span></span><br><span class="line">nvm proxy </span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置或者查看setting.txt中的node_mirror，如果不设置的默认是 https://nodejs.org/dist/</span></span><br><span class="line">nvm node_mirror [url] </span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置或者查看setting.txt中的npm_mirror，如果不设置的话默认的是 https://github.com/npm/npm/archive/.</span></span><br><span class="line">nvm npm_mirror [url] </span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置和查看root路径（nvm的安装路径）</span></span><br><span class="line">nvm root [path] </span><br><span class="line"></span><br><span class="line"><span class="comment"># 在当前版本node环境下，重新全局安装指定版本号的npm包</span></span><br><span class="line">nvm reinstall-packages &lt;version&gt; </span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>nodejs</category>
-      </categories>
-      <tags>
-        <tag>nvm</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>如何更好的维护你的 npm 包</title>
     <url>/2019/09/06/npm/howToMaintainYourPkgBetter/</url>
     <content><![CDATA[<p>我们已经知道如何发布一个 <code>node</code> 包到 <code>npm</code>，整个操作过程也不是很复杂，在看这篇文章之前，如果你还不知道如何发布，你可以参考我之前的一篇文章 <a class="fc-danger" href="https://hongwenqing.com/2019/04/01/npm/howToPublishANodeModuleToNpm/"> 如何发布一个自己的node模块到npm </a>。</p>
@@ -2484,6 +2404,85 @@
       <tags>
         <tag>npm</tag>
         <tag>nrm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>node.js版本控制器nvm的使用</title>
+    <url>/2019/02/01/nodejs/howtousenvm/</url>
+    <content><![CDATA[<p>介绍如何使用 <code>node.js</code> 的版本控制工具 <code>nvm</code>。可用于切换不同版本的 node.js。</p>
+<span id="more"></span>
+
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>进入安装包下载地址 <a href="https://github.com/coreybutler/nvm-windows/releases">nvm 安装包 github地址</a> ，下载后，直接解压安装即可。</p>
+<p><strong>注：</strong> 如果已经单独安装了 <code>node</code> ，请先行卸载该 <code>node</code> ，因为<code>nvm</code> 会将你 <code>use</code> 的 <code>node</code> 版本安装到你设置的<code>path</code> 路径中。  </p>
+<h1 id="如何修改当前-node-的保存路径"><a href="#如何修改当前-node-的保存路径" class="headerlink" title="如何修改当前 node 的保存路径"></a>如何修改当前 <code>node</code> 的保存路径</h1><p>在 <code>nvm</code> 文件夹下的 <code>settings.txt</code> 文件中修改 <code>path</code> 字段即可。</p>
+<figure class="highlight txt"><table><tr><td class="code"><pre><span class="line">root: E:\nvm</span><br><span class="line">path: E:\nodejs</span><br></pre></td></tr></table></figure>
+
+<h1 id="环境变量设置"><a href="#环境变量设置" class="headerlink" title="环境变量设置"></a>环境变量设置</h1><p><strong>注：</strong> 在 <code>nvm-1.1.6</code> 及以下版本，默认不会在安装时自动配置环境变量，所以如果没有正确设置 <code>nvm</code> 的环境变量，会导致如下错误。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">elenh@elenh MINGW64 ~/Desktop</span><br><span class="line">$ node -v</span><br><span class="line">bash: node: <span class="built_in">command</span> not found</span><br><span class="line"></span><br><span class="line">elenh@elenh MINGW64 ~/Desktop</span><br><span class="line">$ npm -v</span><br><span class="line">bash: npm: <span class="built_in">command</span> not found</span><br><span class="line"></span><br><span class="line">elenh@elenh MINGW64 ~/Desktop</span><br><span class="line">$ nvm -v</span><br><span class="line">bash: nvm: <span class="built_in">command</span> not found</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>新版的 <code>nvm-1.1.7</code>不存在这个问题，她会在安装时自动为你设置好环境变量。所以如果你使用的是 <code>nvm-1.1.7</code> 及以上版本，那么下面的环境变量设置流程你可以忽略不看。</p>
+</blockquote>
+<p><strong>window 10下设置流程：</strong></p>
+<ul>
+<li>找到<code>控制面板</code></li>
+</ul>
+<p><img src="/2019/02/01/nodejs/howtousenvm/demo-1.jpg"></p>
+<ul>
+<li>点击进入<code>系统和安全</code></li>
+</ul>
+<p><img src="/2019/02/01/nodejs/howtousenvm/demo-2.jpg"></p>
+<ul>
+<li>点击进入 <code>系统</code></li>
+</ul>
+<p><img src="/2019/02/01/nodejs/howtousenvm/demo-3.jpg"></p>
+<ul>
+<li>点击左侧<code>高级系统设置</code></li>
+</ul>
+<p><img src="/2019/02/01/nodejs/howtousenvm/demo-4.jpg"></p>
+<ul>
+<li>点击弹窗中的 <code>环境变量</code></li>
+</ul>
+<p><img src="/2019/02/01/nodejs/howtousenvm/demo-5.jpg"></p>
+<ul>
+<li>在 <code>系统变量 </code>  模块 新建一个系统变量 <code>NVM_HOME</code> 并将值设置为 你安装的 <code>nvm</code> 所在目录。</li>
+</ul>
+<p><img src="/2019/02/01/nodejs/howtousenvm/demo-6.jpg"></p>
+<ul>
+<li>再在<code>系统变量 </code>  模块新建一个系统变量 <code>NVM_SYMLINK</code> 并将值设置为 <code>node</code> 所在目录。</li>
+</ul>
+<p><img src="/2019/02/01/nodejs/howtousenvm/demo-7.jpg"></p>
+<ul>
+<li>最后将 <code>%NVM_HOME%</code>  和  <code>%NVM_SYMLINK%</code>  添加进 <code>path</code> 变量中保存确定即可。</li>
+</ul>
+<p><img src="/2019/02/01/nodejs/howtousenvm/demo-8.jpg"></p>
+<p>到此便配置完成，现在你可以在任意地方打开 <code>cmd.exe</code>、<code>powershell.exe</code> 或 <code>git.exe</code> 。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看 nvm 版本</span></span><br><span class="line">nvm -v</span><br><span class="line"></span><br><span class="line">Running version 1.1.6.</span><br><span class="line"></span><br><span class="line">Usage:</span><br><span class="line"></span><br><span class="line">  nvm <span class="built_in">arch</span>                     : Show <span class="keyword">if</span> node is running <span class="keyword">in</span> 32 or 64 bit mode.</span><br><span class="line">  nvm install &lt;version&gt; [<span class="built_in">arch</span>] : The version can be a node.js version or <span class="string">&quot;latest&quot;</span> <span class="keyword">for</span> the latest stable version.</span><br><span class="line">                                 Optionally specify whether to install the 32 or 64 bit version (defaults to system <span class="built_in">arch</span>).</span><br><span class="line">                                 Set [<span class="built_in">arch</span>] to <span class="string">&quot;all&quot;</span> to install 32 AND 64 bit versions.</span><br><span class="line">                                 Add --insecure to the end of this <span class="built_in">command</span> to bypass SSL validation of the remote download server.</span><br><span class="line">  nvm list [available]         : List the node.js installations. Type <span class="string">&quot;available&quot;</span> at the end to see what can be installed. Aliased as <span class="built_in">ls</span>.</span><br><span class="line">  nvm on                       : Enable node.js version management.</span><br><span class="line">  nvm off                      : Disable node.js version management.</span><br><span class="line">  nvm proxy [url]              : Set a proxy to use <span class="keyword">for</span> downloads. Leave [url] blank to see the current proxy.</span><br><span class="line">                                 Set [url] to <span class="string">&quot;none&quot;</span> to remove the proxy.</span><br><span class="line">  nvm node_mirror [url]        : Set the node mirror. Defaults to https://nodejs.org/dist/. Leave [url] blank to use default url.</span><br><span class="line">  nvm npm_mirror [url]         : Set the npm mirror. Defaults to https://github.com/npm/npm/archive/. Leave [url] blank to default url.</span><br><span class="line">  nvm uninstall &lt;version&gt;      : The version must be a specific version.</span><br><span class="line">  nvm use [version] [<span class="built_in">arch</span>]     : Switch to use the specified version. Optionally specify 32/64bit architecture.</span><br><span class="line">                                 nvm use &lt;<span class="built_in">arch</span>&gt; will <span class="built_in">continue</span> using the selected version, but switch to 32/64 bit mode.</span><br><span class="line">  nvm root [path]              : Set the directory <span class="built_in">where</span> nvm should store different versions of node.js.</span><br><span class="line">                                 If &lt;path&gt; is not <span class="built_in">set</span>, the current root will be displayed.</span><br><span class="line">  nvm version                  : Displays the current running version of nvm <span class="keyword">for</span> Windows. Aliased as v.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如上所示，打印出了正确的 <code>nvm</code> 版本，就表示 <code>nvm</code> 已经安装成功了，接下来使用 <code>nvm</code> 的安装命令来安装你需要的 <code>node</code> 版本。</p>
+<h1 id="下载源配置"><a href="#下载源配置" class="headerlink" title="下载源配置"></a>下载源配置</h1><p>由于 <code>nvm</code> 默认的下载地址 <a href="http://nodejs.org/dist/">http://nodejs.org/dist/</a> 是外国外服务器，网速不快的时候，经常会导致 <code>npm</code> 下载失败，所以可以设置 <code>node</code> 和 <code>npm</code> 的下载源地址为淘宝镜像，速度还是很可观的。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置 nodejs 的下载源地址</span></span><br><span class="line">nvm node_mirror https://npm.taobao.org/mirrors/node/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置 npm 的下载源地址</span></span><br><span class="line">nvm npm_mirror https://npm.taobao.org/mirrors/npm/</span><br></pre></td></tr></table></figure>
+
+<p>你也可以通过直接修改 <code>nvm</code> 安装包里的 <code>settings.txt</code> 文件：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line">node_mirror: https://npm.taobao.org/mirrors/node/</span><br><span class="line">npm_mirror: https://npm.taobao.org/mirrors/npm/</span><br></pre></td></tr></table></figure>
+
+<h1 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nvm install 10.19.0</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，使用 <code>nvm ls</code> 命令，可以查看你已经安装了哪些版本的 <code>node</code>。</p>
+<p>然后再使用 <code>nvm on</code> 命令启用 <code>nvm</code>。</p>
+<p>接着再使用 <code>nvm use 10.19.0</code> 命令，切换到 <code>node v10.19.0</code>。</p>
+<p>为了检验是否切换成功了，可以使用下面的方式进行检查。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">elenh@elenh MINGW64 ~/Desktop</span><br><span class="line">$ node -v</span><br><span class="line">v10.16.3</span><br><span class="line"></span><br><span class="line">elenh@elenh MINGW64 ~/Desktop</span><br><span class="line">$ npm -v</span><br><span class="line">6.9.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>打印出了正确的 <code>node</code> 和 <code>npm</code> 版本，就表示切换成功了。</p>
+<h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看nvm是否安装成功，安装成功则会显示当前版本号和一些命令说明</span></span><br><span class="line">nvm -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看nvm的当前版本</span></span><br><span class="line">nvm version</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装最新版node</span></span><br><span class="line">nvm install</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装某个版本的node</span></span><br><span class="line"><span class="comment"># 例：nvm install v10.15.2 64 安装64位的，版本为 10.15.2 的node</span></span><br><span class="line">nvm install &lt;version&gt; [<span class="built_in">arch</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 卸载某个版本</span></span><br><span class="line">nvm uninstall &lt;version&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启 nvm</span></span><br><span class="line">nvm on</span><br><span class="line"></span><br><span class="line"><span class="comment"># 禁用 nvm</span></span><br><span class="line">nvm off</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看已被管理的版本</span></span><br><span class="line">nvm <span class="built_in">ls</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看可安装的 nodejs 版本</span></span><br><span class="line">nvm list available</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切换node版本</span></span><br><span class="line">nvm use &lt;version&gt; [<span class="built_in">arch</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示当前版本</span></span><br><span class="line">nvm current</span><br><span class="line"></span><br><span class="line"><span class="comment"># 给不同的版本号添加别名</span></span><br><span class="line">nvm <span class="built_in">alias</span> &lt;name&gt; &lt;version&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除已定义的别名</span></span><br><span class="line">nvm <span class="built_in">unalias</span> &lt;name&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看设置与代理</span></span><br><span class="line">nvm proxy </span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置或者查看setting.txt中的node_mirror，如果不设置的默认是 https://nodejs.org/dist/</span></span><br><span class="line">nvm node_mirror [url] </span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置或者查看setting.txt中的npm_mirror，如果不设置的话默认的是 https://github.com/npm/npm/archive/.</span></span><br><span class="line">nvm npm_mirror [url] </span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置和查看root路径（nvm的安装路径）</span></span><br><span class="line">nvm root [path] </span><br><span class="line"></span><br><span class="line"><span class="comment"># 在当前版本node环境下，重新全局安装指定版本号的npm包</span></span><br><span class="line">nvm reinstall-packages &lt;version&gt; </span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>nodejs</category>
+      </categories>
+      <tags>
+        <tag>nvm</tag>
       </tags>
   </entry>
   <entry>
@@ -2978,7 +2977,7 @@
 <p>好了，以上就是全部内容，玩得开心！</p>
 ]]></content>
       <categories>
-        <category>yaml</category>
+        <category>YAML</category>
       </categories>
       <tags>
         <tag>YAML</tag>
@@ -4907,83 +4906,6 @@
       </tags>
   </entry>
   <entry>
-    <title>seajs之config</title>
-    <url>/2017/01/27/moduleDefinition/cmd/seajs-config/</url>
-    <content><![CDATA[<p>本文介绍 <code>seajs</code> 的配置方式。</p>
-<span id="more"></span>
-
-<h1 id="seajs-config-模块系统配置"><a href="#seajs-config-模块系统配置" class="headerlink" title="seajs.config() 模块系统配置"></a>seajs.config() 模块系统配置</h1><p>同样的， <code>seajs</code> 也可以进行配置。使用 <code>seajs.config</code> 方法。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 模块加载基础路径</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">base</span>: <span class="string">&#x27;http://example.com/path/to/base/&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 别名配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;es5-safe&#x27;</span>: <span class="string">&#x27;gallery/es5-safe/0.9.3/es5-safe&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;json&#x27;</span>: <span class="string">&#x27;gallery/json/1.0.2/json&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;jquery/jquery/1.10.1/jquery&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 路径配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">paths</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;gallery&#x27;</span>: <span class="string">&#x27;https://a.alipayobjects.com/gallery&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 变量配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">vars</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;locale&#x27;</span>: <span class="string">&#x27;zh-cn&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 映射配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">map</span>: [</span><br><span class="line"></span><br><span class="line">    [<span class="string">&#x27;http://example.com/js/app/&#x27;</span>, <span class="string">&#x27;http://localhost/js/app/&#x27;</span>]</span><br><span class="line"></span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 预加载项</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [</span><br><span class="line"></span><br><span class="line">    <span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">bind</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;es5-safe&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">JSON</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;json&#x27;</span></span><br><span class="line"></span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 调试模式</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">debug</span>: <span class="literal">true</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 文件编码</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">charset</span>: <span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="seajs-config详细说明"><a href="#seajs-config详细说明" class="headerlink" title="seajs.config详细说明"></a>seajs.config详细说明</h1><h2 id="alias-Object"><a href="#alias-Object" class="headerlink" title="alias [Object]"></a>alias [Object]</h2><p>当模块标识很长时，可以使用 alias 来简化。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;jquery/jquery/1.10.1/jquery&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;app/biz&#x27;</span>: <span class="string">&#x27;http://path/to/app/biz.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> $ = <span class="built_in">require</span>(<span class="string">&#x27;jquery&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 http://path/to/base/jquery/jquery/1.10.1/jquery.js</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> biz = <span class="built_in">require</span>(<span class="string">&#x27;app/biz&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 http://path/to/app/biz.js</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>使用 alias，可以让文件的真实路径与调用标识分开，有利于统一维护。</p>
-</blockquote>
-<h2 id="paths-Object"><a href="#paths-Object" class="headerlink" title="paths [Object]"></a>paths [Object]</h2><p>当目录比较深，或需要跨目录调用模块时，可以使用 paths 来简化书写。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">paths</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;gallery&#x27;</span>: <span class="string">&#x27;https://a.alipayobjects.com/gallery&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;app&#x27;</span>: <span class="string">&#x27;path/to/app&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> underscore = <span class="built_in">require</span>(<span class="string">&#x27;gallery/underscore&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 https://a.alipayobjects.com/gallery/underscore.js*</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> biz = <span class="built_in">require</span>(<span class="string">&#x27;app/biz&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 path/to/app/biz.js*</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>paths 配置可以结合 alias 配置一起使用，让模块引用非常方便。</p>
-</blockquote>
-<h2 id="vars-Object"><a href="#vars-Object" class="headerlink" title="vars [Object]"></a>vars [Object]</h2><p>有些场景下，模块路径在运行时才能确定，这时可以使用 vars 变量来配置。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">vars</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;locale&#x27;</span>: <span class="string">&#x27;zh-cn&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> lang = <span class="built_in">require</span>(<span class="string">&#x27;./i18n/&#123;locale&#125;.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 path/to/i18n/zh-cn.js</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>vars 配置的是模块标识中的变量值，在模块标识中用 {key} 来表示变量。</p>
-</blockquote>
-<h2 id="map-Array"><a href="#map-Array" class="headerlink" title="map [Array]"></a>map [Array]</h2><p>该配置可对模块路径进行映射修改，可用于路径转换、在线调试等。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">map</span>: [</span><br><span class="line"></span><br><span class="line">    [ <span class="string">&#x27;.js&#x27;</span>, <span class="string">&#x27;-debug.js&#x27;</span> ]</span><br><span class="line"></span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">&#x27;./a&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 path/to/a-debug.js</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="preload-Array"><a href="#preload-Array" class="headerlink" title="preload [Array]"></a>preload [Array]</h2><p>使用 preload 配置项，可以在普通模块加载前，提前加载并初始化好指定模块。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 在老浏览器中，提前加载好 ES5 和 json 模块</span></span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [</span><br><span class="line"></span><br><span class="line">    <span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">bind</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;es5-safe&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">JSON</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;json&#x27;</span></span><br><span class="line"></span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>preload 中的空字符串会被忽略掉。</p>
-<blockquote>
-<p>注意：preload 中的配置，需要等到 use 时才加载。比如：</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: <span class="string">&#x27;a&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在加载 b 之前，会确保模块 a 已经加载并执行好</span></span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">use</span>(<span class="string">&#x27;./b&#x27;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>preload 配置不能放在模块文件里面：</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: <span class="string">&#x27;a&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 此处执行时，不能保证模块 a 已经加载并执行好</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="debug-Boolean"><a href="#debug-Boolean" class="headerlink" title="debug [Boolean]"></a>debug [Boolean]</h2><p>值为 true 时，加载器不会删除动态插入的 <code>script</code> 标签。插件也可以根据 debug 配置，来决策 log 等信息的输出。</p>
-<h2 id="base-String"><a href="#base-String" class="headerlink" title="base [String]"></a>base [String]</h2><p>Sea.js 在解析顶级标识时，会相对 base 路径来解析。详情请参阅 模块标识</p>
-<p>注意：一般请不要配置 base 路径，把 sea.js 放在合适的路径往往更简单一致。</p>
-<h2 id="charset-String-Function"><a href="#charset-String-Function" class="headerlink" title="charset [String | Function]"></a>charset [String | Function]</h2><p>获取模块文件时，<code>&lt;script&gt;</code> 或 <code>&lt;link&gt;</code> 标签的 <code>charset</code> 属性。 默认是 <code>utf-8</code></p>
-<p>charset 还可以是一个函数：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">charset</span>: <span class="keyword">function</span>(<span class="params">url</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// xxx 目录下的文件用 gbk 编码加载</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (url.<span class="title function_">indexOf</span>(<span class="string">&#x27;http://example.com/js/xxx&#x27;</span>) === <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">return</span> <span class="string">&#x27;gbk&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 其他文件用 utf-8 编码</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;utf-8&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>注：多次配置自动合并，seajs.config 可以多次运行，每次运行时，会对配置项进行合并操作：</p>
-</blockquote>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;path/to/jquery.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;path/to/a.js&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [<span class="string">&#x27;seajs-text&#x27;</span>]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;underscore&#x27;</span>: <span class="string">&#x27;path/to/underscore.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;path/to/biz/a.js&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [<span class="string">&#x27;seajs-combo&#x27;</span>]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>上面两处 config 运行的结果是：</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">alias = &#123;</span><br><span class="line"></span><br><span class="line">  <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;path/to/jquery.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="string">&#x27;underscore&#x27;</span>: <span class="string">&#x27;path/to/underscore.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;path/to/biz/a.js&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">preload = [<span class="string">&#x27;seajs-text&#x27;</span>, <span class="string">&#x27;seajs-combo&#x27;</span>];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>即：config 会自动合并不存在的项，对存在的项则进行覆盖。</p>
-</blockquote>
-<p>插件的配置，插件可以给 Sea.js 添加配置项，请查看具体插件了解相关配置。</p>
-<p>配置文件，配置可以直接写在 html 页面上，也可以独立出来成为一个文件。</p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// seajs.config.js</span></span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>推荐将配置文件独立成一个文件放在项目根目录，方便管理，你可以将它命名为 <code>seajs.config.js</code>，方便区分。</p>
-]]></content>
-      <categories>
-        <category>模块化相关</category>
-      </categories>
-      <tags>
-        <tag>模块化</tag>
-        <tag>CMD规范</tag>
-        <tag>seajs.config</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>seajs之define函数</title>
     <url>/2017/01/28/moduleDefinition/cmd/seajs-define/</url>
     <content><![CDATA[<p>本文介绍 <code>seajs</code> 的模块定义方式。</p>
@@ -5059,6 +4981,83 @@
         <tag>模块化</tag>
         <tag>CMD规范</tag>
         <tag>define</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>seajs之config</title>
+    <url>/2017/01/27/moduleDefinition/cmd/seajs-config/</url>
+    <content><![CDATA[<p>本文介绍 <code>seajs</code> 的配置方式。</p>
+<span id="more"></span>
+
+<h1 id="seajs-config-模块系统配置"><a href="#seajs-config-模块系统配置" class="headerlink" title="seajs.config() 模块系统配置"></a>seajs.config() 模块系统配置</h1><p>同样的， <code>seajs</code> 也可以进行配置。使用 <code>seajs.config</code> 方法。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 模块加载基础路径</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">base</span>: <span class="string">&#x27;http://example.com/path/to/base/&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 别名配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;es5-safe&#x27;</span>: <span class="string">&#x27;gallery/es5-safe/0.9.3/es5-safe&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;json&#x27;</span>: <span class="string">&#x27;gallery/json/1.0.2/json&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;jquery/jquery/1.10.1/jquery&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 路径配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">paths</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;gallery&#x27;</span>: <span class="string">&#x27;https://a.alipayobjects.com/gallery&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 变量配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">vars</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;locale&#x27;</span>: <span class="string">&#x27;zh-cn&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 映射配置</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">map</span>: [</span><br><span class="line"></span><br><span class="line">    [<span class="string">&#x27;http://example.com/js/app/&#x27;</span>, <span class="string">&#x27;http://localhost/js/app/&#x27;</span>]</span><br><span class="line"></span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 预加载项</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [</span><br><span class="line"></span><br><span class="line">    <span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">bind</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;es5-safe&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">JSON</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;json&#x27;</span></span><br><span class="line"></span><br><span class="line">  ],</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 调试模式</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">debug</span>: <span class="literal">true</span>,</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 文件编码</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">charset</span>: <span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="seajs-config详细说明"><a href="#seajs-config详细说明" class="headerlink" title="seajs.config详细说明"></a>seajs.config详细说明</h1><h2 id="alias-Object"><a href="#alias-Object" class="headerlink" title="alias [Object]"></a>alias [Object]</h2><p>当模块标识很长时，可以使用 alias 来简化。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;jquery/jquery/1.10.1/jquery&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;app/biz&#x27;</span>: <span class="string">&#x27;http://path/to/app/biz.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> $ = <span class="built_in">require</span>(<span class="string">&#x27;jquery&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 http://path/to/base/jquery/jquery/1.10.1/jquery.js</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> biz = <span class="built_in">require</span>(<span class="string">&#x27;app/biz&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 http://path/to/app/biz.js</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用 alias，可以让文件的真实路径与调用标识分开，有利于统一维护。</p>
+</blockquote>
+<h2 id="paths-Object"><a href="#paths-Object" class="headerlink" title="paths [Object]"></a>paths [Object]</h2><p>当目录比较深，或需要跨目录调用模块时，可以使用 paths 来简化书写。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">paths</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;gallery&#x27;</span>: <span class="string">&#x27;https://a.alipayobjects.com/gallery&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;app&#x27;</span>: <span class="string">&#x27;path/to/app&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> underscore = <span class="built_in">require</span>(<span class="string">&#x27;gallery/underscore&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 https://a.alipayobjects.com/gallery/underscore.js*</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> biz = <span class="built_in">require</span>(<span class="string">&#x27;app/biz&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 path/to/app/biz.js*</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>paths 配置可以结合 alias 配置一起使用，让模块引用非常方便。</p>
+</blockquote>
+<h2 id="vars-Object"><a href="#vars-Object" class="headerlink" title="vars [Object]"></a>vars [Object]</h2><p>有些场景下，模块路径在运行时才能确定，这时可以使用 vars 变量来配置。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">vars</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;locale&#x27;</span>: <span class="string">&#x27;zh-cn&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> lang = <span class="built_in">require</span>(<span class="string">&#x27;./i18n/&#123;locale&#125;.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 path/to/i18n/zh-cn.js</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>vars 配置的是模块标识中的变量值，在模块标识中用 {key} 来表示变量。</p>
+</blockquote>
+<h2 id="map-Array"><a href="#map-Array" class="headerlink" title="map [Array]"></a>map [Array]</h2><p>该配置可对模块路径进行映射修改，可用于路径转换、在线调试等。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">map</span>: [</span><br><span class="line"></span><br><span class="line">    [ <span class="string">&#x27;.js&#x27;</span>, <span class="string">&#x27;-debug.js&#x27;</span> ]</span><br><span class="line"></span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span>, <span class="variable language_">module</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">var</span> a = <span class="built_in">require</span>(<span class="string">&#x27;./a&#x27;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//=&gt; 加载的是 path/to/a-debug.js</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="preload-Array"><a href="#preload-Array" class="headerlink" title="preload [Array]"></a>preload [Array]</h2><p>使用 preload 配置项，可以在普通模块加载前，提前加载并初始化好指定模块。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 在老浏览器中，提前加载好 ES5 和 json 模块</span></span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [</span><br><span class="line"></span><br><span class="line">    <span class="title class_">Function</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">bind</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;es5-safe&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">JSON</span> ? <span class="string">&#x27;&#x27;</span> : <span class="string">&#x27;json&#x27;</span></span><br><span class="line"></span><br><span class="line">  ]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>preload 中的空字符串会被忽略掉。</p>
+<blockquote>
+<p>注意：preload 中的配置，需要等到 use 时才加载。比如：</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: <span class="string">&#x27;a&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在加载 b 之前，会确保模块 a 已经加载并执行好</span></span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">use</span>(<span class="string">&#x27;./b&#x27;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>preload 配置不能放在模块文件里面：</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: <span class="string">&#x27;a&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title function_">define</span>(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="built_in">exports</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 此处执行时，不能保证模块 a 已经加载并执行好</span></span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="debug-Boolean"><a href="#debug-Boolean" class="headerlink" title="debug [Boolean]"></a>debug [Boolean]</h2><p>值为 true 时，加载器不会删除动态插入的 <code>script</code> 标签。插件也可以根据 debug 配置，来决策 log 等信息的输出。</p>
+<h2 id="base-String"><a href="#base-String" class="headerlink" title="base [String]"></a>base [String]</h2><p>Sea.js 在解析顶级标识时，会相对 base 路径来解析。详情请参阅 模块标识</p>
+<p>注意：一般请不要配置 base 路径，把 sea.js 放在合适的路径往往更简单一致。</p>
+<h2 id="charset-String-Function"><a href="#charset-String-Function" class="headerlink" title="charset [String | Function]"></a>charset [String | Function]</h2><p>获取模块文件时，<code>&lt;script&gt;</code> 或 <code>&lt;link&gt;</code> 标签的 <code>charset</code> 属性。 默认是 <code>utf-8</code></p>
+<p>charset 还可以是一个函数：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">charset</span>: <span class="keyword">function</span>(<span class="params">url</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// xxx 目录下的文件用 gbk 编码加载</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (url.<span class="title function_">indexOf</span>(<span class="string">&#x27;http://example.com/js/xxx&#x27;</span>) === <span class="number">0</span>) &#123;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">return</span> <span class="string">&#x27;gbk&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 其他文件用 utf-8 编码</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;utf-8&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注：多次配置自动合并，seajs.config 可以多次运行，每次运行时，会对配置项进行合并操作：</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;path/to/jquery.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;path/to/a.js&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [<span class="string">&#x27;seajs-text&#x27;</span>]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  <span class="attr">alias</span>: &#123;</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;underscore&#x27;</span>: <span class="string">&#x27;path/to/underscore.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">    <span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;path/to/biz/a.js&#x27;</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="attr">preload</span>: [<span class="string">&#x27;seajs-combo&#x27;</span>]</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面两处 config 运行的结果是：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">alias = &#123;</span><br><span class="line"></span><br><span class="line">  <span class="string">&#x27;jquery&#x27;</span>: <span class="string">&#x27;path/to/jquery.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="string">&#x27;underscore&#x27;</span>: <span class="string">&#x27;path/to/underscore.js&#x27;</span>,</span><br><span class="line"></span><br><span class="line">  <span class="string">&#x27;a&#x27;</span>: <span class="string">&#x27;path/to/biz/a.js&#x27;</span></span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">preload = [<span class="string">&#x27;seajs-text&#x27;</span>, <span class="string">&#x27;seajs-combo&#x27;</span>];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>即：config 会自动合并不存在的项，对存在的项则进行覆盖。</p>
+</blockquote>
+<p>插件的配置，插件可以给 Sea.js 添加配置项，请查看具体插件了解相关配置。</p>
+<p>配置文件，配置可以直接写在 html 页面上，也可以独立出来成为一个文件。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// seajs.config.js</span></span><br><span class="line"></span><br><span class="line">seajs.<span class="title function_">config</span>(&#123;</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>推荐将配置文件独立成一个文件放在项目根目录，方便管理，你可以将它命名为 <code>seajs.config.js</code>，方便区分。</p>
+]]></content>
+      <categories>
+        <category>模块化相关</category>
+      </categories>
+      <tags>
+        <tag>模块化</tag>
+        <tag>CMD规范</tag>
+        <tag>seajs.config</tag>
       </tags>
   </entry>
   <entry>
@@ -5584,6 +5583,45 @@
       </tags>
   </entry>
   <entry>
+    <title>一个元素吸顶效果指令实现</title>
+    <url>/2019/08/27/vue/directives/v-affix/</url>
+    <content><![CDATA[<p>本文介绍基于 <code>vue</code> 的自定义吸顶指令 <code>v-affix</code> 的实现。</p>
+<span id="more"></span>
+
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// @/directives/affix.js</span></span><br><span class="line"></span><br><span class="line"> <span class="comment">// 导入 dom 处理工具</span></span><br><span class="line"> <span class="keyword">import</span> dom <span class="keyword">from</span> <span class="string">&#x27;@/utils/dom&#x27;</span></span><br><span class="line"></span><br><span class="line"> <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title function_">bind</span>(<span class="params">el</span>)&#123;</span><br><span class="line">    dom.<span class="title function_">css</span>(el , &#123; </span><br><span class="line">      <span class="attr">width</span>: <span class="string">&#x27;100%&#x27;</span>,</span><br><span class="line">      <span class="attr">zIndex</span>: <span class="string">&#x27;1994214&#x27;</span> </span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">inserted</span>(<span class="params"> el , &#123;value&#125; </span>)&#123;</span><br><span class="line">    <span class="keyword">if</span> ( !value ) <span class="keyword">return</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> nextEl = el.<span class="property">nextElementSibling</span>,                                                      <span class="comment">// 后一兄弟节点元素</span></span><br><span class="line">          nextElPaddingTop = <span class="title class_">Number</span>.<span class="built_in">parseFloat</span>( dom.<span class="title function_">getStyleValue</span>( nextEl , <span class="string">&#x27;paddingTop&#x27;</span>) ),   <span class="comment">// 后一兄弟节点元素 padding-top 值</span></span><br><span class="line">          elOffsetTop = <span class="title class_">Number</span>.<span class="built_in">parseFloat</span>( dom.<span class="title function_">offset</span>( el ).<span class="property">top</span> ) ,                            <span class="comment">// 当前元素距离屏幕顶部的距离值</span></span><br><span class="line">          elHeight = <span class="title class_">Number</span>.<span class="built_in">parseFloat</span>(dom.<span class="title function_">getStyleValue</span>( el , <span class="string">&#x27;height&#x27;</span> ));                    <span class="comment">// 当前元素的高度值</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 滚动处理</span></span><br><span class="line">    el.<span class="property">_affix_scroll_handle</span> = <span class="keyword">function</span>(<span class="params">e</span>)&#123;</span><br><span class="line">      <span class="keyword">let</span> scroll_instance = <span class="variable language_">window</span>.<span class="property">pageYOffset</span> || <span class="variable language_">window</span>.<span class="property">scrollY</span>,</span><br><span class="line">          position = <span class="string">&#x27;static&#x27;</span>,</span><br><span class="line">          paddingTop = nextElPaddingTop;</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">if</span> ( scroll_instance &gt;= elOffsetTop )&#123;</span><br><span class="line">        position = <span class="string">&#x27;fixed&#x27;</span></span><br><span class="line">        paddingTop = elHeight + nextElPaddingTop + <span class="string">&#x27;px&#x27;</span></span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        position = <span class="string">&#x27;static&#x27;</span></span><br><span class="line">        paddingTop = nextElPaddingTop + <span class="string">&#x27;px&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      dom.<span class="title function_">css</span>( el , &#123;</span><br><span class="line">        position,</span><br><span class="line">        <span class="attr">left</span>: <span class="string">&#x27;0px&#x27;</span>,</span><br><span class="line">        <span class="attr">top</span>: <span class="string">&#x27;0px&#x27;</span></span><br><span class="line">      &#125;)</span><br><span class="line"></span><br><span class="line">      dom.<span class="title function_">css</span>(nextEl , &#123;paddingTop&#125;)</span><br><span class="line">      </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 点击处理（点击被绑指令元素时，自动滚动到顶部）</span></span><br><span class="line">    el.<span class="property">_affix_click_handle</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">      <span class="variable language_">window</span>.<span class="title function_">scrollTo</span>(<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>( <span class="string">&#x27;scroll&#x27;</span> , el.<span class="property">_affix_scroll_handle</span> )</span><br><span class="line">    el.<span class="title function_">addEventListener</span>( <span class="string">&#x27;click&#x27;</span>, el.<span class="property">_affix_click_handle</span> )</span><br><span class="line">    </span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">unbind</span>(<span class="params">el</span>)&#123;</span><br><span class="line">    el.<span class="property">_affix_scroll_handle</span> &amp;&amp; <span class="variable language_">window</span>.<span class="title function_">removeEventListener</span>( <span class="string">&#x27;scroll&#x27;</span> , el.<span class="property">_affix_scroll_handle</span> )</span><br><span class="line">    el.<span class="property">_affix_click_handle</span> &amp;&amp; el.<span class="title function_">removeEventListener</span>( <span class="string">&#x27;click&#x27;</span> , el.<span class="property">_affix_click_handle</span> )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>dom.js工具函数</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// /utils/dom.js</span></span><br><span class="line"> <span class="keyword">const</span> dom = &#123;</span><br><span class="line">  <span class="comment">// 设置样式</span></span><br><span class="line">  <span class="title function_">css</span>(<span class="params"> el , styles </span>)&#123;</span><br><span class="line">    <span class="keyword">for</span> ( <span class="keyword">let</span> k <span class="keyword">in</span> styles )&#123;</span><br><span class="line">      <span class="keyword">if</span> ( styles.<span class="title function_">hasOwnProperty</span>(k) )</span><br><span class="line">      el.<span class="property">style</span>[k] = styles[k]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">//获取指定样式</span></span><br><span class="line">  <span class="title function_">getStyleValue</span>(<span class="params">elObj,attr</span>)&#123;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">var</span> view = elObj.<span class="property">ownerDocument</span>.<span class="property">defaultView</span>;</span><br><span class="line">    <span class="keyword">if</span> (!view || !view.<span class="property">opener</span>) &#123;</span><br><span class="line">        view = <span class="variable language_">window</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(elObj.<span class="property">currentStyle</span>)&#123;      <span class="comment">//IE</span></span><br><span class="line">        <span class="keyword">return</span> elObj.<span class="property">currentStyle</span>[attr];</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> view.<span class="title function_">getComputedStyle</span>(elObj)[attr];     <span class="comment">//Firefox</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">//获取元素偏移量( top , left )</span></span><br><span class="line">  <span class="title function_">offset</span>(<span class="params">curEle</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> totalLeft = <span class="literal">null</span>,totalTop = <span class="literal">null</span>,par = curEle.<span class="property">offsetParent</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//首先把自己本身的进行累加</span></span><br><span class="line">    totalLeft += curEle.<span class="property">offsetLeft</span>;</span><br><span class="line">    totalTop += curEle.<span class="property">offsetTop</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//只要没有找到body，我们就把父级参照物的边框和偏移量累加</span></span><br><span class="line">    <span class="keyword">while</span>(par)&#123;</span><br><span class="line">      <span class="keyword">if</span>(navigator.<span class="property">userAgent</span>.<span class="title function_">indexOf</span>(<span class="string">&quot;MSIE 8.0&quot;</span>) === -<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="comment">//不是标准的ie8浏览器，才进行边框累加</span></span><br><span class="line">        <span class="comment">//累加父级参照物边框</span></span><br><span class="line">        totalLeft += par.<span class="property">clientLeft</span>;</span><br><span class="line">        totalTop += par.<span class="property">clientTop</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//累加父级参照物本身的偏移</span></span><br><span class="line">      totalLeft += par.<span class="property">offsetLeft</span>;</span><br><span class="line">      totalTop += par.<span class="property">offsetTop</span>;</span><br><span class="line">      par = par.<span class="property">offsetParent</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="attr">left</span>:totalLeft,<span class="attr">top</span>:totalTop&#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> dom;</span><br></pre></td></tr></table></figure>
+
+<h1 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h1><ol>
+<li>注册 <code>v-affix</code> 指令。</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> affix <span class="keyword">from</span> <span class="string">&#x27;@/directives/affix&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">directive</span>( <span class="string">&#x27;affix&#x27;</span> , affix )</span><br><span class="line"></span><br><span class="line"><span class="comment">// 忽略其他代码 ...</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>对需要吸顶的元素或组件添加 <code>v-affix</code> 指令即可。</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp2</span> <span class="attr">v-affix</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp2</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp3</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<p>然后，在窗体滚动到一定距离后，吸顶效果就会出现。</p>
+<blockquote>
+<p>如果需要控制吸顶效果的开启状态，可向 <code>v-affix</code> 指令传入一个 <code>Boolean</code> 类型值。</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp2</span> <span class="attr">v-affix</span>=<span class="string">&quot;false&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp2</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp3</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这样，就可以控制 <code>v-affix</code> 的开启状态。</p>
+]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>vue自定义指令</tag>
+        <tag>吸顶效果</tag>
+        <tag>v-affix</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何在 vue 项目中构建权限菜单</title>
     <url>/2019/10/26/vue/demo/howToCreateADynamicRoutesByAuthTree/</url>
     <content><![CDATA[<p>在使用 <code>vue</code> 做中后台管理系统项目时，我们经常会涉及到权限管理，即对菜单树进行权限控制，由于不同框架本身的一些特性，通常实现权限功能的方式也大不相同。</p>
@@ -5666,45 +5704,6 @@
       <tags>
         <tag>vue</tag>
         <tag>auth</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一个元素吸顶效果指令实现</title>
-    <url>/2019/08/27/vue/directives/v-affix/</url>
-    <content><![CDATA[<p>本文介绍基于 <code>vue</code> 的自定义吸顶指令 <code>v-affix</code> 的实现。</p>
-<span id="more"></span>
-
-<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// @/directives/affix.js</span></span><br><span class="line"></span><br><span class="line"> <span class="comment">// 导入 dom 处理工具</span></span><br><span class="line"> <span class="keyword">import</span> dom <span class="keyword">from</span> <span class="string">&#x27;@/utils/dom&#x27;</span></span><br><span class="line"></span><br><span class="line"> <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="title function_">bind</span>(<span class="params">el</span>)&#123;</span><br><span class="line">    dom.<span class="title function_">css</span>(el , &#123; </span><br><span class="line">      <span class="attr">width</span>: <span class="string">&#x27;100%&#x27;</span>,</span><br><span class="line">      <span class="attr">zIndex</span>: <span class="string">&#x27;1994214&#x27;</span> </span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">inserted</span>(<span class="params"> el , &#123;value&#125; </span>)&#123;</span><br><span class="line">    <span class="keyword">if</span> ( !value ) <span class="keyword">return</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> nextEl = el.<span class="property">nextElementSibling</span>,                                                      <span class="comment">// 后一兄弟节点元素</span></span><br><span class="line">          nextElPaddingTop = <span class="title class_">Number</span>.<span class="built_in">parseFloat</span>( dom.<span class="title function_">getStyleValue</span>( nextEl , <span class="string">&#x27;paddingTop&#x27;</span>) ),   <span class="comment">// 后一兄弟节点元素 padding-top 值</span></span><br><span class="line">          elOffsetTop = <span class="title class_">Number</span>.<span class="built_in">parseFloat</span>( dom.<span class="title function_">offset</span>( el ).<span class="property">top</span> ) ,                            <span class="comment">// 当前元素距离屏幕顶部的距离值</span></span><br><span class="line">          elHeight = <span class="title class_">Number</span>.<span class="built_in">parseFloat</span>(dom.<span class="title function_">getStyleValue</span>( el , <span class="string">&#x27;height&#x27;</span> ));                    <span class="comment">// 当前元素的高度值</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 滚动处理</span></span><br><span class="line">    el.<span class="property">_affix_scroll_handle</span> = <span class="keyword">function</span>(<span class="params">e</span>)&#123;</span><br><span class="line">      <span class="keyword">let</span> scroll_instance = <span class="variable language_">window</span>.<span class="property">pageYOffset</span> || <span class="variable language_">window</span>.<span class="property">scrollY</span>,</span><br><span class="line">          position = <span class="string">&#x27;static&#x27;</span>,</span><br><span class="line">          paddingTop = nextElPaddingTop;</span><br><span class="line">      </span><br><span class="line">      <span class="keyword">if</span> ( scroll_instance &gt;= elOffsetTop )&#123;</span><br><span class="line">        position = <span class="string">&#x27;fixed&#x27;</span></span><br><span class="line">        paddingTop = elHeight + nextElPaddingTop + <span class="string">&#x27;px&#x27;</span></span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        position = <span class="string">&#x27;static&#x27;</span></span><br><span class="line">        paddingTop = nextElPaddingTop + <span class="string">&#x27;px&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      dom.<span class="title function_">css</span>( el , &#123;</span><br><span class="line">        position,</span><br><span class="line">        <span class="attr">left</span>: <span class="string">&#x27;0px&#x27;</span>,</span><br><span class="line">        <span class="attr">top</span>: <span class="string">&#x27;0px&#x27;</span></span><br><span class="line">      &#125;)</span><br><span class="line"></span><br><span class="line">      dom.<span class="title function_">css</span>(nextEl , &#123;paddingTop&#125;)</span><br><span class="line">      </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 点击处理（点击被绑指令元素时，自动滚动到顶部）</span></span><br><span class="line">    el.<span class="property">_affix_click_handle</span> = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">      <span class="variable language_">window</span>.<span class="title function_">scrollTo</span>(<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>( <span class="string">&#x27;scroll&#x27;</span> , el.<span class="property">_affix_scroll_handle</span> )</span><br><span class="line">    el.<span class="title function_">addEventListener</span>( <span class="string">&#x27;click&#x27;</span>, el.<span class="property">_affix_click_handle</span> )</span><br><span class="line">    </span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">unbind</span>(<span class="params">el</span>)&#123;</span><br><span class="line">    el.<span class="property">_affix_scroll_handle</span> &amp;&amp; <span class="variable language_">window</span>.<span class="title function_">removeEventListener</span>( <span class="string">&#x27;scroll&#x27;</span> , el.<span class="property">_affix_scroll_handle</span> )</span><br><span class="line">    el.<span class="property">_affix_click_handle</span> &amp;&amp; el.<span class="title function_">removeEventListener</span>( <span class="string">&#x27;click&#x27;</span> , el.<span class="property">_affix_click_handle</span> )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>dom.js工具函数</strong></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"> <span class="comment">// /utils/dom.js</span></span><br><span class="line"> <span class="keyword">const</span> dom = &#123;</span><br><span class="line">  <span class="comment">// 设置样式</span></span><br><span class="line">  <span class="title function_">css</span>(<span class="params"> el , styles </span>)&#123;</span><br><span class="line">    <span class="keyword">for</span> ( <span class="keyword">let</span> k <span class="keyword">in</span> styles )&#123;</span><br><span class="line">      <span class="keyword">if</span> ( styles.<span class="title function_">hasOwnProperty</span>(k) )</span><br><span class="line">      el.<span class="property">style</span>[k] = styles[k]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="comment">//获取指定样式</span></span><br><span class="line">  <span class="title function_">getStyleValue</span>(<span class="params">elObj,attr</span>)&#123;</span><br><span class="line">   </span><br><span class="line">    <span class="keyword">var</span> view = elObj.<span class="property">ownerDocument</span>.<span class="property">defaultView</span>;</span><br><span class="line">    <span class="keyword">if</span> (!view || !view.<span class="property">opener</span>) &#123;</span><br><span class="line">        view = <span class="variable language_">window</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(elObj.<span class="property">currentStyle</span>)&#123;      <span class="comment">//IE</span></span><br><span class="line">        <span class="keyword">return</span> elObj.<span class="property">currentStyle</span>[attr];</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> view.<span class="title function_">getComputedStyle</span>(elObj)[attr];     <span class="comment">//Firefox</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">//获取元素偏移量( top , left )</span></span><br><span class="line">  <span class="title function_">offset</span>(<span class="params">curEle</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> totalLeft = <span class="literal">null</span>,totalTop = <span class="literal">null</span>,par = curEle.<span class="property">offsetParent</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//首先把自己本身的进行累加</span></span><br><span class="line">    totalLeft += curEle.<span class="property">offsetLeft</span>;</span><br><span class="line">    totalTop += curEle.<span class="property">offsetTop</span>;</span><br><span class="line">  </span><br><span class="line">    <span class="comment">//只要没有找到body，我们就把父级参照物的边框和偏移量累加</span></span><br><span class="line">    <span class="keyword">while</span>(par)&#123;</span><br><span class="line">      <span class="keyword">if</span>(navigator.<span class="property">userAgent</span>.<span class="title function_">indexOf</span>(<span class="string">&quot;MSIE 8.0&quot;</span>) === -<span class="number">1</span>)&#123;</span><br><span class="line">        <span class="comment">//不是标准的ie8浏览器，才进行边框累加</span></span><br><span class="line">        <span class="comment">//累加父级参照物边框</span></span><br><span class="line">        totalLeft += par.<span class="property">clientLeft</span>;</span><br><span class="line">        totalTop += par.<span class="property">clientTop</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//累加父级参照物本身的偏移</span></span><br><span class="line">      totalLeft += par.<span class="property">offsetLeft</span>;</span><br><span class="line">      totalTop += par.<span class="property">offsetTop</span>;</span><br><span class="line">      par = par.<span class="property">offsetParent</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="attr">left</span>:totalLeft,<span class="attr">top</span>:totalTop&#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> dom;</span><br></pre></td></tr></table></figure>
-
-<h1 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h1><ol>
-<li>注册 <code>v-affix</code> 指令。</li>
-</ol>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// main.js</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">Vue</span> <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">import</span> affix <span class="keyword">from</span> <span class="string">&#x27;@/directives/affix&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Vue</span>.<span class="title function_">directive</span>( <span class="string">&#x27;affix&#x27;</span> , affix )</span><br><span class="line"></span><br><span class="line"><span class="comment">// 忽略其他代码 ...</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>对需要吸顶的元素或组件添加 <code>v-affix</code> 指令即可。</li>
-</ol>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp2</span> <span class="attr">v-affix</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp2</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp3</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-
-<p>然后，在窗体滚动到一定距离后，吸顶效果就会出现。</p>
-<blockquote>
-<p>如果需要控制吸顶效果的开启状态，可向 <code>v-affix</code> 指令传入一个 <code>Boolean</code> 类型值。</p>
-</blockquote>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp2</span> <span class="attr">v-affix</span>=<span class="string">&quot;false&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp2</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">some-comp3</span>&gt;</span><span class="tag">&lt;/<span class="name">some-comp3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>这样，就可以控制 <code>v-affix</code> 的开启状态。</p>
-]]></content>
-      <categories>
-        <category>vue</category>
-      </categories>
-      <tags>
-        <tag>vue自定义指令</tag>
-        <tag>吸顶效果</tag>
-        <tag>v-affix</tag>
       </tags>
   </entry>
 </search>
